@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "outDir": "dist",
+    "strict": true,
+    "allowSyntheticDefaultImports": true
+  }
+}

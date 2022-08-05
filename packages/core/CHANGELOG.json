@@ -1,0 +1,35 @@
+{
+  "name": "pmrepo-core",
+  "entries": [
+    {
+      "version": "1.0.2",
+      "tag": "pmrepo-core_v1.0.2",
+      "date": "Fri, 05 Aug 2022 06:04:43 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "version"
+          },
+          {
+            "comment": "fix bug"
+          },
+          {
+            "comment": "fix bug"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.0.1",
+      "tag": "@pmrepo/core_v1.0.1",
+      "date": "Fri, 05 Aug 2022 05:46:22 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "test"
+          }
+        ]
+      }
+    }
+  ]
+}

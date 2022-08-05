@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "pmrepo-core",
+      "comment": "fix bugs",
+      "type": "patch"
+    }
+  ],
+  "packageName": "pmrepo-core"
+}
