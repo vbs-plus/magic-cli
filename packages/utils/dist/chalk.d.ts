@@ -1,0 +1,10 @@
+export declare const echoSuccessText: (text: string) => string;
+export declare const echoWarnText: (text: string) => string;
+export declare const echoInfoText: (text: string) => string;
+export declare const echoErrorText: (text: string) => string;
+export declare const echoBlueText: (text: string) => string;
+export declare const echoSuccessBgText: (text: string) => string;
+export declare const echoWarnBgText: (text: string) => string;
+export declare const echoInfoBgText: (text: string) => string;
+export declare const echoErrorBgText: (text: string) => string;
+export declare const echoBlueBgText: (text: string) => string;

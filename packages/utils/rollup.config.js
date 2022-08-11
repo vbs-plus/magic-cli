@@ -7,7 +7,7 @@ export default [
   {
     input: 'src/index.ts',
     output: {
-      name: '@pmrepo/utils',
+      name: 'utils',
       file: pkg.main,
       format: 'cjs',
       exports: 'auto',

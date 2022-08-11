@@ -15,7 +15,7 @@ rush build
 npm run start
 
 # 查看bin效果
-pm
+magic
 ```
 
 ## 创建子项目

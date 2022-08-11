@@ -414,13 +414,13 @@
     //   "shouldPublish": false
     // },
     {
-      "packageName": "pmrepo-core",
+      "packageName": "magic-cli-core",
       "projectFolder": "packages/core",
       "reviewCategory": "tools",
       "shouldPublish": true
     },
     {
-      "packageName": "pmrepo-utils",
+      "packageName": "magic-cli-utils",
       "projectFolder": "packages/utils",
       "reviewCategory": "tools",
       "shouldPublish": true
