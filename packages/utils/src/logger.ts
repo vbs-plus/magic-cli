@@ -21,6 +21,13 @@ export const useLogger = () => {
       .join('\n')
   }
 
+  const echo = (
+    symbol: string,
+    text: string,
+  ) => {
+    console.log(format(chalk.bgGreen(symbol), chalk.green(text)))
+  }
+
   const debug = (text: string, options: LoggerParams = { needConsole: true }) => {
     if (options.needConsole && process.env.DEBUG)
       console.log(format(echoInfoBgText(LOGGER_MSG_ENUM.DEBUG), text))
@@ -80,5 +87,6 @@ export const useLogger = () => {
     done,
     warn,
     error,
+    echo,
   }
 }

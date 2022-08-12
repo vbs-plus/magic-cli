@@ -1,13 +1,21 @@
 import os from 'os'
 import path from 'path'
-import { printMagicLogo, useLogger, useSpinner } from 'magic-cli-utils'
+import {
+  getNpmLatestVersion,
+  getNpmPackageData,
+  getNpmSemverVersions,
+  getNpmVersions,
+  printMagicLogo,
+  useLogger,
+  useSpinner,
+} from 'magic-cli-utils'
 import rootCheck from 'root-check'
 import fse from 'fs-extra'
 import dotenv from 'dotenv'
 import pkg from '../package.json'
-import { MAGIC_HOME_ENV } from './enum'
+import { DEFAULT_HOME_PATH, MAGIC_HOME_ENV } from './enum'
 
-const { error, debug } = useLogger()
+const { error, debug, echo } = useLogger()
 const homePath = os.homedir()
 
 export function checkUserHome(homePath: string) {
@@ -15,17 +23,24 @@ export function checkUserHome(homePath: string) {
     throw new Error(error('当前登录用户主目录不存在', { needConsole: false }))
 }
 
+export function initDefaultConfig() {
+  process.env.MAGIC_CLI_HOME_PATH = process.env.MAGIC_HOME_PATH
+    ? path.join(homePath, process.env.MAGIC_HOME_PATH)
+    : path.join(homePath, DEFAULT_HOME_PATH)
+}
+
 export function checkEnv() {
   // TODO: 补充文档，可配置全局magic_home_path,代表缓存操作的根目录
   const homeEnvPath = path.resolve(homePath, MAGIC_HOME_ENV)
   if (fse.existsSync(homeEnvPath)) {
-    console.log(dotenv.config({
+    dotenv.config({
       path: homeEnvPath,
-    }))
-    console.log(process.env.MAGIC_HOME_PATH)
+    })
   }
-
-  console.log(homeEnvPath)
+  initDefaultConfig()
+  echo(' HOME_ENV_PATH ', homeEnvPath)
+  echo(' MAGIC_CLI_HOME_PATH ', process.env.MAGIC_CLI_HOME_PATH!)
+  echo(' MAGIC_HOME_PATH ', process.env.MAGIC_HOME_PATH!)
 }
 
 export async function prepare() {
@@ -41,10 +56,11 @@ export async function prepare() {
     debug(homePath)
     checkEnv()
     successSpinner('构建环境正常！')
-  }
-  catch (error) {
 
+    console.log(await getNpmLatestVersion('za-zi'))
+    console.log(await getNpmPackageData('za-zi'))
+    console.log(await getNpmSemverVersions('za-zi', '0.0.2'))
+    console.log(await getNpmVersions('za-zi'))
   }
+  catch (error) {}
 }
-
-prepare()

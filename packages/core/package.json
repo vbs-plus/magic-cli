@@ -5,35 +5,45 @@
   "keywords": [],
   "license": "ISC",
   "author": "",
-  "main": "dist/index.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "files": [
-    "dist"
+    "dist",
+    "bin"
   ],
   "bin": {
     "magic": "bin/magic.mjs"
   },
-  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
-    "build": "rollup -c",
-    "dev": "npm run build -- --watch",
+    "dev": "rollup -c -w",
+    "build": "unbuild",
     "link": "pnpm link -g",
-    "dev:link-utils": "rush build && pnpm add -p magic-cli-utils",
     "test": "vitest"
   },
   "dependencies": {
-    "@rollup/plugin-commonjs": "^22.0.1",
-    "@rollup/plugin-typescript": "^8.3.4",
     "@types/dotenv": "^8.2.0",
     "@types/fs-extra": "^9.0.13",
     "@types/node": "^18.6.4",
     "@types/root-check": "^1.0.0",
     "dotenv": "^16.0.1",
+    "fast-glob": "^3.2.11",
     "fs-extra": "^10.1.0",
     "magic-cli-utils": "workspace:1.0.0",
-    "rollup": "^2.77.2",
-    "rollup-plugin-clear": "^2.0.7",
     "root-check": "^2.0.0",
     "tslib": "^2.4.0",
-    "typescript": "^4.7.4"
+    "typescript": "^4.5.2",
+    "umi-request": "^1.4.0",
+    "unbuild": "^0.8.8"
   }
 }
