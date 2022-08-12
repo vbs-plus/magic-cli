@@ -3,7 +3,7 @@ import clear from 'clear';
 import figlet from 'figlet';
 import stripAnsi from 'strip-ansi';
 import ora from 'ora';
-import request from 'umi-request';
+import request from 'axios';
 import semver from 'semver';
 import semverSort from 'semver-sort';
 
@@ -46,7 +46,6 @@ Run ${echoInfoText(
   console.log(`\u5F53\u524D\u811A\u624B\u67B6\u7248\u672C\u4E3A: ${chalk.bgGreen(` ${version} `)} \r
 `);
 }
-printMagicLogo("123.1");
 
 function useSpinner() {
   const spinner = ora();
@@ -66,7 +65,7 @@ function useSpinner() {
     spinner.text = ` ${msg}`;
     lastMsg = {
       symbol: `${symbol} `,
-      text: msg
+      text: msg || ""
     };
     spinner.start();
   };
@@ -182,9 +181,7 @@ const NPM_API_BASE_URL = "https://registry.npmjs.org";
 const getNpmPackageData = async (packageName) => {
   if (!packageName)
     return null;
-  return request(NPM_API_BASE_URL + packageName, {
-    method: "GET"
-  });
+  return (await request.get(`${NPM_API_BASE_URL}/${packageName}`)).data;
 };
 const getNpmVersions = async (packageName) => {
   const data = await getNpmPackageData(packageName);
@@ -195,7 +192,7 @@ const getNpmVersions = async (packageName) => {
 };
 const getNpmSemverVersions = async (packageName, baseVersion) => {
   const versions = await getNpmVersions(packageName);
-  return semverSort.desc(versions.filter((version) => semver.satisfies(version, `^${baseVersion}`)));
+  return semverSort.desc(versions.filter((version) => semver.gt(version, baseVersion)));
 };
 const getNpmLatestVersion = async (packageName) => {
   const versions = await getNpmVersions(packageName);

@@ -6,6 +6,5 @@ const core = async () => {
   console.log(111)
 }
 
-console.log('core change test')
+core()
 
-export default core

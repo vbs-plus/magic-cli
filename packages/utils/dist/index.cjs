@@ -7,7 +7,7 @@ const clear = require('clear');
 const figlet = require('figlet');
 const stripAnsi = require('strip-ansi');
 const ora = require('ora');
-const request = require('umi-request');
+const request = require('axios');
 const semver = require('semver');
 const semverSort = require('semver-sort');
 
@@ -61,7 +61,6 @@ Run ${echoInfoText(
   console.log(`\u5F53\u524D\u811A\u624B\u67B6\u7248\u672C\u4E3A: ${chalk__default.bgGreen(` ${version} `)} \r
 `);
 }
-printMagicLogo("123.1");
 
 function useSpinner() {
   const spinner = ora__default();
@@ -81,7 +80,7 @@ function useSpinner() {
     spinner.text = ` ${msg}`;
     lastMsg = {
       symbol: `${symbol} `,
-      text: msg
+      text: msg || ""
     };
     spinner.start();
   };
@@ -197,9 +196,7 @@ const NPM_API_BASE_URL = "https://registry.npmjs.org";
 const getNpmPackageData = async (packageName) => {
   if (!packageName)
     return null;
-  return request__default(NPM_API_BASE_URL + packageName, {
-    method: "GET"
-  });
+  return (await request__default.get(`${NPM_API_BASE_URL}/${packageName}`)).data;
 };
 const getNpmVersions = async (packageName) => {
   const data = await getNpmPackageData(packageName);
@@ -210,7 +207,7 @@ const getNpmVersions = async (packageName) => {
 };
 const getNpmSemverVersions = async (packageName, baseVersion) => {
   const versions = await getNpmVersions(packageName);
-  return semverSort__default.desc(versions.filter((version) => semver__default.satisfies(version, `^${baseVersion}`)));
+  return semverSort__default.desc(versions.filter((version) => semver__default.gt(version, baseVersion)));
 };
 const getNpmLatestVersion = async (packageName) => {
   const versions = await getNpmVersions(packageName);

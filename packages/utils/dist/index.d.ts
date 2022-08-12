@@ -60,7 +60,7 @@ interface NpmData {
     description: string;
 }
 declare const NPM_API_BASE_URL = "https://registry.npmjs.org";
-declare const getNpmPackageData: (packageName: string) => Promise<NpmData>;
+declare const getNpmPackageData: (packageName: string) => Promise<NpmData | null>;
 declare const getNpmVersions: (packageName: string) => Promise<string[]>;
 declare const getNpmSemverVersions: (packageName: string, baseVersion: string) => Promise<string[]>;
 declare const getNpmLatestVersion: (packageName: string) => Promise<string>;

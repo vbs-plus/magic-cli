@@ -20,5 +20,3 @@ export function printMagicLogo(version: string) {
   )
   console.log(`当前脚手架版本为: ${chalk.bgGreen(` ${version} `)} \r\n`)
 }
-
-printMagicLogo('123.1')

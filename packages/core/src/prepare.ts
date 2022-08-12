@@ -1,21 +1,15 @@
 import os from 'os'
 import path from 'path'
-import {
-  getNpmLatestVersion,
-  getNpmPackageData,
-  getNpmSemverVersions,
-  getNpmVersions,
-  printMagicLogo,
-  useLogger,
-  useSpinner,
-} from 'magic-cli-utils'
+import semver from 'semver'
+import { printMagicLogo, useLogger, useSpinner } from 'magic-cli-utils'
 import rootCheck from 'root-check'
 import fse from 'fs-extra'
 import dotenv from 'dotenv'
 import pkg from '../package.json'
+import { getNpmLatestVersion } from './../../utils/src/npm'
 import { DEFAULT_HOME_PATH, MAGIC_HOME_ENV } from './enum'
 
-const { error, debug, echo } = useLogger()
+const { error, debug, echo, warn } = useLogger()
 const homePath = os.homedir()
 
 export function checkUserHome(homePath: string) {
@@ -43,6 +37,17 @@ export function checkEnv() {
   echo(' MAGIC_HOME_PATH ', process.env.MAGIC_HOME_PATH!)
 }
 
+export async function checkPackageUpdate() {
+  const version = pkg.version
+  const packageName = pkg.name
+  const latestVersion = await getNpmLatestVersion(packageName)
+  if (latestVersion && semver.gt(latestVersion, version)) {
+    warn(
+      `最新版本已发布，请手动更新脚手架版本，当前版本为：${version}，最新版本为：${latestVersion}`,
+    )
+  }
+}
+
 export async function prepare() {
   const { logWithSpinner, successSpinner } = useSpinner()
 
@@ -55,12 +60,10 @@ export async function prepare() {
     checkUserHome(homePath)
     debug(homePath)
     checkEnv()
+    checkPackageUpdate()
     successSpinner('构建环境正常！')
-
-    console.log(await getNpmLatestVersion('za-zi'))
-    console.log(await getNpmPackageData('za-zi'))
-    console.log(await getNpmSemverVersions('za-zi', '0.0.2'))
-    console.log(await getNpmVersions('za-zi'))
   }
-  catch (error) {}
+  catch (error) {
+    console.log(error)
+  }
 }

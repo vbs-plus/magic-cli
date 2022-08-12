@@ -26,8 +26,9 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "rollup -c -w",
+    "dev": "unbuild -w",
     "build": "unbuild",
+    "stub": "unbuild --stub",
     "link": "pnpm link -g",
     "test": "vitest"
   },
@@ -36,11 +37,13 @@
     "@types/fs-extra": "^9.0.13",
     "@types/node": "^18.6.4",
     "@types/root-check": "^1.0.0",
+    "@types/semver": "^7.3.12",
     "dotenv": "^16.0.1",
     "fast-glob": "^3.2.11",
     "fs-extra": "^10.1.0",
-    "magic-cli-utils": "workspace:1.0.0",
+    "magic-cli-utils": "workspace:*",
     "root-check": "^2.0.0",
+    "semver": "^7.3.7",
     "tslib": "^2.4.0",
     "typescript": "^4.5.2",
     "umi-request": "^1.4.0",

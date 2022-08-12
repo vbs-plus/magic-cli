@@ -5,22 +5,22 @@
   "keywords": [],
   "license": "ISC",
   "author": "",
-    "main": "./dist/index.cjs",
-    "module": "./dist/index.mjs",
-    "types": "./dist/index.d.ts",
-    "exports": {
-      ".": {
-        "require": "./dist/index.cjs",
-        "import": "./dist/index.mjs",
-        "types": "./dist/index.d.ts"
-      }
-    },
-    "files": [
-      "dist",
-      "bin"
-    ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "bin"
+  ],
   "scripts": {
-    "dev": "npx rollup -c -w",
+    "dev": "unbuild -w",
     "build": "unbuild",
     "test": "vitest"
   },
@@ -37,6 +37,7 @@
     "@types/semver": "^7.3.12",
     "@types/semver-sort": "^0.0.1",
     "@types/strip-ansi": "^5.2.1",
+    "axios": "^0.27.2",
     "chalk": "4.1.1",
     "clear": "^0.1.0",
     "figlet": "^1.5.2",
@@ -47,7 +48,6 @@
     "strip-ansi": "^7.0.1",
     "tslib": "^2.3.1",
     "typescript": "^4.5.2",
-    "umi-request": "^1.4.0",
     "unbuild": "^0.8.8"
   }
 }

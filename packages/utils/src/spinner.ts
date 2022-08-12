@@ -26,7 +26,7 @@ export function useSpinner() {
     spinner.text = ` ${msg}`
     lastMsg = {
       symbol: `${symbol} `,
-      text: msg,
+      text: msg || '',
     }
     spinner.start()
   }

@@ -1,4 +1,4 @@
-import request from 'umi-request'
+import request from 'axios'
 import semver from 'semver'
 import semverSort from 'semver-sort'
 
@@ -19,9 +19,8 @@ export const NPM_API_BASE_URL = 'https://registry.npmjs.org'
 export const getNpmPackageData = async (packageName: string) => {
   if (!packageName)
     return null
-  return request<NpmData>(NPM_API_BASE_URL + packageName, {
-    method: 'GET',
-  })
+  return (await request.get<NpmData>(`${NPM_API_BASE_URL}/${packageName}`))
+    .data
 }
 
 export const getNpmVersions = async (packageName: string) => {
@@ -33,14 +32,13 @@ export const getNpmVersions = async (packageName: string) => {
 
 export const getNpmSemverVersions = async (packageName: string, baseVersion: string) => {
   const versions = await getNpmVersions(packageName)
-  return semverSort.desc(versions.filter(version => semver.satisfies(version, `^${baseVersion}`)))
+  return semverSort.desc(versions.filter(version => semver.gt(version, baseVersion)))
 }
 
 export const getNpmLatestVersion = async (packageName: string) => {
   const versions = await getNpmVersions(packageName)
   if (versions)
     return semverSort.desc(versions)[0]
-
   return ''
 }
 
