@@ -43,7 +43,7 @@ export async function checkPackageUpdate() {
   const latestVersion = await getNpmLatestVersion(packageName)
   if (latestVersion && semver.gt(latestVersion, version)) {
     warn(
-      `最新版本已发布，请手动更新脚手架版本，当前版本为：${version}，最新版本为：${latestVersion}`,
+      `最新版本已发布，请手动更新脚手架版本，当前版本为：${version}，最新版本为：${latestVersion} []~(￣▽￣)~* `,
     )
   }
 }
@@ -60,7 +60,9 @@ export async function prepare() {
     checkUserHome(homePath)
     debug(homePath)
     checkEnv()
-    checkPackageUpdate()
+    checkPackageUpdate().catch((e) => {
+      error(e.message)
+    })
     successSpinner('构建环境正常！')
   }
   catch (error) {
