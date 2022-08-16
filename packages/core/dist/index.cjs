@@ -1,9 +1,13 @@
 'use strict';
 
-const require$$0 = require('os');
-const path = require('path');
-const semver$1 = require('semver');
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const commander = require('commander');
 const magicCliUtils = require('magic-cli-utils');
+const path = require('path');
+const magicCliModels = require('magic-cli-models');
+const require$$0 = require('os');
+const semver$1 = require('semver');
 const rootCheck = require('root-check');
 const fse = require('fs-extra');
 const dotenv = require('dotenv');
@@ -19,8 +23,8 @@ const require$$6 = require('fs');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e["default"] : e; }
 
-const require$$0__default = /*#__PURE__*/_interopDefaultLegacy(require$$0);
 const path__default = /*#__PURE__*/_interopDefaultLegacy(path);
+const require$$0__default = /*#__PURE__*/_interopDefaultLegacy(require$$0);
 const semver__default = /*#__PURE__*/_interopDefaultLegacy(semver$1);
 const rootCheck__default = /*#__PURE__*/_interopDefaultLegacy(rootCheck);
 const fse__default = /*#__PURE__*/_interopDefaultLegacy(fse);
@@ -75,6 +79,7 @@ const dependencies = {
 	"@types/node": "^18.6.4",
 	"@types/root-check": "^1.0.0",
 	"@types/semver": "^7.3.12",
+	commander: "^9.4.0",
 	dotenv: "^16.0.1",
 	"fast-glob": "^3.2.11",
 	"fs-extra": "^10.1.0",
@@ -84,7 +89,8 @@ const dependencies = {
 	tslib: "^2.4.0",
 	typescript: "^4.5.2",
 	"umi-request": "^1.4.0",
-	unbuild: "^0.8.8"
+	unbuild: "^0.8.8",
+	"magic-cli-models": "workspace:*"
 };
 const pkg = {
 	name: name,
@@ -102,6 +108,114 @@ const pkg = {
 	publishConfig: publishConfig,
 	scripts: scripts,
 	dependencies: dependencies
+};
+
+const DEFAULT_HOME_PATH = ".magic-cli";
+const MAGIC_HOME_ENV = ".magic-cli.env";
+const DEFAULT_PACKAGE_VERSION = "latest";
+const DEFAULT_STORE_PATH = "dependencies";
+const DEFAULT_STORE_SUFIX = "node_modules";
+var PACKAGE_SETTINGS = /* @__PURE__ */ ((PACKAGE_SETTINGS2) => {
+  PACKAGE_SETTINGS2["init"] = "magic-cli-init";
+  PACKAGE_SETTINGS2["add"] = "magic-cli-add";
+  return PACKAGE_SETTINGS2;
+})(PACKAGE_SETTINGS || {});
+
+const exec = async (...args) => {
+  let TP_PATH = process.env.TARGET_PATH;
+  let HOME_PATH = process.env.MAGIC_CLI_HOME_PATH;
+  let STORE_PATH = "";
+  const cmd = args[args.length - 1];
+  const curCommand = cmd.name();
+  const PACKAGE_NAME = PACKAGE_SETTINGS[curCommand];
+  const PACKAGE_VERSION = DEFAULT_PACKAGE_VERSION;
+  let pkg;
+  const { debug } = magicCliUtils.useLogger();
+  if (TP_PATH) {
+    pkg = new magicCliModels.Package({
+      TP_PATH,
+      STORE_PATH,
+      PACKAGE_NAME,
+      PACKAGE_VERSION
+    });
+  } else {
+    TP_PATH = path__default.resolve(HOME_PATH, DEFAULT_STORE_PATH);
+    STORE_PATH = path__default.resolve(TP_PATH, DEFAULT_STORE_SUFIX);
+    pkg = new magicCliModels.Package({
+      TP_PATH,
+      STORE_PATH,
+      PACKAGE_NAME: "za-zi",
+      PACKAGE_VERSION: "0.0.6"
+    });
+    debug(pkg);
+    debug("exist:" + await pkg.exists());
+    if (await pkg.exists()) {
+      debug("\u6267\u884C\u66F4\u65B0");
+      await pkg.update();
+    } else {
+      debug("\u6267\u884C\u521D\u59CB\u5316");
+      await pkg.init();
+    }
+  }
+  const execFilePath = await pkg.getRootFilePath();
+  debug("execFilePath:" + execFilePath);
+  debug("TP_PATH:" + TP_PATH);
+  debug("STORE_PATH:" + STORE_PATH);
+  debug("PACKAGE_NAME:" + PACKAGE_NAME);
+  debug("PACKAGE_VERSION:" + PACKAGE_VERSION);
+};
+
+const InitCommander = () => {
+  const program = new commander.Command();
+  const { info, echo, error } = magicCliUtils.useLogger();
+  program.name(Object.keys(pkg.bin)[0]).usage("<command> [options]").version(pkg.version).option("-d, --debug", "\u662F\u5426\u5F00\u542F Debug \u6A21\u5F0F", false).option("-tp, --targetPath <targetPath>", "\u6307\u5B9A\u76EE\u6807\u5B89\u88C5\u76EE\u5F55", "");
+  program.command("init [projectName]").option("-f, --force", "\u662F\u5426\u5F3A\u5236\u521D\u59CB\u5316\u9879\u76EE", false).action(
+    (projectName, { force }, cmd) => {
+      info(projectName);
+      console.log(force);
+      console.log(cmd);
+      exec(projectName, force, cmd);
+    }
+  );
+  program.command("add [templateName]").option("-f, --force", "\u662F\u5426\u5F3A\u5236\u6DFB\u52A0\u6A21\u677F", false).action(
+    (templateName, { force }, cmd) => {
+      info(templateName);
+      info(force);
+      console.log(cmd);
+      exec(templateName, force, cmd);
+    }
+  );
+  program.on("option:debug", () => {
+    if (program.opts().debug) {
+      process.env.DEBUG = "debug";
+      info("\u5F00\u542FDEBUG\u6A21\u5F0F");
+    } else {
+      process.env.DEBUG = "";
+    }
+  });
+  program.on("option:targetPath", () => {
+    process.env.TARGET_PATH = program.opts().targetPath;
+    echo(" TARGET_PATH ", process.env.TARGET_PATH);
+  });
+  program.on("command:*", (cmd) => {
+    const avaliableCommands = program.commands.map((item) => item.name());
+    error("\u672A\u77E5\u547D\u4EE4" + cmd[0]);
+    if (avaliableCommands.length) {
+      echo(" \u53EF\u7528\u547D\u4EE4 ", avaliableCommands.join(","));
+    }
+  });
+  program.parse(process.argv);
+  if (program.args && program.args.length < 1) {
+    program.outputHelp();
+  }
+  program.on("unhandleRejection", (reason, promise) => {
+    error("unhandleRejection" + reason);
+    throw reason;
+  });
+  program.on("uncaughtException", (error2) => {
+    error2("uncaughtException" + error2);
+    process.exit(-1);
+  });
 };
 
 function getDefaultExportFromCjs (x) {
@@ -16898,10 +17012,7 @@ const getNpmLatestVersion = async (packageName) => {
   return "";
 };
 
-const DEFAULT_HOME_PATH = ".magic-cli";
-const MAGIC_HOME_ENV = ".magic-cli.env";
-
-const { error, debug, echo, warn } = magicCliUtils.useLogger();
+const { error, echo, warn } = magicCliUtils.useLogger();
 const homePath = require$$0__default.homedir();
 function checkUserHome(homePath2) {
   if (!homePath2 || !fse__default.existsSync(homePath2))
@@ -16926,6 +17037,7 @@ async function checkPackageUpdate() {
   const version = pkg.version;
   const packageName = pkg.name;
   const latestVersion = await getNpmLatestVersion(packageName);
+  echo(" Latest Version(sync)", latestVersion);
   if (latestVersion && semver__default.gt(latestVersion, version)) {
     warn(
       `\u6700\u65B0\u7248\u672C\u5DF2\u53D1\u5E03\uFF0C\u8BF7\u624B\u52A8\u66F4\u65B0\u811A\u624B\u67B6\u7248\u672C\uFF0C\u5F53\u524D\u7248\u672C\u4E3A\uFF1A${version}\uFF0C\u6700\u65B0\u7248\u672C\u4E3A\uFF1A${latestVersion} []~(\uFFE3\u25BD\uFFE3)~* `
@@ -16940,7 +17052,6 @@ async function prepare() {
   try {
     rootCheck__default();
     checkUserHome(homePath);
-    debug(homePath);
     checkEnv();
     checkPackageUpdate().catch((e) => {
       error(e.message);
@@ -16952,8 +17063,28 @@ async function prepare() {
 }
 
 const core = async () => {
-  console.log("core change");
-  await prepare();
-  console.log(111);
+  console.log("core start");
+  try {
+    await prepare();
+    InitCommander();
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log(error);
+    }
+  }
 };
 core();
+
+exports.DEFAULT_HOME_PATH = DEFAULT_HOME_PATH;
+exports.DEFAULT_PACKAGE_VERSION = DEFAULT_PACKAGE_VERSION;
+exports.DEFAULT_STORE_PATH = DEFAULT_STORE_PATH;
+exports.DEFAULT_STORE_SUFIX = DEFAULT_STORE_SUFIX;
+exports.InitCommander = InitCommander;
+exports.MAGIC_HOME_ENV = MAGIC_HOME_ENV;
+exports.PACKAGE_SETTINGS = PACKAGE_SETTINGS;
+exports.checkEnv = checkEnv;
+exports.checkPackageUpdate = checkPackageUpdate;
+exports.checkUserHome = checkUserHome;
+exports.exec = exec;
+exports.initDefaultConfig = initDefaultConfig;
+exports.prepare = prepare;

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "magic-cli-core",
+      "comment": "publish init version",
+      "type": "patch"
+    }
+  ],
+  "packageName": "magic-cli-core"
+}

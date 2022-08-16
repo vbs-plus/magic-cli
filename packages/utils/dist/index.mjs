@@ -132,40 +132,74 @@ const useLogger = () => {
       return i === 0 ? `${label} ${line}` : line.padStart(stripAnsi(label).length + line.length + 1);
     }).join("\n");
   };
-  const echo = (symbol, text) => {
-    console.log(format(chalk.bgGreen(symbol), chalk.green(text)));
+  const echo = (symbol, target) => {
+    console.log(format(chalk.bgGreen(symbol), chalk.green(typeof target === "object" ? JSON.stringify(target) : target)));
   };
-  const debug = (text, options = { needConsole: true }) => {
+  const debug = (target, options = { needConsole: true }) => {
     if (options.needConsole && process.env.DEBUG)
-      console.log(format(echoInfoBgText(LOGGER_MSG_ENUM.DEBUG), text));
-    return format(echoInfoBgText(LOGGER_MSG_ENUM.DEBUG), text);
+      console.log(
+        format(
+          echoInfoBgText(LOGGER_MSG_ENUM.DEBUG),
+          typeof target === "object" ? JSON.stringify(target) : target
+        )
+      );
+    return format(
+      echoInfoBgText(LOGGER_MSG_ENUM.DEBUG),
+      typeof target === "object" ? JSON.stringify(target) : target
+    );
   };
-  const info = (text, options = { needConsole: true }) => {
+  const info = (target, options = { needConsole: true }) => {
     if (options.needConsole)
-      console.log(format(chalk.bgBlue(LOGGER_MSG_ENUM.INFO), text));
-    return format(chalk.bgBlue(LOGGER_MSG_ENUM.INFO), text);
+      console.log(
+        format(
+          chalk.bgBlue(LOGGER_MSG_ENUM.INFO),
+          typeof target === "object" ? JSON.stringify(target) : target
+        )
+      );
+    return format(
+      chalk.bgBlue(LOGGER_MSG_ENUM.INFO),
+      typeof target === "object" ? JSON.stringify(target) : target
+    );
   };
-  const done = (text, options = { needConsole: true }) => {
+  const done = (target, options = { needConsole: true }) => {
     if (options.needConsole)
-      console.log(format(chalk.bgGreen.black(LOGGER_MSG_ENUM.DONE), text));
-    return format(chalk.bgGreen.black(LOGGER_MSG_ENUM.DONE), text);
+      console.log(
+        format(
+          chalk.bgGreen.black(LOGGER_MSG_ENUM.DONE),
+          typeof target === "object" ? JSON.stringify(target) : target
+        )
+      );
+    return format(
+      chalk.bgGreen.black(LOGGER_MSG_ENUM.DONE),
+      typeof target === "object" ? JSON.stringify(target) : target
+    );
   };
-  const warn = (text, options = { needConsole: true }) => {
+  const warn = (target, options = { needConsole: true }) => {
     if (options.needConsole) {
       console.log(
-        format(chalk.bgYellow.black(LOGGER_MSG_ENUM.WARN), chalk.yellow(text))
+        format(chalk.bgYellow.black(LOGGER_MSG_ENUM.WARN), chalk.yellow(typeof target === "object" ? JSON.stringify(target) : target))
       );
     }
     return format(
       chalk.bgYellow.black(LOGGER_MSG_ENUM.WARN),
-      chalk.yellow(text)
+      chalk.yellow(typeof target === "object" ? JSON.stringify(target) : target)
     );
   };
-  const error = (text, options = { needConsole: true }) => {
+  const error = (target, options = { needConsole: true }) => {
     stopSpinner();
     if (options.needConsole)
-      console.error(format(chalk.bgRed(LOGGER_MSG_ENUM.ERROR), chalk.red(text)));
-    return format(chalk.bgRed(LOGGER_MSG_ENUM.ERROR), chalk.red(text));
+      console.error(
+        format(
+          chalk.bgRed(LOGGER_MSG_ENUM.ERROR),
+          chalk.red(
+            typeof target === "object" ? JSON.stringify(target) : target
+          )
+        )
+      );
+    return format(
+      chalk.bgRed(LOGGER_MSG_ENUM.ERROR),
+      chalk.red(typeof target === "object" ? JSON.stringify(target) : target)
+    );
   };
   return {
     debug,

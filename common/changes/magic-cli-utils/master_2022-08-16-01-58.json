@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "magic-cli-utils",
+      "comment": "publish init version",
+      "type": "patch"
+    }
+  ],
+  "packageName": "magic-cli-utils"
+}

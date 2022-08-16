@@ -25,12 +25,12 @@ interface LoggerParams {
     needConsole?: boolean;
 }
 declare const useLogger: () => {
-    debug: (text: string, options?: LoggerParams) => string;
-    info: (text: string, options?: LoggerParams) => string;
-    done: (text: string, options?: LoggerParams) => string;
-    warn: (text: string, options?: LoggerParams) => string;
-    error: (text: string, options?: LoggerParams) => string;
-    echo: (symbol: string, text: string) => void;
+    debug: (target: any, options?: LoggerParams) => string;
+    info: (target: any, options?: LoggerParams) => string;
+    done: (target: any, options?: LoggerParams) => string;
+    warn: (target: any, options?: LoggerParams) => string;
+    error: (target: any, options?: LoggerParams) => string;
+    echo: (symbol: string, target: any) => void;
 };
 
 declare type LastMsgType = {

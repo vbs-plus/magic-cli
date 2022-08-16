@@ -259,7 +259,6 @@
     "url": "https://github.com/vbs-plus/pmrepo-rush",
     "defaultBranch": "master", // 设置 diff 的目标分支， 默认就是 master
     "defaultRemote": "origin"
-
   },
   /**
    * Event hooks are customized script actions that Rush executes when specific events occur
@@ -422,6 +421,18 @@
     {
       "packageName": "magic-cli-utils",
       "projectFolder": "packages/utils",
+      "reviewCategory": "tools",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "magic-cli-init",
+      "projectFolder": "packages/init",
+      "reviewCategory": "tools",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "magic-cli-models",
+      "projectFolder": "packages/models",
       "reviewCategory": "tools",
       "shouldPublish": true
     }

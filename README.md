@@ -84,7 +84,7 @@ rush build -i @pmrepo/utils
 ```
 
 
-# 发布
+## 发布
 
 ```shell
 rush build
@@ -94,5 +94,20 @@ rush change
 rush publish --apply
 # 正式发布npm
 rush publish -p --include-all -n <替换成你的 npm TOKEN>
+```
+
+## 配置声明
+
+```shell
+# 全局env文件存放path ex:/Users/zhongan/.magic-cli.env
+homeEnvPath
+# 默认全局安装目录，未指定 tp 生效 ex:/Users/zhongan/.magic-cli
+process.env.MAGIC_CLI_HOME_PATH
+# 辅助拼接全局缓存目录 ex: .magic-cli
+process.env.MAGIC_HOME_PATH
+# 指定 init 文件根目录,默认为空，走全局安装目录 ec: /users/target/xxx
+process.env.TARGET_PATH
+# 开启 Debug 模式，默认关闭，通过添加命令参数 -d 开启 ec: debug
+process.env.DEBUG
 ```
 

@@ -1,5 +1,6 @@
 {
-  "name": "magic-cli-core",
+  "name": "magic-cli-models",
+  "type": "module",
   "version": "0.0.1",
   "description": "",
   "keywords": [],
@@ -19,36 +20,26 @@
     "dist",
     "bin"
   ],
-  "bin": {
-    "magic": "bin/magic.mjs"
+  "scripts": {
+    "dev": "unbuild -w",
+    "build": "unbuild",
+    "test": "vitest"
   },
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {
-    "dev": "unbuild -w",
-    "build": "unbuild",
-    "stub": "unbuild --stub",
-    "link": "pnpm link -g",
-    "test": "vitest"
-  },
   "dependencies": {
-    "@types/dotenv": "^8.2.0",
     "@types/fs-extra": "^9.0.13",
     "@types/node": "^18.6.4",
-    "@types/root-check": "^1.0.0",
     "@types/semver": "^7.3.12",
-    "commander": "^9.4.0",
-    "dotenv": "^16.0.1",
-    "fast-glob": "^3.2.11",
+    "find-up": "^6.3.0",
     "fs-extra": "^10.1.0",
-    "magic-cli-models": "workspace:*",
     "magic-cli-utils": "workspace:*",
-    "root-check": "^2.0.0",
+    "npminstall": "^6.5.0",
+    "pkg-dir": "^5.0.0",
     "semver": "^7.3.7",
-    "tslib": "^2.4.0",
+    "tslib": "^2.3.1",
     "typescript": "^4.5.2",
-    "umi-request": "^1.4.0",
     "unbuild": "^0.8.8"
   }
 }

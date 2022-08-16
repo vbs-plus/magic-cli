@@ -147,40 +147,74 @@ const useLogger = () => {
       return i === 0 ? `${label} ${line}` : line.padStart(stripAnsi__default(label).length + line.length + 1);
     }).join("\n");
   };
-  const echo = (symbol, text) => {
-    console.log(format(chalk__default.bgGreen(symbol), chalk__default.green(text)));
+  const echo = (symbol, target) => {
+    console.log(format(chalk__default.bgGreen(symbol), chalk__default.green(typeof target === "object" ? JSON.stringify(target) : target)));
   };
-  const debug = (text, options = { needConsole: true }) => {
+  const debug = (target, options = { needConsole: true }) => {
     if (options.needConsole && process.env.DEBUG)
-      console.log(format(echoInfoBgText(LOGGER_MSG_ENUM.DEBUG), text));
-    return format(echoInfoBgText(LOGGER_MSG_ENUM.DEBUG), text);
+      console.log(
+        format(
+          echoInfoBgText(LOGGER_MSG_ENUM.DEBUG),
+          typeof target === "object" ? JSON.stringify(target) : target
+        )
+      );
+    return format(
+      echoInfoBgText(LOGGER_MSG_ENUM.DEBUG),
+      typeof target === "object" ? JSON.stringify(target) : target
+    );
   };
-  const info = (text, options = { needConsole: true }) => {
+  const info = (target, options = { needConsole: true }) => {
     if (options.needConsole)
-      console.log(format(chalk__default.bgBlue(LOGGER_MSG_ENUM.INFO), text));
-    return format(chalk__default.bgBlue(LOGGER_MSG_ENUM.INFO), text);
+      console.log(
+        format(
+          chalk__default.bgBlue(LOGGER_MSG_ENUM.INFO),
+          typeof target === "object" ? JSON.stringify(target) : target
+        )
+      );
+    return format(
+      chalk__default.bgBlue(LOGGER_MSG_ENUM.INFO),
+      typeof target === "object" ? JSON.stringify(target) : target
+    );
   };
-  const done = (text, options = { needConsole: true }) => {
+  const done = (target, options = { needConsole: true }) => {
     if (options.needConsole)
-      console.log(format(chalk__default.bgGreen.black(LOGGER_MSG_ENUM.DONE), text));
-    return format(chalk__default.bgGreen.black(LOGGER_MSG_ENUM.DONE), text);
+      console.log(
+        format(
+          chalk__default.bgGreen.black(LOGGER_MSG_ENUM.DONE),
+          typeof target === "object" ? JSON.stringify(target) : target
+        )
+      );
+    return format(
+      chalk__default.bgGreen.black(LOGGER_MSG_ENUM.DONE),
+      typeof target === "object" ? JSON.stringify(target) : target
+    );
   };
-  const warn = (text, options = { needConsole: true }) => {
+  const warn = (target, options = { needConsole: true }) => {
     if (options.needConsole) {
       console.log(
-        format(chalk__default.bgYellow.black(LOGGER_MSG_ENUM.WARN), chalk__default.yellow(text))
+        format(chalk__default.bgYellow.black(LOGGER_MSG_ENUM.WARN), chalk__default.yellow(typeof target === "object" ? JSON.stringify(target) : target))
       );
     }
     return format(
       chalk__default.bgYellow.black(LOGGER_MSG_ENUM.WARN),
-      chalk__default.yellow(text)
+      chalk__default.yellow(typeof target === "object" ? JSON.stringify(target) : target)
     );
   };
-  const error = (text, options = { needConsole: true }) => {
+  const error = (target, options = { needConsole: true }) => {
     stopSpinner();
     if (options.needConsole)
-      console.error(format(chalk__default.bgRed(LOGGER_MSG_ENUM.ERROR), chalk__default.red(text)));
-    return format(chalk__default.bgRed(LOGGER_MSG_ENUM.ERROR), chalk__default.red(text));
+      console.error(
+        format(
+          chalk__default.bgRed(LOGGER_MSG_ENUM.ERROR),
+          chalk__default.red(
+            typeof target === "object" ? JSON.stringify(target) : target
+          )
+        )
+      );
+    return format(
+      chalk__default.bgRed(LOGGER_MSG_ENUM.ERROR),
+      chalk__default.red(typeof target === "object" ? JSON.stringify(target) : target)
+    );
   };
   return {
     debug,

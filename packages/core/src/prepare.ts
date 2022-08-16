@@ -9,7 +9,7 @@ import pkg from '../package.json'
 import { getNpmLatestVersion } from './../../utils/src/npm'
 import { DEFAULT_HOME_PATH, MAGIC_HOME_ENV } from './enum'
 
-const { error, debug, echo, warn } = useLogger()
+const { error, echo, warn } = useLogger()
 const homePath = os.homedir()
 
 export function checkUserHome(homePath: string) {
@@ -41,6 +41,7 @@ export async function checkPackageUpdate() {
   const version = pkg.version
   const packageName = pkg.name
   const latestVersion = await getNpmLatestVersion(packageName)
+  echo(' Latest Version(sync)', latestVersion)
   if (latestVersion && semver.gt(latestVersion, version)) {
     warn(
       `最新版本已发布，请手动更新脚手架版本，当前版本为：${version}，最新版本为：${latestVersion} []~(￣▽￣)~* `,
@@ -58,7 +59,6 @@ export async function prepare() {
   try {
     rootCheck()
     checkUserHome(homePath)
-    debug(homePath)
     checkEnv()
     checkPackageUpdate().catch((e) => {
       error(e.message)
