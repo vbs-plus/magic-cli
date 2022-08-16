@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "magic-cli-models",
+      "comment": "first publish",
+      "type": "patch"
+    }
+  ],
+  "packageName": "magic-cli-models"
+}

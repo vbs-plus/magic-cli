@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "magic-cli-core",
+      "comment": "publish models",
+      "type": "patch"
+    }
+  ],
+  "packageName": "magic-cli-core"
+}
