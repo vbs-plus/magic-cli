@@ -8,3 +8,10 @@ export const getInheritParams = () => {
   inheritArgs.cmd = args[2]
   return inheritArgs
 }
+
+// prepare 阶段
+export async function prepare() {
+  // const curPwd = process.cwd()
+  // TODO: 搜索、检查模板列表，curPwd目录判断，强制创建确认清空
+  // 用户界面选择获取模板信息
+}
