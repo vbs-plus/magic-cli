@@ -1,4 +1,6 @@
+import chalk from 'chalk';
 import * as ora from 'ora';
+import cp, { SpawnOptionsWithoutStdio } from 'child_process';
 
 declare const echoSuccessText: (text: string) => string;
 declare const echoWarnText: (text: string) => string;
@@ -25,6 +27,17 @@ interface LoggerParams {
     needConsole?: boolean;
 }
 declare const useLogger: () => {
+    chalk: chalk.Chalk & chalk.ChalkFunction & {
+        supportsColor: false | chalk.ColorSupport;
+        Level: chalk.Level;
+        Color: ("black" | "red" | "green" | "yellow" | "blue" | "magenta" | "cyan" | "white" | "gray" | "grey" | "blackBright" | "redBright" | "greenBright" | "yellowBright" | "blueBright" | "magentaBright" | "cyanBright" | "whiteBright") | ("bgBlack" | "bgRed" | "bgGreen" | "bgYellow" | "bgBlue" | "bgMagenta" | "bgCyan" | "bgWhite" | "bgGray" | "bgGrey" | "bgBlackBright" | "bgRedBright" | "bgGreenBright" | "bgYellowBright" | "bgBlueBright" | "bgMagentaBright" | "bgCyanBright" | "bgWhiteBright");
+        ForegroundColor: "black" | "red" | "green" | "yellow" | "blue" | "magenta" | "cyan" | "white" | "gray" | "grey" | "blackBright" | "redBright" | "greenBright" | "yellowBright" | "blueBright" | "magentaBright" | "cyanBright" | "whiteBright";
+        BackgroundColor: "bgBlack" | "bgRed" | "bgGreen" | "bgYellow" | "bgBlue" | "bgMagenta" | "bgCyan" | "bgWhite" | "bgGray" | "bgGrey" | "bgBlackBright" | "bgRedBright" | "bgGreenBright" | "bgYellowBright" | "bgBlueBright" | "bgMagentaBright" | "bgCyanBright" | "bgWhiteBright";
+        Modifiers: "reset" | "bold" | "dim" | "italic" | "underline" | "inverse" | "hidden" | "strikethrough" | "visible";
+        stderr: chalk.Chalk & {
+            supportsColor: false | chalk.ColorSupport;
+        };
+    };
     debug: (target: any, options?: LoggerParams) => string;
     info: (target: any, options?: LoggerParams) => string;
     done: (target: any, options?: LoggerParams) => string;
@@ -65,4 +78,8 @@ declare const getNpmVersions: (packageName: string) => Promise<string[]>;
 declare const getNpmSemverVersions: (packageName: string, baseVersion: string) => Promise<string[]>;
 declare const getNpmLatestVersion: (packageName: string) => Promise<string>;
 
-export { LOGGER_MSG_ENUM, LastMsgType, LoggerParams, NPM_API_BASE_URL, NpmData, echoBlueBgText, echoBlueText, echoErrorBgText, echoErrorText, echoInfoBgText, echoInfoText, echoSuccessBgText, echoSuccessText, echoWarnBgText, echoWarnText, getNpmLatestVersion, getNpmPackageData, getNpmSemverVersions, getNpmVersions, printMagicLogo, useLogger, useSpinner };
+declare const spawn: (command: string, args: string[], options?: SpawnOptionsWithoutStdio & {
+    stdio?: string;
+}) => cp.ChildProcessWithoutNullStreams;
+
+export { LOGGER_MSG_ENUM, LastMsgType, LoggerParams, NPM_API_BASE_URL, NpmData, echoBlueBgText, echoBlueText, echoErrorBgText, echoErrorText, echoInfoBgText, echoInfoText, echoSuccessBgText, echoSuccessText, echoWarnBgText, echoWarnText, getNpmLatestVersion, getNpmPackageData, getNpmSemverVersions, getNpmVersions, printMagicLogo, spawn, useLogger, useSpinner };

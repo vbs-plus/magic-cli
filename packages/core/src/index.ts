@@ -1,15 +1,18 @@
+import { useLogger } from 'magic-cli-utils'
 import { InitCommander } from './commander'
 import { prepare } from './prepare'
 
 const core = async () => {
-  console.log('core start')
+  const { error } = useLogger()
   try {
     await prepare()
     InitCommander()
   }
-  catch (error) {
-    if (error instanceof Error)
-      console.log(error)
+  catch (e: any) {
+    if (e instanceof Error && process.env.DEBUG)
+      console.log(e)
+    else
+      error(e.msg)
   }
 }
 

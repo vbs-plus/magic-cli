@@ -1,7 +1,7 @@
 import path from 'path'
 import type { Command } from 'commander'
 import { Package } from 'magic-cli-models'
-import { useLogger } from 'magic-cli-utils'
+import { spawn, useLogger } from 'magic-cli-utils'
 import {
   DEFAULT_PACKAGE_VERSION,
   DEFAULT_STORE_PATH,
@@ -19,7 +19,7 @@ export const exec = async (...args: any[]) => {
   const PACKAGE_NAME = PACKAGE_SETTINGS[curCommand]
   const PACKAGE_VERSION = DEFAULT_PACKAGE_VERSION
   let pkg: Package
-  const { debug } = useLogger()
+  const { debug, error, info } = useLogger()
 
   if (TP_PATH) {
     // 直接赋值
@@ -57,9 +57,47 @@ export const exec = async (...args: any[]) => {
   }
 
   const execFilePath = await pkg.getRootFilePath()
+  if (!execFilePath)
+    throw new Error(error('当前指定文件夹路径有误', { needConsole: false }))
+
   debug(`execFilePath:${execFilePath}`)
   debug(`TP_PATH:${TP_PATH}`)
   debug(`STORE_PATH:${STORE_PATH}`)
   debug(`PACKAGE_NAME:${PACKAGE_NAME}`)
   debug(`PACKAGE_VERSION:${PACKAGE_VERSION}`)
+
+  try {
+    const params = [...args]
+    const _suffixObject = Object.create(null)
+    const commanderObject = params[params.length - 1]
+    Object.keys(commanderObject).forEach((key) => {
+      if (commanderObject.hasOwnProperty(key) && !key.startsWith('_') && key !== 'parent')
+        _suffixObject[key] = commanderObject[key]
+    })
+    params[params.length - 1] = _suffixObject
+
+    // 开启多进程执行命令代码
+    const child = spawn(
+      'node',
+      [execFilePath, `${JSON.stringify(params)}`],
+      {
+        cwd: process.cwd(),
+        stdio: 'inherit' as any,
+      },
+    )
+
+    child.on('error', (e: Error) => {
+      error(`多进程代码执行异常: ${e.message}`)
+      process.exit(1)
+    })
+
+    child.on('exit', (e: number) => {
+      info('NODE 进程启动成功')
+      debug(`${curCommand} 命令执行成功`)
+      process.exit(e)
+    })
+  }
+  catch (e: any) {
+    error(`catch error ${e.message}`)
+  }
 }

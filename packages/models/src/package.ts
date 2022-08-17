@@ -86,6 +86,11 @@ export class Package {
     await this.prepare()
 
     const latestPackageVersion = await getNpmLatestVersion(this.PACKAGE_NAME)
+    debug(
+      `exist${
+        await fse.pathExists(this.getCacheFilePath(latestPackageVersion))
+         }${this.getCacheFilePath(latestPackageVersion)}`,
+    )
     // 无缓存最新版本目录 执行安装
     if (!await fse.pathExists(this.getCacheFilePath(latestPackageVersion))) {
       await npminstall({

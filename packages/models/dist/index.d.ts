@@ -1,9 +1,9 @@
-declare type PackageOptions = {
+interface PackageOptions {
     TP_PATH: string;
     STORE_PATH: string;
     PACKAGE_NAME: string;
     PACKAGE_VERSION: string;
-};
+}
 declare class Package {
     /** 指定安装目录 */
     TP_PATH: string;

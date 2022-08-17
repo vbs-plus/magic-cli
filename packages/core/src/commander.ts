@@ -20,8 +20,6 @@ export const InitCommander = () => {
     .action(
       (projectName: string, { force }: { force: boolean }, cmd: Command) => {
         info(projectName)
-        console.log(force)
-        console.log(cmd)
         exec(projectName, force, cmd)
       },
     )
@@ -42,7 +40,7 @@ export const InitCommander = () => {
   program.on('option:debug', () => {
     if (program.opts().debug) {
       process.env.DEBUG = 'debug'
-      info('开启DEBUG模式')
+      info('开启 DEBUG 模式')
     }
     else {
       process.env.DEBUG = ''

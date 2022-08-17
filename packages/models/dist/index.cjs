@@ -2,18 +2,18 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
+const path = require('path');
+const fs = require('fs');
 const magicCliUtils = require('magic-cli-utils');
 const fse = require('fs-extra');
-const path = require('path');
 const findUp = require('find-up');
-const fs = require('fs');
 const npminstall = require('npminstall');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e["default"] : e; }
 
-const fse__default = /*#__PURE__*/_interopDefaultLegacy(fse);
 const path__default = /*#__PURE__*/_interopDefaultLegacy(path);
 const fs__default = /*#__PURE__*/_interopDefaultLegacy(fs);
+const fse__default = /*#__PURE__*/_interopDefaultLegacy(fse);
 const npminstall__default = /*#__PURE__*/_interopDefaultLegacy(npminstall);
 
 var NPM_REGISTRY_ORIGIN = /* @__PURE__ */ ((NPM_REGISTRY_ORIGIN2) => {
@@ -26,9 +26,8 @@ var NPM_REGISTRY_ORIGIN = /* @__PURE__ */ ((NPM_REGISTRY_ORIGIN2) => {
 const { debug } = magicCliUtils.useLogger();
 class Package {
   constructor(options) {
-    if (!options) {
+    if (!options)
       throw new Error("package options cannot be empty");
-    }
     this.TP_PATH = options.TP_PATH;
     this.STORE_PATH = options.STORE_PATH;
     this.PACKAGE_NAME = options.PACKAGE_NAME;
@@ -49,16 +48,15 @@ class Package {
         console.log(error);
       }
       return await fse__default.pathExists(this.getCacheFilePath(this.PACKAGE_VERSION));
-    } else
+    } else {
       return await fse__default.pathExists(this.TP_PATH);
+    }
   }
   async prepare() {
-    if (this.STORE_PATH && !await fse__default.pathExists(this.STORE_PATH)) {
+    if (this.STORE_PATH && !await fse__default.pathExists(this.STORE_PATH))
       fse__default.mkdirSync(this.STORE_PATH);
-    }
-    if (this.PACKAGE_VERSION === "latest") {
+    if (this.PACKAGE_VERSION === "latest")
       this.PACKAGE_VERSION = await magicCliUtils.getNpmLatestVersion(this.PACKAGE_NAME);
-    }
   }
   async init() {
     return npminstall__default({
@@ -67,7 +65,7 @@ class Package {
       registry: NPM_REGISTRY_ORIGIN.NPM,
       pkgs: [
         {
-          name: "za-zi",
+          name: this.PACKAGE_NAME,
           version: this.PACKAGE_VERSION
         }
       ]
@@ -76,6 +74,9 @@ class Package {
   async update() {
     await this.prepare();
     const latestPackageVersion = await magicCliUtils.getNpmLatestVersion(this.PACKAGE_NAME);
+    debug(
+      "exist" + await fse__default.pathExists(this.getCacheFilePath(latestPackageVersion)) + this.getCacheFilePath(latestPackageVersion)
+    );
     if (!await fse__default.pathExists(this.getCacheFilePath(latestPackageVersion))) {
       await npminstall__default({
         root: this.TP_PATH,
@@ -93,21 +94,19 @@ class Package {
   }
   async _getPackageMainEntry(cwd) {
     const packageJsonPath = await findUp.findUp("package.json", { cwd });
-    debug("packageJsonPath:" + packageJsonPath);
+    debug(`packageJsonPath:${packageJsonPath}`);
     if (packageJsonPath) {
       const pkg = JSON.parse(fs__default.readFileSync(packageJsonPath, "utf8"));
-      if (pkg && pkg.main) {
+      if (pkg && pkg.main)
         return path__default.resolve(cwd, pkg.main);
-      }
     }
     return "";
   }
   async getRootFilePath() {
-    if (this.STORE_PATH) {
+    if (this.STORE_PATH)
       return await this._getPackageMainEntry(this.getCacheFilePath(this.PACKAGE_VERSION));
-    } else {
+    else
       return await this._getPackageMainEntry(this.TP_PATH);
-    }
   }
 }
 

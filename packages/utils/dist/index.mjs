@@ -6,6 +6,7 @@ import ora from 'ora';
 import request from 'axios';
 import semver from 'semver';
 import semverSort from 'semver-sort';
+import cp from 'child_process';
 
 const echoSuccessText = (text) => chalk.green(text);
 const echoWarnText = (text) => chalk.yellow(text);
@@ -133,42 +134,52 @@ const useLogger = () => {
     }).join("\n");
   };
   const echo = (symbol, target) => {
-    console.log(format(chalk.bgGreen(symbol), chalk.green(typeof target === "object" ? JSON.stringify(target) : target)));
+    console.log(
+      format(
+        chalk.rgb(89, 206, 143).inverse(symbol),
+        chalk.green(
+          typeof target === "object" ? JSON.stringify(target) : target
+        )
+      )
+    );
   };
   const debug = (target, options = { needConsole: true }) => {
-    if (options.needConsole && process.env.DEBUG)
+    if (options.needConsole && process.env.DEBUG) {
       console.log(
         format(
           echoInfoBgText(LOGGER_MSG_ENUM.DEBUG),
           typeof target === "object" ? JSON.stringify(target) : target
         )
       );
+    }
     return format(
       echoInfoBgText(LOGGER_MSG_ENUM.DEBUG),
       typeof target === "object" ? JSON.stringify(target) : target
     );
   };
   const info = (target, options = { needConsole: true }) => {
-    if (options.needConsole)
+    if (options.needConsole) {
       console.log(
         format(
           chalk.bgBlue(LOGGER_MSG_ENUM.INFO),
           typeof target === "object" ? JSON.stringify(target) : target
         )
       );
+    }
     return format(
       chalk.bgBlue(LOGGER_MSG_ENUM.INFO),
       typeof target === "object" ? JSON.stringify(target) : target
     );
   };
   const done = (target, options = { needConsole: true }) => {
-    if (options.needConsole)
+    if (options.needConsole) {
       console.log(
         format(
           chalk.bgGreen.black(LOGGER_MSG_ENUM.DONE),
           typeof target === "object" ? JSON.stringify(target) : target
         )
       );
+    }
     return format(
       chalk.bgGreen.black(LOGGER_MSG_ENUM.DONE),
       typeof target === "object" ? JSON.stringify(target) : target
@@ -187,7 +198,7 @@ const useLogger = () => {
   };
   const error = (target, options = { needConsole: true }) => {
     stopSpinner();
-    if (options.needConsole)
+    if (options.needConsole) {
       console.error(
         format(
           chalk.bgRed(LOGGER_MSG_ENUM.ERROR),
@@ -196,12 +207,14 @@ const useLogger = () => {
           )
         )
       );
+    }
     return format(
       chalk.bgRed(LOGGER_MSG_ENUM.ERROR),
       chalk.red(typeof target === "object" ? JSON.stringify(target) : target)
     );
   };
   return {
+    chalk,
     debug,
     info,
     done,
@@ -235,4 +248,11 @@ const getNpmLatestVersion = async (packageName) => {
   return "";
 };
 
-export { LOGGER_MSG_ENUM, NPM_API_BASE_URL, echoBlueBgText, echoBlueText, echoErrorBgText, echoErrorText, echoInfoBgText, echoInfoText, echoSuccessBgText, echoSuccessText, echoWarnBgText, echoWarnText, getNpmLatestVersion, getNpmPackageData, getNpmSemverVersions, getNpmVersions, printMagicLogo, useLogger, useSpinner };
+const spawn = (command, args, options = {}) => {
+  const win32 = process.platform === "win32";
+  const cmd = win32 ? "cmd" : command;
+  const cmdArgs = win32 ? ["/c"].concat(command, args) : args;
+  return cp.spawn(cmd, cmdArgs, options);
+};
+
+export { LOGGER_MSG_ENUM, NPM_API_BASE_URL, echoBlueBgText, echoBlueText, echoErrorBgText, echoErrorText, echoInfoBgText, echoInfoText, echoSuccessBgText, echoSuccessText, echoWarnBgText, echoWarnText, getNpmLatestVersion, getNpmPackageData, getNpmSemverVersions, getNpmVersions, printMagicLogo, spawn, useLogger, useSpinner };

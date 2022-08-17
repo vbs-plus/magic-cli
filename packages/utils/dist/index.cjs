@@ -10,6 +10,7 @@ const ora = require('ora');
 const request = require('axios');
 const semver = require('semver');
 const semverSort = require('semver-sort');
+const cp = require('child_process');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e["default"] : e; }
 
@@ -21,6 +22,7 @@ const ora__default = /*#__PURE__*/_interopDefaultLegacy(ora);
 const request__default = /*#__PURE__*/_interopDefaultLegacy(request);
 const semver__default = /*#__PURE__*/_interopDefaultLegacy(semver);
 const semverSort__default = /*#__PURE__*/_interopDefaultLegacy(semverSort);
+const cp__default = /*#__PURE__*/_interopDefaultLegacy(cp);
 
 const echoSuccessText = (text) => chalk__default.green(text);
 const echoWarnText = (text) => chalk__default.yellow(text);
@@ -148,42 +150,52 @@ const useLogger = () => {
     }).join("\n");
   };
   const echo = (symbol, target) => {
-    console.log(format(chalk__default.bgGreen(symbol), chalk__default.green(typeof target === "object" ? JSON.stringify(target) : target)));
+    console.log(
+      format(
+        chalk__default.rgb(89, 206, 143).inverse(symbol),
+        chalk__default.green(
+          typeof target === "object" ? JSON.stringify(target) : target
+        )
+      )
+    );
   };
   const debug = (target, options = { needConsole: true }) => {
-    if (options.needConsole && process.env.DEBUG)
+    if (options.needConsole && process.env.DEBUG) {
       console.log(
         format(
           echoInfoBgText(LOGGER_MSG_ENUM.DEBUG),
           typeof target === "object" ? JSON.stringify(target) : target
         )
       );
+    }
     return format(
       echoInfoBgText(LOGGER_MSG_ENUM.DEBUG),
       typeof target === "object" ? JSON.stringify(target) : target
     );
   };
   const info = (target, options = { needConsole: true }) => {
-    if (options.needConsole)
+    if (options.needConsole) {
       console.log(
         format(
           chalk__default.bgBlue(LOGGER_MSG_ENUM.INFO),
           typeof target === "object" ? JSON.stringify(target) : target
         )
       );
+    }
     return format(
       chalk__default.bgBlue(LOGGER_MSG_ENUM.INFO),
       typeof target === "object" ? JSON.stringify(target) : target
     );
   };
   const done = (target, options = { needConsole: true }) => {
-    if (options.needConsole)
+    if (options.needConsole) {
       console.log(
         format(
           chalk__default.bgGreen.black(LOGGER_MSG_ENUM.DONE),
           typeof target === "object" ? JSON.stringify(target) : target
         )
       );
+    }
     return format(
       chalk__default.bgGreen.black(LOGGER_MSG_ENUM.DONE),
       typeof target === "object" ? JSON.stringify(target) : target
@@ -202,7 +214,7 @@ const useLogger = () => {
   };
   const error = (target, options = { needConsole: true }) => {
     stopSpinner();
-    if (options.needConsole)
+    if (options.needConsole) {
       console.error(
         format(
           chalk__default.bgRed(LOGGER_MSG_ENUM.ERROR),
@@ -211,12 +223,14 @@ const useLogger = () => {
           )
         )
       );
+    }
     return format(
       chalk__default.bgRed(LOGGER_MSG_ENUM.ERROR),
       chalk__default.red(typeof target === "object" ? JSON.stringify(target) : target)
     );
   };
   return {
+    chalk: chalk__default,
     debug,
     info,
     done,
@@ -250,6 +264,13 @@ const getNpmLatestVersion = async (packageName) => {
   return "";
 };
 
+const spawn = (command, args, options = {}) => {
+  const win32 = process.platform === "win32";
+  const cmd = win32 ? "cmd" : command;
+  const cmdArgs = win32 ? ["/c"].concat(command, args) : args;
+  return cp__default.spawn(cmd, cmdArgs, options);
+};
+
 exports.LOGGER_MSG_ENUM = LOGGER_MSG_ENUM;
 exports.NPM_API_BASE_URL = NPM_API_BASE_URL;
 exports.echoBlueBgText = echoBlueBgText;
@@ -267,5 +288,6 @@ exports.getNpmPackageData = getNpmPackageData;
 exports.getNpmSemverVersions = getNpmSemverVersions;
 exports.getNpmVersions = getNpmVersions;
 exports.printMagicLogo = printMagicLogo;
+exports.spawn = spawn;
 exports.useLogger = useLogger;
 exports.useSpinner = useSpinner;

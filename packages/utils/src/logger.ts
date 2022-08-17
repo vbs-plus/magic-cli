@@ -25,7 +25,14 @@ export const useLogger = () => {
     symbol: string,
     target: any,
   ) => {
-    console.log(format(chalk.bgGreen(symbol), chalk.green(typeof target === 'object' ? JSON.stringify(target) : target)))
+    console.log(
+      format(
+        chalk.rgb(89, 206, 143).inverse(symbol),
+        chalk.green(
+          typeof target === 'object' ? JSON.stringify(target) : target,
+        ),
+      ),
+    )
   }
 
   const debug = (target: any, options: LoggerParams = { needConsole: true }) => {
@@ -117,6 +124,7 @@ export const useLogger = () => {
   }
 
   return {
+    chalk,
     debug,
     info,
     done,
