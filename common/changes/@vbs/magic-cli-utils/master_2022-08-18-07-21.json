@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@vbs/magic-cli-utils",
+      "comment": "release 0.0.2",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@vbs/magic-cli-utils"
+}

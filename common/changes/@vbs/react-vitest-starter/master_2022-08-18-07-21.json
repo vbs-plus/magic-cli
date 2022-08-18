@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@vbs/react-vitest-starter",
+      "comment": "first release",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@vbs/react-vitest-starter"
+}
