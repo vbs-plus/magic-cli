@@ -1,5 +1,5 @@
 {
-  "name": "magic-cli-models",
+  "name": "@vbs/magic-cli-models",
   "type": "module",
   "version": "0.0.1",
   "description": "",
@@ -32,9 +32,9 @@
     "@types/fs-extra": "^9.0.13",
     "@types/node": "^18.6.4",
     "@types/semver": "^7.3.12",
+    "@vbs/magic-cli-utils": "workspace:*",
     "find-up": "^6.3.0",
     "fs-extra": "^10.1.0",
-    "magic-cli-utils": "workspace:*",
     "npminstall": "^6.5.0",
     "pkg-dir": "^5.0.0",
     "semver": "^7.3.7",

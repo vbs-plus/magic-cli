@@ -44,7 +44,7 @@ Run ${echoInfoText(
     )} for detailed usage of given command\r
 `
   );
-  console.log(`\u5F53\u524D\u811A\u624B\u67B6\u7248\u672C\u4E3A: ${chalk.bgGreen(` ${version} `)} \r
+  console.log(`\u5F53\u524D\u811A\u624B\u67B6\u7248\u672C\u4E3A: ${chalk.rgb(89, 206, 143).inverse(` ${version} `)} \r
 `);
 }
 
@@ -255,4 +255,24 @@ const spawn = (command, args, options = {}) => {
   return cp.spawn(cmd, cmdArgs, options);
 };
 
-export { LOGGER_MSG_ENUM, NPM_API_BASE_URL, echoBlueBgText, echoBlueText, echoErrorBgText, echoErrorText, echoInfoBgText, echoInfoText, echoSuccessBgText, echoSuccessText, echoWarnBgText, echoWarnText, getNpmLatestVersion, getNpmPackageData, getNpmSemverVersions, getNpmVersions, printMagicLogo, spawn, useLogger, useSpinner };
+async function getTemplateList() {
+  const templateList = [{
+    name: "za-zi",
+    npmName: "za-zi",
+    version: "0.0.6",
+    type: "normal",
+    installCommand: "zi",
+    startCommand: "zi",
+    tag: ["project"],
+    ignore: []
+  }];
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(templateList);
+    }, 3e3);
+  }).catch((e) => {
+    console.log(e);
+  });
+}
+
+export { LOGGER_MSG_ENUM, NPM_API_BASE_URL, echoBlueBgText, echoBlueText, echoErrorBgText, echoErrorText, echoInfoBgText, echoInfoText, echoSuccessBgText, echoSuccessText, echoWarnBgText, echoWarnText, getNpmLatestVersion, getNpmPackageData, getNpmSemverVersions, getNpmVersions, getTemplateList, printMagicLogo, spawn, useLogger, useSpinner };

@@ -1,5 +1,5 @@
 {
-  "name": "magic-cli-init",
+  "name": "@vbs/magic-cli-init",
   "version": "0.0.1",
   "description": "",
   "keywords": [],
@@ -28,10 +28,16 @@
     "access": "public"
   },
   "dependencies": {
+    "@types/ejs": "^3.1.0",
+    "@types/fs-extra": "^9.0.13",
+    "@types/inquirer": "^8.1.0",
     "@types/node": "^18.6.4",
     "@types/semver": "^7.3.12",
-    "magic-cli-models": "workspace:*",
-    "magic-cli-utils": "workspace:*",
+    "@vbs/magic-cli-models": "workspace:*",
+    "@vbs/magic-cli-utils": "workspace:*",
+    "ejs": "^3.1.6",
+    "fs-extra": "^10.1.0",
+    "inquirer": "^8.1.0",
     "semver": "^7.3.7",
     "tslib": "^2.3.1",
     "typescript": "^4.5.2",

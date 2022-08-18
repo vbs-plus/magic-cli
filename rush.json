@@ -413,25 +413,25 @@
     //   "shouldPublish": false
     // },
     {
-      "packageName": "magic-cli-core",
+      "packageName": "@vbs/magic-cli-core",
       "projectFolder": "packages/core",
       "reviewCategory": "tools",
       "shouldPublish": true
     },
     {
-      "packageName": "magic-cli-utils",
+      "packageName": "@vbs/magic-cli-utils",
       "projectFolder": "packages/utils",
       "reviewCategory": "tools",
       "shouldPublish": true
     },
     {
-      "packageName": "magic-cli-init",
+      "packageName": "@vbs/magic-cli-init",
       "projectFolder": "packages/init",
       "reviewCategory": "tools",
       "shouldPublish": true
     },
     {
-      "packageName": "magic-cli-models",
+      "packageName": "@vbs/magic-cli-models",
       "projectFolder": "packages/models",
       "reviewCategory": "tools",
       "shouldPublish": true

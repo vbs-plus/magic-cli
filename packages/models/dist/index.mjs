@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import { useLogger, getNpmLatestVersion } from 'magic-cli-utils';
+import { useLogger, getNpmLatestVersion } from '@vbs/magic-cli-utils';
 import fse from 'fs-extra';
 import { findUp } from 'find-up';
 import npminstall from 'npminstall';
@@ -64,7 +64,7 @@ class Package {
     await this.prepare();
     const latestPackageVersion = await getNpmLatestVersion(this.PACKAGE_NAME);
     debug(
-      "exist" + await fse.pathExists(this.getCacheFilePath(latestPackageVersion)) + this.getCacheFilePath(latestPackageVersion)
+      `exist${await fse.pathExists(this.getCacheFilePath(latestPackageVersion))}${this.getCacheFilePath(latestPackageVersion)}`
     );
     if (!await fse.pathExists(this.getCacheFilePath(latestPackageVersion))) {
       await npminstall({

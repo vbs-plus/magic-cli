@@ -4,7 +4,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const path = require('path');
 const fs = require('fs');
-const magicCliUtils = require('magic-cli-utils');
+const magicCliUtils = require('@vbs/magic-cli-utils');
 const fse = require('fs-extra');
 const findUp = require('find-up');
 const npminstall = require('npminstall');
@@ -75,7 +75,7 @@ class Package {
     await this.prepare();
     const latestPackageVersion = await magicCliUtils.getNpmLatestVersion(this.PACKAGE_NAME);
     debug(
-      "exist" + await fse__default.pathExists(this.getCacheFilePath(latestPackageVersion)) + this.getCacheFilePath(latestPackageVersion)
+      `exist${await fse__default.pathExists(this.getCacheFilePath(latestPackageVersion))}${this.getCacheFilePath(latestPackageVersion)}`
     );
     if (!await fse__default.pathExists(this.getCacheFilePath(latestPackageVersion))) {
       await npminstall__default({

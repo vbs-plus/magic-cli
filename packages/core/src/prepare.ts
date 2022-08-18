@@ -1,7 +1,7 @@
 import os from 'os'
 import path from 'path'
 import semver from 'semver'
-import { getNpmLatestVersion, printMagicLogo, useLogger, useSpinner } from 'magic-cli-utils'
+import { getNpmLatestVersion, printMagicLogo, useLogger, useSpinner } from '@vbs/magic-cli-utils'
 import rootCheck from 'root-check'
 import fse from 'fs-extra'
 import dotenv from 'dotenv'

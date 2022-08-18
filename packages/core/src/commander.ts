@@ -1,5 +1,5 @@
 import { Command } from 'commander'
-import { useLogger } from 'magic-cli-utils'
+import { useLogger } from '@vbs/magic-cli-utils'
 import pkg from '../package.json'
 import { exec } from './exec'
 

@@ -2,10 +2,10 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
+const magicCliUtils = require('@vbs/magic-cli-utils');
 const commander = require('commander');
-const magicCliUtils = require('magic-cli-utils');
 const path = require('path');
-const magicCliModels = require('magic-cli-models');
+const magicCliModels = require('@vbs/magic-cli-models');
 const os = require('os');
 const semver = require('semver');
 const rootCheck = require('root-check');
@@ -21,7 +21,7 @@ const rootCheck__default = /*#__PURE__*/_interopDefaultLegacy(rootCheck);
 const fse__default = /*#__PURE__*/_interopDefaultLegacy(fse);
 const dotenv__default = /*#__PURE__*/_interopDefaultLegacy(dotenv);
 
-const name = "magic-cli-core";
+const name = "@vbs/magic-cli-core";
 const version = "0.0.1";
 const description = "";
 const keywords = [
@@ -65,14 +65,13 @@ const dependencies = {
 	dotenv: "^16.0.1",
 	"fast-glob": "^3.2.11",
 	"fs-extra": "^10.1.0",
-	"magic-cli-models": "workspace:*",
-	"magic-cli-utils": "workspace:*",
 	"root-check": "^2.0.0",
 	semver: "^7.3.7",
 	tslib: "^2.4.0",
 	typescript: "^4.5.2",
-	"umi-request": "^1.4.0",
-	unbuild: "^0.8.8"
+	unbuild: "^0.8.8",
+	"@vbs/magic-cli-models": "workspace:*",
+	"@vbs/magic-cli-utils": "workspace:*"
 };
 const pkg = {
 	name: name,
@@ -99,8 +98,8 @@ const DEFAULT_STORE_PATH = "dependencies";
 const DEFAULT_STORE_SUFIX = "node_modules";
 const LOWEST_NODE_VERSION = "12.0.0";
 var PACKAGE_SETTINGS = /* @__PURE__ */ ((PACKAGE_SETTINGS2) => {
-  PACKAGE_SETTINGS2["init"] = "magic-cli-init";
-  PACKAGE_SETTINGS2["add"] = "magic-cli-add";
+  PACKAGE_SETTINGS2["init"] = "@vbs/magic-cli-init";
+  PACKAGE_SETTINGS2["add"] = "@vbs/magic-cli-add";
   return PACKAGE_SETTINGS2;
 })(PACKAGE_SETTINGS || {});
 
@@ -141,22 +140,20 @@ const exec = async (...args) => {
     }
   }
   const execFilePath = await pkg.getRootFilePath();
-  if (!execFilePath) {
+  if (!execFilePath)
     throw new Error(error("\u5F53\u524D\u6307\u5B9A\u6587\u4EF6\u5939\u8DEF\u5F84\u6709\u8BEF", { needConsole: false }));
-  }
   debug(`execFilePath:${execFilePath}`);
   debug(`TP_PATH:${TP_PATH}`);
   debug(`STORE_PATH:${STORE_PATH}`);
-  debug(`PACKAGE_NAME:${PACKAGE_NAME}`);
-  debug(`PACKAGE_VERSION:${PACKAGE_VERSION}`);
+  debug(`PACKAGE_NAME:${pkg.PACKAGE_NAME}`);
+  debug(`PACKAGE_VERSION:${pkg.PACKAGE_VERSION}`);
   try {
     const params = [...args];
     const _suffixObject = /* @__PURE__ */ Object.create(null);
     const commanderObject = params[params.length - 1];
     Object.keys(commanderObject).forEach((key) => {
-      if (commanderObject.hasOwnProperty(key) && !key.startsWith("_") && key !== "parent") {
+      if (commanderObject.hasOwnProperty(key) && !key.startsWith("_") && key !== "parent")
         _suffixObject[key] = commanderObject[key];
-      }
     });
     params[params.length - 1] = _suffixObject;
     const child = magicCliUtils.spawn(
@@ -168,16 +165,16 @@ const exec = async (...args) => {
       }
     );
     child.on("error", (e) => {
-      error(`\u591A\u8FDB\u7A0B\u4EE3\u7801\u6267\u884C\u5F02\u5E38: ` + e.message);
+      error(`\u591A\u8FDB\u7A0B\u4EE3\u7801\u6267\u884C\u5F02\u5E38: ${e.message}`);
       process.exit(1);
     });
     child.on("exit", (e) => {
       info("NODE \u8FDB\u7A0B\u542F\u52A8\u6210\u529F");
-      debug(curCommand + " \u547D\u4EE4\u6267\u884C\u6210\u529F");
+      debug(`${curCommand} \u547D\u4EE4\u6267\u884C\u6210\u529F`);
       process.exit(e);
     });
   } catch (e) {
-    error("catch error " + e.message);
+    error(`catch error ${e.message}`);
   }
 };
 
@@ -230,7 +227,7 @@ const InitCommander = () => {
   });
 };
 
-const { error, echo, warn, debug } = magicCliUtils.useLogger();
+const { error, warn, debug } = magicCliUtils.useLogger();
 const homePath = os__default.homedir();
 function checkUserHome(homePath2) {
   if (!homePath2 || !fse__default.existsSync(homePath2))
@@ -247,9 +244,9 @@ function checkEnv() {
     });
   }
   initDefaultConfig();
-  debug(" HOME_ENV_PATH " + homeEnvPath);
-  debug(" MAGIC_CLI_HOME_PATH " + process.env.MAGIC_CLI_HOME_PATH);
-  debug(" MAGIC_HOME_PATH " + process.env.MAGIC_HOME_PATH);
+  debug(` HOME_ENV_PATH ${homeEnvPath}`);
+  debug(` MAGIC_CLI_HOME_PATH ${process.env.MAGIC_CLI_HOME_PATH}`);
+  debug(` MAGIC_HOME_PATH ${process.env.MAGIC_HOME_PATH}`);
 }
 async function checkPackageUpdate() {
   const version = pkg.version;
@@ -263,9 +260,8 @@ async function checkPackageUpdate() {
 }
 function checkNodeVersion() {
   const currentVersion = process.version;
-  if (!semver__default.gte(currentVersion, LOWEST_NODE_VERSION)) {
+  if (!semver__default.gte(currentVersion, LOWEST_NODE_VERSION))
     throw new Error(error(`\u5F53\u524D Node \u7248\u672C\u8FC7\u4F4E\uFF0C\u63A8\u8350\u5B89\u88C5 v${LOWEST_NODE_VERSION} \u4EE5\u4E0A Node \u7248\u672C`, { needConsole: false }));
-  }
 }
 async function prepare() {
   const { logWithSpinner, successSpinner, failSpinner } = magicCliUtils.useSpinner();

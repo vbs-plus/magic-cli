@@ -60,7 +60,7 @@ Run ${echoInfoText(
     )} for detailed usage of given command\r
 `
   );
-  console.log(`\u5F53\u524D\u811A\u624B\u67B6\u7248\u672C\u4E3A: ${chalk__default.bgGreen(` ${version} `)} \r
+  console.log(`\u5F53\u524D\u811A\u624B\u67B6\u7248\u672C\u4E3A: ${chalk__default.rgb(89, 206, 143).inverse(` ${version} `)} \r
 `);
 }
 
@@ -271,6 +271,26 @@ const spawn = (command, args, options = {}) => {
   return cp__default.spawn(cmd, cmdArgs, options);
 };
 
+async function getTemplateList() {
+  const templateList = [{
+    name: "za-zi",
+    npmName: "za-zi",
+    version: "0.0.6",
+    type: "normal",
+    installCommand: "zi",
+    startCommand: "zi",
+    tag: ["project"],
+    ignore: []
+  }];
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(templateList);
+    }, 3e3);
+  }).catch((e) => {
+    console.log(e);
+  });
+}
+
 exports.LOGGER_MSG_ENUM = LOGGER_MSG_ENUM;
 exports.NPM_API_BASE_URL = NPM_API_BASE_URL;
 exports.echoBlueBgText = echoBlueBgText;
@@ -287,6 +307,7 @@ exports.getNpmLatestVersion = getNpmLatestVersion;
 exports.getNpmPackageData = getNpmPackageData;
 exports.getNpmSemverVersions = getNpmSemverVersions;
 exports.getNpmVersions = getNpmVersions;
+exports.getTemplateList = getTemplateList;
 exports.printMagicLogo = printMagicLogo;
 exports.spawn = spawn;
 exports.useLogger = useLogger;

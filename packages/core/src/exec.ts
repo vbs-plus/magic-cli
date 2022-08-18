@@ -1,7 +1,7 @@
 import path from 'path'
 import type { Command } from 'commander'
-import { Package } from 'magic-cli-models'
-import { spawn, useLogger } from 'magic-cli-utils'
+import { Package } from '@vbs/magic-cli-models'
+import { spawn, useLogger } from '@vbs/magic-cli-utils'
 import {
   DEFAULT_PACKAGE_VERSION,
   DEFAULT_STORE_PATH,
@@ -63,8 +63,8 @@ export const exec = async (...args: any[]) => {
   debug(`execFilePath:${execFilePath}`)
   debug(`TP_PATH:${TP_PATH}`)
   debug(`STORE_PATH:${STORE_PATH}`)
-  debug(`PACKAGE_NAME:${PACKAGE_NAME}`)
-  debug(`PACKAGE_VERSION:${PACKAGE_VERSION}`)
+  debug(`PACKAGE_NAME:${pkg.PACKAGE_NAME}`)
+  debug(`PACKAGE_VERSION:${pkg.PACKAGE_VERSION}`)
 
   try {
     const params = [...args]

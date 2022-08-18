@@ -18,5 +18,5 @@ export function printMagicLogo(version: string) {
        'magic <command> --help',
      )} for detailed usage of given command\r\n`,
   )
-  console.log(`当前脚手架版本为: ${chalk.bgGreen(` ${version} `)} \r\n`)
+  console.log(`当前脚手架版本为: ${chalk.rgb(89, 206, 143).inverse(` ${version} `)} \r\n`)
 }

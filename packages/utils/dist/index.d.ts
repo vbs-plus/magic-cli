@@ -82,4 +82,18 @@ declare const spawn: (command: string, args: string[], options?: SpawnOptionsWit
     stdio?: string;
 }) => cp.ChildProcessWithoutNullStreams;
 
-export { LOGGER_MSG_ENUM, LastMsgType, LoggerParams, NPM_API_BASE_URL, NpmData, echoBlueBgText, echoBlueText, echoErrorBgText, echoErrorText, echoInfoBgText, echoInfoText, echoSuccessBgText, echoSuccessText, echoWarnBgText, echoWarnText, getNpmLatestVersion, getNpmPackageData, getNpmSemverVersions, getNpmVersions, printMagicLogo, spawn, useLogger, useSpinner };
+interface TemplateListItem {
+    name: string;
+    npmName: string;
+    version: string;
+    type: 'normal' | 'custom';
+    installCommand: string;
+    startCommand: string;
+    tag: string[];
+    ignore: string[];
+    buildPath?: string;
+    examplePath?: string;
+}
+declare function getTemplateList(): Promise<unknown>;
+
+export { LOGGER_MSG_ENUM, LastMsgType, LoggerParams, NPM_API_BASE_URL, NpmData, TemplateListItem, echoBlueBgText, echoBlueText, echoErrorBgText, echoErrorText, echoInfoBgText, echoInfoText, echoSuccessBgText, echoSuccessText, echoWarnBgText, echoWarnText, getNpmLatestVersion, getNpmPackageData, getNpmSemverVersions, getNpmVersions, getTemplateList, printMagicLogo, spawn, useLogger, useSpinner };

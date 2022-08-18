@@ -1,4 +1,4 @@
-import { useLogger } from 'magic-cli-utils'
+import { useLogger } from '@vbs/magic-cli-utils'
 import { InitCommander } from './commander'
 import { prepare } from './prepare'
 

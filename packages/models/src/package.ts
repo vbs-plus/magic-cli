@@ -1,6 +1,6 @@
 import path from 'path'
 import fs from 'fs'
-import { getNpmLatestVersion, useLogger } from 'magic-cli-utils'
+import { getNpmLatestVersion, useLogger } from '@vbs/magic-cli-utils'
 import fse from 'fs-extra'
 import { findUp } from 'find-up'
 import npminstall from 'npminstall'

@@ -9,7 +9,7 @@ export const LOWEST_NODE_VERSION = '12.0.0'
  * 动态配置命令读包，如有新命令，请务必配置此选项
  */
 export enum PACKAGE_SETTINGS {
-  init = 'magic-cli-init',
-  add = 'magic-cli-add',
+  init = '@vbs/magic-cli-init',
+  add = '@vbs/magic-cli-add',
   // ...
 }
