@@ -61,6 +61,8 @@ const dependencies = {
 	"@types/node": "^18.6.4",
 	"@types/root-check": "^1.0.0",
 	"@types/semver": "^7.3.12",
+	"@vbs/magic-cli-models": "workspace:*",
+	"@vbs/magic-cli-utils": "workspace:*",
 	commander: "^9.4.0",
 	dotenv: "^16.0.1",
 	"fast-glob": "^3.2.11",
@@ -69,9 +71,7 @@ const dependencies = {
 	semver: "^7.3.7",
 	tslib: "^2.4.0",
 	typescript: "^4.5.2",
-	unbuild: "^0.8.8",
-	"@vbs/magic-cli-models": "workspace:*",
-	"@vbs/magic-cli-utils": "workspace:*"
+	unbuild: "^0.8.8"
 };
 const pkg = {
 	name: name,

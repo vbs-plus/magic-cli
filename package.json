@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "bootstrap": "zi && rush update",
-    "start": "cd packages/core && npm run link",
+    "start": "cd packages/core && pnpm link -g",
     "lint": " eslint packages --fix",
     "test": "vitest",
     "prepare": "husky install"

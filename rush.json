@@ -256,7 +256,7 @@
     // "changeLogUpdateCommitMessage": "Update changelogs [skip ci]"
   },
   "repository": {
-    "url": "https://github.com/vbs-plus/pmrepo-rush",
+    "url": "https://github.com/vbs-plus/magic-cli",
     "defaultBranch": "master", // 设置 diff 的目标分支， 默认就是 master
     "defaultRemote": "origin"
   },
@@ -435,6 +435,12 @@
       "projectFolder": "packages/models",
       "reviewCategory": "tools",
       "shouldPublish": true
+    },
+    {
+    "packageName": "@vbs/react-vitest-starter",
+    "projectFolder": "templates/react-vitest-starter",
+    "reviewCategory": "tools",
+    "shouldPublish": true
     }
   ]
 }
