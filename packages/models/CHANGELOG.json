@@ -1,0 +1,28 @@
+{
+  "name": "@vbs/magic-cli-models",
+  "entries": [
+    {
+      "version": "0.0.3",
+      "tag": "@vbs/magic-cli-models_v0.0.3",
+      "date": "Tue, 23 Aug 2022 09:02:59 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "release"
+          },
+          {
+            "comment": "release 0.0.2"
+          },
+          {
+            "comment": "update"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@vbs/magic-cli-utils\" to `0.0.3`"
+          }
+        ]
+      }
+    }
+  ]
+}

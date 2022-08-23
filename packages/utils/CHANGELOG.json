@@ -1,0 +1,23 @@
+{
+  "name": "@vbs/magic-cli-utils",
+  "entries": [
+    {
+      "version": "0.0.3",
+      "tag": "@vbs/magic-cli-utils_v0.0.3",
+      "date": "Tue, 23 Aug 2022 09:02:59 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "release"
+          },
+          {
+            "comment": "release 0.0.2"
+          },
+          {
+            "comment": "update some apis"
+          }
+        ]
+      }
+    }
+  ]
+}

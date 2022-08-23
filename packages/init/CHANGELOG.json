@@ -1,0 +1,34 @@
+{
+  "name": "@vbs/magic-cli-init",
+  "entries": [
+    {
+      "version": "0.0.3",
+      "tag": "@vbs/magic-cli-init_v0.0.3",
+      "date": "Tue, 23 Aug 2022 09:02:59 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "release"
+          },
+          {
+            "comment": "release 0.0.2"
+          },
+          {
+            "comment": "update"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@vbs/magic-cli-models\" to `0.0.3`"
+          },
+          {
+            "comment": "Updating dependency \"@vbs/magic-cli-templates\" to `0.0.2`"
+          },
+          {
+            "comment": "Updating dependency \"@vbs/magic-cli-utils\" to `0.0.3`"
+          }
+        ]
+      }
+    }
+  ]
+}
