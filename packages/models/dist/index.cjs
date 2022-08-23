@@ -54,7 +54,7 @@ class Package {
   }
   async prepare() {
     if (this.STORE_PATH && !await fse__default.pathExists(this.STORE_PATH))
-      fse__default.mkdirSync(this.STORE_PATH);
+      fse__default.mkdirSync(this.STORE_PATH, { recursive: true });
     if (this.PACKAGE_VERSION === "latest")
       this.PACKAGE_VERSION = await magicCliUtils.getNpmLatestVersion(this.PACKAGE_NAME);
   }

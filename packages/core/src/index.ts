@@ -19,7 +19,6 @@ const core = async () => {
 core()
 
 export * from './commander'
-export * from './enum'
 export * from './exec'
 export * from './prepare'
 

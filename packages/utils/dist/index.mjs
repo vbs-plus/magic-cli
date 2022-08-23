@@ -1,7 +1,6 @@
 import chalk from 'chalk';
 import clear from 'clear';
 import figlet from 'figlet';
-import stripAnsi from 'strip-ansi';
 import ora from 'ora';
 import request from 'axios';
 import semver from 'semver';
@@ -27,6 +26,18 @@ var LOGGER_MSG_ENUM = /* @__PURE__ */ ((LOGGER_MSG_ENUM2) => {
   LOGGER_MSG_ENUM2["ERROR"] = " ERROR ";
   return LOGGER_MSG_ENUM2;
 })(LOGGER_MSG_ENUM || {});
+const DEFAULT_HOME_PATH = ".magic-cli";
+const MAGIC_HOME_ENV = ".magic-cli.env";
+const DEFAULT_PACKAGE_VERSION = "latest";
+const DEFAULT_STORE_PATH = "dependencies";
+const DEFAULT_TEMPLATE_TARGET_PATH = "template";
+const DEFAULT_STORE_SUFIX = "node_modules";
+const LOWEST_NODE_VERSION = "12.0.0";
+var PACKAGE_SETTINGS = /* @__PURE__ */ ((PACKAGE_SETTINGS2) => {
+  PACKAGE_SETTINGS2["init"] = "@vbs/magic-cli-init";
+  PACKAGE_SETTINGS2["add"] = "@vbs/magic-cli-add";
+  return PACKAGE_SETTINGS2;
+})(PACKAGE_SETTINGS || {});
 
 function printMagicLogo(version) {
   clear();
@@ -128,90 +139,73 @@ function useSpinner() {
 
 const useLogger = () => {
   const { stopSpinner } = useSpinner();
-  const format = (label, msg) => {
-    return msg.split("\n").map((line, i) => {
-      return i === 0 ? `${label} ${line}` : line.padStart(stripAnsi(label).length + line.length + 1);
-    }).join("\n");
-  };
   const echo = (symbol, target) => {
     console.log(
-      format(
-        chalk.rgb(89, 206, 143).inverse(symbol),
-        chalk.green(
-          typeof target === "object" ? JSON.stringify(target) : target
-        )
+      chalk.rgb(89, 206, 143).inverse(symbol),
+      "",
+      chalk.green(
+        typeof target === "object" || typeof target === "boolean" ? JSON.stringify(target) : target
       )
     );
   };
   const debug = (target, options = { needConsole: true }) => {
     if (options.needConsole && process.env.DEBUG) {
       console.log(
-        format(
-          echoInfoBgText(LOGGER_MSG_ENUM.DEBUG),
-          typeof target === "object" ? JSON.stringify(target) : target
-        )
+        echoInfoBgText(LOGGER_MSG_ENUM.DEBUG),
+        "",
+        chalk.green(typeof target === "object" || typeof target === "boolean" ? JSON.stringify(target) : target)
       );
     }
-    return format(
-      echoInfoBgText(LOGGER_MSG_ENUM.DEBUG),
-      typeof target === "object" ? JSON.stringify(target) : target
-    );
+    return `${echoInfoBgText(LOGGER_MSG_ENUM.DEBUG)} ${typeof target === "object" || typeof target === "boolean" ? JSON.stringify(target) : target}`;
   };
   const info = (target, options = { needConsole: true }) => {
     if (options.needConsole) {
       console.log(
-        format(
-          chalk.bgBlue(LOGGER_MSG_ENUM.INFO),
-          typeof target === "object" ? JSON.stringify(target) : target
-        )
+        chalk.bgBlue(LOGGER_MSG_ENUM.INFO),
+        "",
+        chalk.blue(typeof target === "object" || typeof target === "boolean" ? JSON.stringify(target) : target)
       );
     }
-    return format(
-      chalk.bgBlue(LOGGER_MSG_ENUM.INFO),
-      typeof target === "object" ? JSON.stringify(target) : target
-    );
+    return `${chalk.bgBlue(LOGGER_MSG_ENUM.INFO)} ${typeof target === "object" || typeof target === "boolean" ? JSON.stringify(target) : target}`;
   };
   const done = (target, options = { needConsole: true }) => {
     if (options.needConsole) {
       console.log(
-        format(
-          chalk.bgGreen.black(LOGGER_MSG_ENUM.DONE),
-          typeof target === "object" ? JSON.stringify(target) : target
-        )
+        chalk.bgGreen.black(LOGGER_MSG_ENUM.DONE),
+        "",
+        chalk.green(typeof target === "object" || typeof target === "boolean" ? JSON.stringify(target) : target)
       );
     }
-    return format(
-      chalk.bgGreen.black(LOGGER_MSG_ENUM.DONE),
-      typeof target === "object" ? JSON.stringify(target) : target
-    );
+    return `${chalk.bgGreen.black(LOGGER_MSG_ENUM.DONE)} ${typeof target === "object" || typeof target === "boolean" ? JSON.stringify(target) : target}`;
   };
   const warn = (target, options = { needConsole: true }) => {
     if (options.needConsole) {
       console.log(
-        format(chalk.bgYellow.black(LOGGER_MSG_ENUM.WARN), chalk.yellow(typeof target === "object" ? JSON.stringify(target) : target))
+        chalk.bgYellow.black(LOGGER_MSG_ENUM.WARN),
+        "",
+        chalk.yellow(
+          typeof target === "object" || typeof target === "boolean" ? JSON.stringify(target) : target
+        )
       );
     }
-    return format(
-      chalk.bgYellow.black(LOGGER_MSG_ENUM.WARN),
-      chalk.yellow(typeof target === "object" ? JSON.stringify(target) : target)
-    );
+    return `${chalk.bgYellow.black(LOGGER_MSG_ENUM.WARN)} ${chalk.yellow(
+      typeof target === "object" || typeof target === "boolean" ? JSON.stringify(target) : target
+    )}`;
   };
   const error = (target, options = { needConsole: true }) => {
     stopSpinner();
     if (options.needConsole) {
       console.error(
-        format(
-          chalk.bgRed(LOGGER_MSG_ENUM.ERROR),
-          chalk.red(
-            typeof target === "object" ? JSON.stringify(target) : target
-          )
+        chalk.bgRed(LOGGER_MSG_ENUM.ERROR),
+        "",
+        chalk.red(
+          typeof target === "object" || typeof target === "boolean" ? JSON.stringify(target) : target
         )
       );
     }
-    return format(
-      chalk.bgRed(LOGGER_MSG_ENUM.ERROR),
-      chalk.red(typeof target === "object" ? JSON.stringify(target) : target)
-    );
+    return `${chalk.bgRed(LOGGER_MSG_ENUM.ERROR)} ${chalk.red(
+      typeof target === "object" || typeof target === "boolean" ? JSON.stringify(target) : target
+    )}`;
   };
   return {
     chalk,
@@ -275,4 +269,8 @@ async function getTemplateList() {
   });
 }
 
-export { LOGGER_MSG_ENUM, NPM_API_BASE_URL, echoBlueBgText, echoBlueText, echoErrorBgText, echoErrorText, echoInfoBgText, echoInfoText, echoSuccessBgText, echoSuccessText, echoWarnBgText, echoWarnText, getNpmLatestVersion, getNpmPackageData, getNpmSemverVersions, getNpmVersions, getTemplateList, printMagicLogo, spawn, useLogger, useSpinner };
+function toLine(str) {
+  return str.replace("/([A-Z])/g", "-$1").toLowerCase();
+}
+
+export { DEFAULT_HOME_PATH, DEFAULT_PACKAGE_VERSION, DEFAULT_STORE_PATH, DEFAULT_STORE_SUFIX, DEFAULT_TEMPLATE_TARGET_PATH, LOGGER_MSG_ENUM, LOWEST_NODE_VERSION, MAGIC_HOME_ENV, NPM_API_BASE_URL, PACKAGE_SETTINGS, echoBlueBgText, echoBlueText, echoErrorBgText, echoErrorText, echoInfoBgText, echoInfoText, echoSuccessBgText, echoSuccessText, echoWarnBgText, echoWarnText, getNpmLatestVersion, getNpmPackageData, getNpmSemverVersions, getNpmVersions, getTemplateList, printMagicLogo, spawn, toLine, useLogger, useSpinner };

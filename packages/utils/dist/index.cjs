@@ -5,7 +5,6 @@ Object.defineProperty(exports, '__esModule', { value: true });
 const chalk = require('chalk');
 const clear = require('clear');
 const figlet = require('figlet');
-const stripAnsi = require('strip-ansi');
 const ora = require('ora');
 const request = require('axios');
 const semver = require('semver');
@@ -17,7 +16,6 @@ function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'defau
 const chalk__default = /*#__PURE__*/_interopDefaultLegacy(chalk);
 const clear__default = /*#__PURE__*/_interopDefaultLegacy(clear);
 const figlet__default = /*#__PURE__*/_interopDefaultLegacy(figlet);
-const stripAnsi__default = /*#__PURE__*/_interopDefaultLegacy(stripAnsi);
 const ora__default = /*#__PURE__*/_interopDefaultLegacy(ora);
 const request__default = /*#__PURE__*/_interopDefaultLegacy(request);
 const semver__default = /*#__PURE__*/_interopDefaultLegacy(semver);
@@ -43,6 +41,18 @@ var LOGGER_MSG_ENUM = /* @__PURE__ */ ((LOGGER_MSG_ENUM2) => {
   LOGGER_MSG_ENUM2["ERROR"] = " ERROR ";
   return LOGGER_MSG_ENUM2;
 })(LOGGER_MSG_ENUM || {});
+const DEFAULT_HOME_PATH = ".magic-cli";
+const MAGIC_HOME_ENV = ".magic-cli.env";
+const DEFAULT_PACKAGE_VERSION = "latest";
+const DEFAULT_STORE_PATH = "dependencies";
+const DEFAULT_TEMPLATE_TARGET_PATH = "template";
+const DEFAULT_STORE_SUFIX = "node_modules";
+const LOWEST_NODE_VERSION = "12.0.0";
+var PACKAGE_SETTINGS = /* @__PURE__ */ ((PACKAGE_SETTINGS2) => {
+  PACKAGE_SETTINGS2["init"] = "@vbs/magic-cli-init";
+  PACKAGE_SETTINGS2["add"] = "@vbs/magic-cli-add";
+  return PACKAGE_SETTINGS2;
+})(PACKAGE_SETTINGS || {});
 
 function printMagicLogo(version) {
   clear__default();
@@ -144,90 +154,73 @@ function useSpinner() {
 
 const useLogger = () => {
   const { stopSpinner } = useSpinner();
-  const format = (label, msg) => {
-    return msg.split("\n").map((line, i) => {
-      return i === 0 ? `${label} ${line}` : line.padStart(stripAnsi__default(label).length + line.length + 1);
-    }).join("\n");
-  };
   const echo = (symbol, target) => {
     console.log(
-      format(
-        chalk__default.rgb(89, 206, 143).inverse(symbol),
-        chalk__default.green(
-          typeof target === "object" ? JSON.stringify(target) : target
-        )
+      chalk__default.rgb(89, 206, 143).inverse(symbol),
+      "",
+      chalk__default.green(
+        typeof target === "object" || typeof target === "boolean" ? JSON.stringify(target) : target
       )
     );
   };
   const debug = (target, options = { needConsole: true }) => {
     if (options.needConsole && process.env.DEBUG) {
       console.log(
-        format(
-          echoInfoBgText(LOGGER_MSG_ENUM.DEBUG),
-          typeof target === "object" ? JSON.stringify(target) : target
-        )
+        echoInfoBgText(LOGGER_MSG_ENUM.DEBUG),
+        "",
+        chalk__default.green(typeof target === "object" || typeof target === "boolean" ? JSON.stringify(target) : target)
       );
     }
-    return format(
-      echoInfoBgText(LOGGER_MSG_ENUM.DEBUG),
-      typeof target === "object" ? JSON.stringify(target) : target
-    );
+    return `${echoInfoBgText(LOGGER_MSG_ENUM.DEBUG)} ${typeof target === "object" || typeof target === "boolean" ? JSON.stringify(target) : target}`;
   };
   const info = (target, options = { needConsole: true }) => {
     if (options.needConsole) {
       console.log(
-        format(
-          chalk__default.bgBlue(LOGGER_MSG_ENUM.INFO),
-          typeof target === "object" ? JSON.stringify(target) : target
-        )
+        chalk__default.bgBlue(LOGGER_MSG_ENUM.INFO),
+        "",
+        chalk__default.blue(typeof target === "object" || typeof target === "boolean" ? JSON.stringify(target) : target)
       );
     }
-    return format(
-      chalk__default.bgBlue(LOGGER_MSG_ENUM.INFO),
-      typeof target === "object" ? JSON.stringify(target) : target
-    );
+    return `${chalk__default.bgBlue(LOGGER_MSG_ENUM.INFO)} ${typeof target === "object" || typeof target === "boolean" ? JSON.stringify(target) : target}`;
   };
   const done = (target, options = { needConsole: true }) => {
     if (options.needConsole) {
       console.log(
-        format(
-          chalk__default.bgGreen.black(LOGGER_MSG_ENUM.DONE),
-          typeof target === "object" ? JSON.stringify(target) : target
-        )
+        chalk__default.bgGreen.black(LOGGER_MSG_ENUM.DONE),
+        "",
+        chalk__default.green(typeof target === "object" || typeof target === "boolean" ? JSON.stringify(target) : target)
       );
     }
-    return format(
-      chalk__default.bgGreen.black(LOGGER_MSG_ENUM.DONE),
-      typeof target === "object" ? JSON.stringify(target) : target
-    );
+    return `${chalk__default.bgGreen.black(LOGGER_MSG_ENUM.DONE)} ${typeof target === "object" || typeof target === "boolean" ? JSON.stringify(target) : target}`;
   };
   const warn = (target, options = { needConsole: true }) => {
     if (options.needConsole) {
       console.log(
-        format(chalk__default.bgYellow.black(LOGGER_MSG_ENUM.WARN), chalk__default.yellow(typeof target === "object" ? JSON.stringify(target) : target))
+        chalk__default.bgYellow.black(LOGGER_MSG_ENUM.WARN),
+        "",
+        chalk__default.yellow(
+          typeof target === "object" || typeof target === "boolean" ? JSON.stringify(target) : target
+        )
       );
     }
-    return format(
-      chalk__default.bgYellow.black(LOGGER_MSG_ENUM.WARN),
-      chalk__default.yellow(typeof target === "object" ? JSON.stringify(target) : target)
-    );
+    return `${chalk__default.bgYellow.black(LOGGER_MSG_ENUM.WARN)} ${chalk__default.yellow(
+      typeof target === "object" || typeof target === "boolean" ? JSON.stringify(target) : target
+    )}`;
   };
   const error = (target, options = { needConsole: true }) => {
     stopSpinner();
     if (options.needConsole) {
       console.error(
-        format(
-          chalk__default.bgRed(LOGGER_MSG_ENUM.ERROR),
-          chalk__default.red(
-            typeof target === "object" ? JSON.stringify(target) : target
-          )
+        chalk__default.bgRed(LOGGER_MSG_ENUM.ERROR),
+        "",
+        chalk__default.red(
+          typeof target === "object" || typeof target === "boolean" ? JSON.stringify(target) : target
         )
       );
     }
-    return format(
-      chalk__default.bgRed(LOGGER_MSG_ENUM.ERROR),
-      chalk__default.red(typeof target === "object" ? JSON.stringify(target) : target)
-    );
+    return `${chalk__default.bgRed(LOGGER_MSG_ENUM.ERROR)} ${chalk__default.red(
+      typeof target === "object" || typeof target === "boolean" ? JSON.stringify(target) : target
+    )}`;
   };
   return {
     chalk: chalk__default,
@@ -291,8 +284,20 @@ async function getTemplateList() {
   });
 }
 
+function toLine(str) {
+  return str.replace("/([A-Z])/g", "-$1").toLowerCase();
+}
+
+exports.DEFAULT_HOME_PATH = DEFAULT_HOME_PATH;
+exports.DEFAULT_PACKAGE_VERSION = DEFAULT_PACKAGE_VERSION;
+exports.DEFAULT_STORE_PATH = DEFAULT_STORE_PATH;
+exports.DEFAULT_STORE_SUFIX = DEFAULT_STORE_SUFIX;
+exports.DEFAULT_TEMPLATE_TARGET_PATH = DEFAULT_TEMPLATE_TARGET_PATH;
 exports.LOGGER_MSG_ENUM = LOGGER_MSG_ENUM;
+exports.LOWEST_NODE_VERSION = LOWEST_NODE_VERSION;
+exports.MAGIC_HOME_ENV = MAGIC_HOME_ENV;
 exports.NPM_API_BASE_URL = NPM_API_BASE_URL;
+exports.PACKAGE_SETTINGS = PACKAGE_SETTINGS;
 exports.echoBlueBgText = echoBlueBgText;
 exports.echoBlueText = echoBlueText;
 exports.echoErrorBgText = echoErrorBgText;
@@ -310,5 +315,6 @@ exports.getNpmVersions = getNpmVersions;
 exports.getTemplateList = getTemplateList;
 exports.printMagicLogo = printMagicLogo;
 exports.spawn = spawn;
+exports.toLine = toLine;
 exports.useLogger = useLogger;
 exports.useSpinner = useSpinner;

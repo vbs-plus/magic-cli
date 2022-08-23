@@ -43,7 +43,7 @@ class Package {
   }
   async prepare() {
     if (this.STORE_PATH && !await fse.pathExists(this.STORE_PATH))
-      fse.mkdirSync(this.STORE_PATH);
+      fse.mkdirSync(this.STORE_PATH, { recursive: true });
     if (this.PACKAGE_VERSION === "latest")
       this.PACKAGE_VERSION = await getNpmLatestVersion(this.PACKAGE_NAME);
   }

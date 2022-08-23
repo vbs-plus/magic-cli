@@ -1,5 +1,5 @@
 import { useLogger } from '@vbs/magic-cli-utils'
-import { getInheritParams } from './prepare'
+import { getInheritParams, prepare } from './prepare'
 
 export interface InitArgs {
   projectName?: string
@@ -7,12 +7,13 @@ export interface InitArgs {
   cmd?: any
 }
 
-const { error, echo } = useLogger()
+const { error, debug } = useLogger()
 
 export const init = async () => {
   try {
     const args = getInheritParams()
-    echo(' init args ', args)
+    debug(` init args: ${JSON.stringify(args)}`)
+    await prepare(args)
   }
   catch (e: any) {
     throw new Error(error(e.message, { needConsole: false }))

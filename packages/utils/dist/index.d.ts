@@ -20,6 +20,20 @@ declare enum LOGGER_MSG_ENUM {
     WARN = " WARN ",
     ERROR = " ERROR "
 }
+declare const DEFAULT_HOME_PATH = ".magic-cli";
+declare const MAGIC_HOME_ENV = ".magic-cli.env";
+declare const DEFAULT_PACKAGE_VERSION = "latest";
+declare const DEFAULT_STORE_PATH = "dependencies";
+declare const DEFAULT_TEMPLATE_TARGET_PATH = "template";
+declare const DEFAULT_STORE_SUFIX = "node_modules";
+declare const LOWEST_NODE_VERSION = "12.0.0";
+/**
+ * 动态配置命令读包，如有新命令，请务必配置此选项
+ */
+declare enum PACKAGE_SETTINGS {
+    init = "@vbs/magic-cli-init",
+    add = "@vbs/magic-cli-add"
+}
 
 declare function printMagicLogo(version: string): void;
 
@@ -96,4 +110,6 @@ interface TemplateListItem {
 }
 declare function getTemplateList(): Promise<unknown>;
 
-export { LOGGER_MSG_ENUM, LastMsgType, LoggerParams, NPM_API_BASE_URL, NpmData, TemplateListItem, echoBlueBgText, echoBlueText, echoErrorBgText, echoErrorText, echoInfoBgText, echoInfoText, echoSuccessBgText, echoSuccessText, echoWarnBgText, echoWarnText, getNpmLatestVersion, getNpmPackageData, getNpmSemverVersions, getNpmVersions, getTemplateList, printMagicLogo, spawn, useLogger, useSpinner };
+declare function toLine(str: string): string;
+
+export { DEFAULT_HOME_PATH, DEFAULT_PACKAGE_VERSION, DEFAULT_STORE_PATH, DEFAULT_STORE_SUFIX, DEFAULT_TEMPLATE_TARGET_PATH, LOGGER_MSG_ENUM, LOWEST_NODE_VERSION, LastMsgType, LoggerParams, MAGIC_HOME_ENV, NPM_API_BASE_URL, NpmData, PACKAGE_SETTINGS, TemplateListItem, echoBlueBgText, echoBlueText, echoErrorBgText, echoErrorText, echoInfoBgText, echoInfoText, echoSuccessBgText, echoSuccessText, echoWarnBgText, echoWarnText, getNpmLatestVersion, getNpmPackageData, getNpmSemverVersions, getNpmVersions, getTemplateList, printMagicLogo, spawn, toLine, useLogger, useSpinner };

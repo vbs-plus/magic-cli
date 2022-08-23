@@ -1,5 +1,4 @@
 import chalk from 'chalk'
-import stripAnsi from 'strip-ansi'
 import { echoInfoBgText } from './chalk'
 import { LOGGER_MSG_ENUM } from './enum'
 import { useSpinner } from './spinner'
@@ -10,27 +9,18 @@ export interface LoggerParams {
 
 export const useLogger = () => {
   const { stopSpinner } = useSpinner()
-  const format = (label: string, msg: string) => {
-    return msg
-      .split('\n')
-      .map((line, i) => {
-        return i === 0
-          ? `${label} ${line}`
-          : line.padStart(stripAnsi(label).length + line.length + 1)
-      })
-      .join('\n')
-  }
 
   const echo = (
     symbol: string,
     target: any,
   ) => {
     console.log(
-      format(
-        chalk.rgb(89, 206, 143).inverse(symbol),
-        chalk.green(
-          typeof target === 'object' ? JSON.stringify(target) : target,
-        ),
+      chalk.rgb(89, 206, 143).inverse(symbol),
+      '',
+      chalk.green(
+        typeof target === 'object' || typeof target === 'boolean'
+          ? JSON.stringify(target)
+          : target,
       ),
     )
   }
@@ -38,17 +28,16 @@ export const useLogger = () => {
   const debug = (target: any, options: LoggerParams = { needConsole: true }) => {
     if (options.needConsole && process.env.DEBUG) {
       console.log(
-        format(
-          echoInfoBgText(LOGGER_MSG_ENUM.DEBUG),
-          typeof target === 'object' ? JSON.stringify(target) : target,
-        ),
+        echoInfoBgText(LOGGER_MSG_ENUM.DEBUG),
+        '',
+        chalk.green(typeof target === 'object' || typeof target === 'boolean' ? JSON.stringify(target) : target),
       )
     }
-
-    return format(
-      echoInfoBgText(LOGGER_MSG_ENUM.DEBUG),
-      typeof target === 'object' ? JSON.stringify(target) : target,
-    )
+    return `${echoInfoBgText(LOGGER_MSG_ENUM.DEBUG)} ${
+      typeof target === 'object' || typeof target === 'boolean'
+        ? JSON.stringify(target)
+        : target
+    }`
   }
 
   const info = (
@@ -57,32 +46,32 @@ export const useLogger = () => {
   ) => {
     if (options.needConsole) {
       console.log(
-        format(
-          chalk.bgBlue(LOGGER_MSG_ENUM.INFO),
-          typeof target === 'object' ? JSON.stringify(target) : target,
-        ),
+        chalk.bgBlue(LOGGER_MSG_ENUM.INFO),
+        '',
+        chalk.blue(typeof target === 'object' || typeof target === 'boolean'
+          ? JSON.stringify(target)
+          : target),
       )
     }
 
-    return format(
-      chalk.bgBlue(LOGGER_MSG_ENUM.INFO),
-      typeof target === 'object' ? JSON.stringify(target) : target,
-    )
+    return `${chalk.bgBlue(LOGGER_MSG_ENUM.INFO)} ${typeof target === 'object' || typeof target === 'boolean'
+        ? JSON.stringify(target)
+        : target}`
   }
 
   const done = (target: any, options: LoggerParams = { needConsole: true }) => {
     if (options.needConsole) {
       console.log(
-        format(
-          chalk.bgGreen.black(LOGGER_MSG_ENUM.DONE),
-          typeof target === 'object' ? JSON.stringify(target) : target,
-        ),
+        chalk.bgGreen.black(LOGGER_MSG_ENUM.DONE),
+        '',
+        chalk.green(typeof target === 'object' || typeof target === 'boolean'
+          ? JSON.stringify(target)
+          : target),
       )
     }
-    return format(
-      chalk.bgGreen.black(LOGGER_MSG_ENUM.DONE),
-      typeof target === 'object' ? JSON.stringify(target) : target,
-    )
+    return `${chalk.bgGreen.black(LOGGER_MSG_ENUM.DONE)} ${typeof target === 'object' || typeof target === 'boolean'
+        ? JSON.stringify(target)
+        : target}`
   }
 
   const warn = (
@@ -91,14 +80,21 @@ export const useLogger = () => {
   ) => {
     if (options.needConsole) {
       console.log(
-        format(chalk.bgYellow.black(LOGGER_MSG_ENUM.WARN), chalk.yellow(typeof target === 'object' ? JSON.stringify(target) : target)),
+        chalk.bgYellow.black(LOGGER_MSG_ENUM.WARN),
+        '',
+        chalk.yellow(
+          typeof target === 'object' || typeof target === 'boolean'
+            ? JSON.stringify(target)
+            : target,
+        ),
       )
     }
 
-    return format(
-      chalk.bgYellow.black(LOGGER_MSG_ENUM.WARN),
-      chalk.yellow(typeof target === 'object' ? JSON.stringify(target) : target),
-    )
+    return `${chalk.bgYellow.black(LOGGER_MSG_ENUM.WARN)} ${chalk.yellow(
+      typeof target === 'object' || typeof target === 'boolean'
+        ? JSON.stringify(target)
+        : target,
+    )}`
   }
 
   const error = (
@@ -108,19 +104,21 @@ export const useLogger = () => {
     stopSpinner()
     if (options.needConsole) {
       console.error(
-        format(
-          chalk.bgRed(LOGGER_MSG_ENUM.ERROR),
-          chalk.red(
-            typeof target === 'object' ? JSON.stringify(target) : target,
-          ),
+        chalk.bgRed(LOGGER_MSG_ENUM.ERROR),
+        '',
+        chalk.red(
+          typeof target === 'object' || typeof target === 'boolean'
+            ? JSON.stringify(target)
+            : target,
         ),
       )
     }
 
-    return format(
-      chalk.bgRed(LOGGER_MSG_ENUM.ERROR),
-      chalk.red(typeof target === 'object' ? JSON.stringify(target) : target),
-    )
+    return `${chalk.bgRed(LOGGER_MSG_ENUM.ERROR)} ${chalk.red(
+        typeof target === 'object' || typeof target === 'boolean'
+          ? JSON.stringify(target)
+          : target,
+      )}`
   }
 
   return {

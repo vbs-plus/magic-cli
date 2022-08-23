@@ -19,7 +19,6 @@ export const InitCommander = () => {
     .option('-f, --force', '是否强制初始化项目', false)
     .action(
       (projectName: string, { force }: { force: boolean }, cmd: Command) => {
-        info(projectName)
         exec(projectName, force, cmd)
       },
     )
@@ -50,7 +49,6 @@ export const InitCommander = () => {
   // TargetPath
   program.on('option:targetPath', () => {
     process.env.TARGET_PATH = program.opts().targetPath
-    echo(' TARGET_PATH ', process.env.TARGET_PATH)
   })
 
   program.on('command:*', (cmd: any) => {

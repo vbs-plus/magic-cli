@@ -1,4 +1,4 @@
-import { useLogger, spawn, getNpmLatestVersion, useSpinner, printMagicLogo } from '@vbs/magic-cli-utils';
+import { PACKAGE_SETTINGS, useLogger, DEFAULT_STORE_PATH, DEFAULT_STORE_SUFIX, spawn, DEFAULT_PACKAGE_VERSION, DEFAULT_HOME_PATH, MAGIC_HOME_ENV, getNpmLatestVersion, LOWEST_NODE_VERSION, useSpinner, printMagicLogo } from '@vbs/magic-cli-utils';
 import { Command } from 'commander';
 import path from 'path';
 import { Package } from '@vbs/magic-cli-models';
@@ -78,18 +78,6 @@ const pkg = {
 	dependencies: dependencies
 };
 
-const DEFAULT_HOME_PATH = ".magic-cli";
-const MAGIC_HOME_ENV = ".magic-cli.env";
-const DEFAULT_PACKAGE_VERSION = "latest";
-const DEFAULT_STORE_PATH = "dependencies";
-const DEFAULT_STORE_SUFIX = "node_modules";
-const LOWEST_NODE_VERSION = "12.0.0";
-var PACKAGE_SETTINGS = /* @__PURE__ */ ((PACKAGE_SETTINGS2) => {
-  PACKAGE_SETTINGS2["init"] = "@vbs/magic-cli-init";
-  PACKAGE_SETTINGS2["add"] = "@vbs/magic-cli-add";
-  return PACKAGE_SETTINGS2;
-})(PACKAGE_SETTINGS || {});
-
 const exec = async (...args) => {
   let TP_PATH = process.env.TARGET_PATH;
   const HOME_PATH = process.env.MAGIC_CLI_HOME_PATH;
@@ -99,7 +87,7 @@ const exec = async (...args) => {
   const PACKAGE_NAME = PACKAGE_SETTINGS[curCommand];
   const PACKAGE_VERSION = DEFAULT_PACKAGE_VERSION;
   let pkg;
-  const { debug, error, info } = useLogger();
+  const { debug, error } = useLogger();
   if (TP_PATH) {
     pkg = new Package({
       TP_PATH,
@@ -156,7 +144,6 @@ const exec = async (...args) => {
       process.exit(1);
     });
     child.on("exit", (e) => {
-      info("NODE \u8FDB\u7A0B\u542F\u52A8\u6210\u529F");
       debug(`${curCommand} \u547D\u4EE4\u6267\u884C\u6210\u529F`);
       process.exit(e);
     });
@@ -171,7 +158,6 @@ const InitCommander = () => {
   program.name(Object.keys(pkg.bin)[0]).usage("<command> [options]").version(pkg.version).option("-d, --debug", "\u662F\u5426\u5F00\u542F Debug \u6A21\u5F0F", false).option("-tp, --targetPath <targetPath>", "\u6307\u5B9A\u76EE\u6807\u5B89\u88C5\u76EE\u5F55", "");
   program.command("init [projectName]").option("-f, --force", "\u662F\u5426\u5F3A\u5236\u521D\u59CB\u5316\u9879\u76EE", false).action(
     (projectName, { force }, cmd) => {
-      info(projectName);
       exec(projectName, force, cmd);
     }
   );
@@ -193,7 +179,6 @@ const InitCommander = () => {
   });
   program.on("option:targetPath", () => {
     process.env.TARGET_PATH = program.opts().targetPath;
-    echo(" TARGET_PATH ", process.env.TARGET_PATH);
   });
   program.on("command:*", (cmd) => {
     const avaliableCommands = program.commands.map((item) => item.name());
@@ -283,4 +268,4 @@ const core = async () => {
 };
 core();
 
-export { DEFAULT_HOME_PATH, DEFAULT_PACKAGE_VERSION, DEFAULT_STORE_PATH, DEFAULT_STORE_SUFIX, InitCommander, LOWEST_NODE_VERSION, MAGIC_HOME_ENV, PACKAGE_SETTINGS, checkEnv, checkNodeVersion, checkPackageUpdate, checkUserHome, exec, initDefaultConfig, prepare };
+export { InitCommander, checkEnv, checkNodeVersion, checkPackageUpdate, checkUserHome, exec, initDefaultConfig, prepare };

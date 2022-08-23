@@ -1,13 +1,14 @@
 import path from 'path'
 import type { Command } from 'commander'
 import { Package } from '@vbs/magic-cli-models'
-import { spawn, useLogger } from '@vbs/magic-cli-utils'
 import {
   DEFAULT_PACKAGE_VERSION,
   DEFAULT_STORE_PATH,
   DEFAULT_STORE_SUFIX,
   PACKAGE_SETTINGS,
-} from './enum'
+  spawn,
+  useLogger,
+} from '@vbs/magic-cli-utils'
 
 export const exec = async (...args: any[]) => {
   let TP_PATH = process.env.TARGET_PATH
@@ -19,7 +20,7 @@ export const exec = async (...args: any[]) => {
   const PACKAGE_NAME = PACKAGE_SETTINGS[curCommand]
   const PACKAGE_VERSION = DEFAULT_PACKAGE_VERSION
   let pkg: Package
-  const { debug, error, info } = useLogger()
+  const { debug, error } = useLogger()
 
   if (TP_PATH) {
     // 直接赋值
@@ -92,7 +93,6 @@ export const exec = async (...args: any[]) => {
     })
 
     child.on('exit', (e: number) => {
-      info('NODE 进程启动成功')
       debug(`${curCommand} 命令执行成功`)
       process.exit(e)
     })

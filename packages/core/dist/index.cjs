@@ -91,28 +91,16 @@ const pkg = {
 	dependencies: dependencies
 };
 
-const DEFAULT_HOME_PATH = ".magic-cli";
-const MAGIC_HOME_ENV = ".magic-cli.env";
-const DEFAULT_PACKAGE_VERSION = "latest";
-const DEFAULT_STORE_PATH = "dependencies";
-const DEFAULT_STORE_SUFIX = "node_modules";
-const LOWEST_NODE_VERSION = "12.0.0";
-var PACKAGE_SETTINGS = /* @__PURE__ */ ((PACKAGE_SETTINGS2) => {
-  PACKAGE_SETTINGS2["init"] = "@vbs/magic-cli-init";
-  PACKAGE_SETTINGS2["add"] = "@vbs/magic-cli-add";
-  return PACKAGE_SETTINGS2;
-})(PACKAGE_SETTINGS || {});
-
 const exec = async (...args) => {
   let TP_PATH = process.env.TARGET_PATH;
   const HOME_PATH = process.env.MAGIC_CLI_HOME_PATH;
   let STORE_PATH = "";
   const cmd = args[args.length - 1];
   const curCommand = cmd.name();
-  const PACKAGE_NAME = PACKAGE_SETTINGS[curCommand];
-  const PACKAGE_VERSION = DEFAULT_PACKAGE_VERSION;
+  const PACKAGE_NAME = magicCliUtils.PACKAGE_SETTINGS[curCommand];
+  const PACKAGE_VERSION = magicCliUtils.DEFAULT_PACKAGE_VERSION;
   let pkg;
-  const { debug, error, info } = magicCliUtils.useLogger();
+  const { debug, error } = magicCliUtils.useLogger();
   if (TP_PATH) {
     pkg = new magicCliModels.Package({
       TP_PATH,
@@ -121,8 +109,8 @@ const exec = async (...args) => {
       PACKAGE_VERSION
     });
   } else {
-    TP_PATH = path__default.resolve(HOME_PATH, DEFAULT_STORE_PATH);
-    STORE_PATH = path__default.resolve(TP_PATH, DEFAULT_STORE_SUFIX);
+    TP_PATH = path__default.resolve(HOME_PATH, magicCliUtils.DEFAULT_STORE_PATH);
+    STORE_PATH = path__default.resolve(TP_PATH, magicCliUtils.DEFAULT_STORE_SUFIX);
     pkg = new magicCliModels.Package({
       TP_PATH,
       STORE_PATH,
@@ -169,7 +157,6 @@ const exec = async (...args) => {
       process.exit(1);
     });
     child.on("exit", (e) => {
-      info("NODE \u8FDB\u7A0B\u542F\u52A8\u6210\u529F");
       debug(`${curCommand} \u547D\u4EE4\u6267\u884C\u6210\u529F`);
       process.exit(e);
     });
@@ -184,7 +171,6 @@ const InitCommander = () => {
   program.name(Object.keys(pkg.bin)[0]).usage("<command> [options]").version(pkg.version).option("-d, --debug", "\u662F\u5426\u5F00\u542F Debug \u6A21\u5F0F", false).option("-tp, --targetPath <targetPath>", "\u6307\u5B9A\u76EE\u6807\u5B89\u88C5\u76EE\u5F55", "");
   program.command("init [projectName]").option("-f, --force", "\u662F\u5426\u5F3A\u5236\u521D\u59CB\u5316\u9879\u76EE", false).action(
     (projectName, { force }, cmd) => {
-      info(projectName);
       exec(projectName, force, cmd);
     }
   );
@@ -206,7 +192,6 @@ const InitCommander = () => {
   });
   program.on("option:targetPath", () => {
     process.env.TARGET_PATH = program.opts().targetPath;
-    echo(" TARGET_PATH ", process.env.TARGET_PATH);
   });
   program.on("command:*", (cmd) => {
     const avaliableCommands = program.commands.map((item) => item.name());
@@ -234,10 +219,10 @@ function checkUserHome(homePath2) {
     throw new Error(error("\u5F53\u524D\u767B\u5F55\u7528\u6237\u4E3B\u76EE\u5F55\u4E0D\u5B58\u5728", { needConsole: false }));
 }
 function initDefaultConfig() {
-  process.env.MAGIC_CLI_HOME_PATH = process.env.MAGIC_HOME_PATH ? path__default.join(homePath, process.env.MAGIC_HOME_PATH) : path__default.join(homePath, DEFAULT_HOME_PATH);
+  process.env.MAGIC_CLI_HOME_PATH = process.env.MAGIC_HOME_PATH ? path__default.join(homePath, process.env.MAGIC_HOME_PATH) : path__default.join(homePath, magicCliUtils.DEFAULT_HOME_PATH);
 }
 function checkEnv() {
-  const homeEnvPath = path__default.resolve(homePath, MAGIC_HOME_ENV);
+  const homeEnvPath = path__default.resolve(homePath, magicCliUtils.MAGIC_HOME_ENV);
   if (fse__default.existsSync(homeEnvPath)) {
     dotenv__default.config({
       path: homeEnvPath
@@ -260,8 +245,8 @@ async function checkPackageUpdate() {
 }
 function checkNodeVersion() {
   const currentVersion = process.version;
-  if (!semver__default.gte(currentVersion, LOWEST_NODE_VERSION))
-    throw new Error(error(`\u5F53\u524D Node \u7248\u672C\u8FC7\u4F4E\uFF0C\u63A8\u8350\u5B89\u88C5 v${LOWEST_NODE_VERSION} \u4EE5\u4E0A Node \u7248\u672C`, { needConsole: false }));
+  if (!semver__default.gte(currentVersion, magicCliUtils.LOWEST_NODE_VERSION))
+    throw new Error(error(`\u5F53\u524D Node \u7248\u672C\u8FC7\u4F4E\uFF0C\u63A8\u8350\u5B89\u88C5 v${magicCliUtils.LOWEST_NODE_VERSION} \u4EE5\u4E0A Node \u7248\u672C`, { needConsole: false }));
 }
 async function prepare() {
   const { logWithSpinner, successSpinner, failSpinner } = magicCliUtils.useSpinner();
@@ -296,14 +281,7 @@ const core = async () => {
 };
 core();
 
-exports.DEFAULT_HOME_PATH = DEFAULT_HOME_PATH;
-exports.DEFAULT_PACKAGE_VERSION = DEFAULT_PACKAGE_VERSION;
-exports.DEFAULT_STORE_PATH = DEFAULT_STORE_PATH;
-exports.DEFAULT_STORE_SUFIX = DEFAULT_STORE_SUFIX;
 exports.InitCommander = InitCommander;
-exports.LOWEST_NODE_VERSION = LOWEST_NODE_VERSION;
-exports.MAGIC_HOME_ENV = MAGIC_HOME_ENV;
-exports.PACKAGE_SETTINGS = PACKAGE_SETTINGS;
 exports.checkEnv = checkEnv;
 exports.checkNodeVersion = checkNodeVersion;
 exports.checkPackageUpdate = checkPackageUpdate;

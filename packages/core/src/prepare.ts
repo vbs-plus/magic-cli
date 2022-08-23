@@ -1,12 +1,18 @@
 import os from 'os'
 import path from 'path'
 import semver from 'semver'
-import { getNpmLatestVersion, printMagicLogo, useLogger, useSpinner } from '@vbs/magic-cli-utils'
+import {
+  DEFAULT_HOME_PATH,
+  LOWEST_NODE_VERSION,
+  MAGIC_HOME_ENV, getNpmLatestVersion,
+  printMagicLogo,
+  useLogger,
+  useSpinner,
+} from '@vbs/magic-cli-utils'
 import rootCheck from 'root-check'
 import fse from 'fs-extra'
 import dotenv from 'dotenv'
 import pkg from '../package.json'
-import { DEFAULT_HOME_PATH, LOWEST_NODE_VERSION, MAGIC_HOME_ENV } from './enum'
 
 const { error, warn, debug } = useLogger()
 const homePath = os.homedir()
