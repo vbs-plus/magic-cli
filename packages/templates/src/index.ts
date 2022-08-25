@@ -69,7 +69,7 @@ export const updateSingleTemplateByNpmName = async (npmName: string, params: Par
   return request.updateOne({
     ...commnBodyParams,
     filter: { npmName },
-    update: params,
+    update: { $set: params },
   })
 }
 
@@ -78,13 +78,13 @@ export const updateSingleTemplateByNpmName = async (npmName: string, params: Par
  * @param npmNames 发布的 NpmName数组
  * @param params 需更新的参数
  */
-export const updateMultiTemplate = async (npmNames: string[], params: Partial<TemplateListItem>) => {
-  return request.updateMany({
-    ...commnBodyParams,
-    filter: { npmName: { $in: npmNames } },
-    update: params,
-  })
-}
+// export const updateMultiTemplate = async (npmNames: string[], params: Partial<TemplateListItem>) => {
+//   return request.updateMany({
+//     ...commnBodyParams,
+//     filter: { npmName: { $in: npmNames } },
+//     update: { $set: {[{}]]} },
+//   })
+// }
 
 /**
  * 根据类型返回模板列表

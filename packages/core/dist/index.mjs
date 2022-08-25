@@ -9,7 +9,7 @@ import fse from 'fs-extra';
 import dotenv from 'dotenv';
 
 const name = "@vbs/magic-cli-core";
-const version = "0.0.1";
+const version = "0.0.3";
 const description = "";
 const keywords = [
 ];
