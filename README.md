@@ -1,8 +1,17 @@
 ## Magic
 
-magic-cli
+magic-cli 
 
 ![image](https://cdn.staticaly.com/gh/251205668/AtEcut@master/20220823/image.74uvatbms5g0.webp)
+
+## 起步
+
+```shell
+npm install @vbs/magic-cli-core -g
+
+magic -h
+magic init
+```
 
 ## 前置
 
