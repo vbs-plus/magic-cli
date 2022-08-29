@@ -14,7 +14,7 @@
     "lint": " eslint packages --fix",
     "test": "vitest",
     "prepare": "husky install",
-    "release": "bumpp package.json packages/**/package.json"
+    "release": "bumpp package.json packages/**/package.json --commit --tag --release --push "
   },
   "dependencies": {
     "@antfu/eslint-config": "^0.22.0",
