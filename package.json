@@ -13,12 +13,14 @@
     "docs:build": "pnpm run -C docs build",
     "lint": " eslint packages --fix",
     "test": "vitest",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "release": "bumpp package.json packages/**/package.json"
   },
   "dependencies": {
     "@antfu/eslint-config": "^0.22.0",
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
+    "bumpp": "^8.2.1",
     "eslint": "^8.23.0",
     "husky": "^7.0.4",
     "lint-staged": "^10.5.4",
