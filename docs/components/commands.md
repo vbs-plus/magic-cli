@@ -1,2 +1,2 @@
 # Commands
-Test Deply
+Test Deploy
