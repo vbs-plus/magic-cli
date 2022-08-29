@@ -22,7 +22,7 @@ const fse__default = /*#__PURE__*/_interopDefaultLegacy(fse);
 const dotenv__default = /*#__PURE__*/_interopDefaultLegacy(dotenv);
 
 const name = "@vbs/magic-cli-core";
-const version = "0.0.3";
+const version = "1.0.3-beta.0";
 const description = "";
 const keywords = [
 ];

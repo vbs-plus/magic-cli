@@ -17,7 +17,8 @@ magic init
 npm install -g @microsoft/rush
 
 # 安装依赖
-npm run bootstrap
+pnpm install
+rush update
 
 # 链接bin
 rush build 
