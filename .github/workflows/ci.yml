@@ -1,7 +1,7 @@
 name: Trigger redeploy on Netlify
 on:
   push:
-    branches: [main]
+    branches: [master]
 jobs:
   build:
     name: Make POST request
