@@ -1,8 +1,6 @@
 ## Magic
 
-magic-cli 
-
-![image](https://cdn.staticaly.com/gh/251205668/AtEcut@master/20220823/image.74uvatbms5g0.webp)
+A Monorepo Enterprise level CLI tools by Rush,Get more information from [documention](https://magic-cli.netlify.app/)
 
 ## 起步
 
