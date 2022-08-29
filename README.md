@@ -113,3 +113,11 @@ process.env.TARGET_PATH
 process.env.DEBUG
 ```
 
+
+## TOOD
+
+1. 文档集成
+2. 子项目文档
+3. 发布规范化
+4. 单元测试
+5. 命令扩展

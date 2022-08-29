@@ -74,19 +74,6 @@ export const updateSingleTemplateByNpmName = async (npmName: string, params: Par
 }
 
 /**
- * 批量更新
- * @param npmNames 发布的 NpmName数组
- * @param params 需更新的参数
- */
-// export const updateMultiTemplate = async (npmNames: string[], params: Partial<TemplateListItem>) => {
-//   return request.updateMany({
-//     ...commnBodyParams,
-//     filter: { npmName: { $in: npmNames } },
-//     update: { $set: {[{}]]} },
-//   })
-// }
-
-/**
  * 根据类型返回模板列表
  * @param type 需要返回的模板类型
  */

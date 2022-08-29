@@ -2,6 +2,18 @@
   "name": "@vbs/magic-cli-init",
   "entries": [
     {
+      "version": "0.0.4",
+      "tag": "@vbs/magic-cli-init_v0.0.4",
+      "date": "Thu, 25 Aug 2022 02:13:21 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@vbs/magic-cli-templates\" to `0.0.3`"
+          }
+        ]
+      }
+    },
+    {
       "version": "0.0.3",
       "tag": "@vbs/magic-cli-init_v0.0.3",
       "date": "Tue, 23 Aug 2022 09:02:59 GMT",

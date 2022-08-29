@@ -1,2 +1,4 @@
 common/*
 templates/*
+docs/*
+netlify.toml

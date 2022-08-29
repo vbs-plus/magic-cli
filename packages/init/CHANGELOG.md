@@ -1,6 +1,11 @@
 # Change Log - @vbs/magic-cli-init
 
-This log was last generated on Tue, 23 Aug 2022 09:02:59 GMT and should not be manually modified.
+This log was last generated on Thu, 25 Aug 2022 02:13:21 GMT and should not be manually modified.
+
+## 0.0.4
+Thu, 25 Aug 2022 02:13:21 GMT
+
+_Version update only_
 
 ## 0.0.3
 Tue, 23 Aug 2022 09:02:59 GMT

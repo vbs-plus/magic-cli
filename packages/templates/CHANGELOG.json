@@ -2,6 +2,18 @@
   "name": "@vbs/magic-cli-templates",
   "entries": [
     {
+      "version": "0.0.3",
+      "tag": "@vbs/magic-cli-templates_v0.0.3",
+      "date": "Thu, 25 Aug 2022 02:13:21 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "update update api"
+          }
+        ]
+      }
+    },
+    {
       "version": "0.0.2",
       "tag": "@vbs/magic-cli-templates_v0.0.2",
       "date": "Tue, 23 Aug 2022 09:02:59 GMT",

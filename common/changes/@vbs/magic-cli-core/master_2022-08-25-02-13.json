@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@vbs/magic-cli-core",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@vbs/magic-cli-core"
+}
