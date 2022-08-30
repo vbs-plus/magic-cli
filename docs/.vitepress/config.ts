@@ -3,35 +3,39 @@ import { version } from '../../package.json'
 
 const Components = [
 ]
+const Guides = [
+  { text: "Getting Started", link: "/guide/index.md" },
+  { text: "Basic", link: "/guide/useage.md" },
+];
 
 const nav = [
-  { text: 'Guide', link: '/guide/' },
-  { text: 'Commands', link: '/components/commands' },
+  { text: "Guide", link: "/guide/" },
+  { text: "contribute", link: "/contribute/commands" },
   {
     text: `v${version}`,
     items: [
       {
-        text: 'Release Notes',
-        link: 'https://github.com/vbs-plus/magic-cli/releases',
+        text: "Release Notes",
+        link: "https://github.com/vbs-plus/magic-cli/releases",
       },
     ],
   },
-]
+];
 
 const sidebar = {
-  '/guide': [
+  "/guide": [
     {
-      text: 'Components',
+      text: "Guide",
+      items: Guides,
+    },
+  ],
+  "/contribute": [
+    {
+      text: "Components",
       items: Components,
     },
   ],
-  '/components': [
-    {
-      text: 'Components',
-      items: Components,
-    },
-  ],
-}
+};
 
 export default defineConfig({
   title: 'Magic CLI',
