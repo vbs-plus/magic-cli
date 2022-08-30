@@ -2,6 +2,18 @@
   "name": "@vbs/magic-cli-utils",
   "entries": [
     {
+      "version": "1.0.3",
+      "tag": "@vbs/magic-cli-utils_v1.0.3",
+      "date": "Tue, 30 Aug 2022 10:40:26 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "update"
+          }
+        ]
+      }
+    },
+    {
       "version": "0.0.3",
       "tag": "@vbs/magic-cli-utils_v0.0.3",
       "date": "Tue, 23 Aug 2022 09:02:59 GMT",
