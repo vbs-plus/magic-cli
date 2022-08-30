@@ -24,7 +24,7 @@ const dotenv__default = /*#__PURE__*/_interopDefaultLegacy(dotenv);
 const ora__default = /*#__PURE__*/_interopDefaultLegacy(ora);
 
 const name = "@vbs/magic-cli-core";
-const version = "1.0.3-beta.2";
+const version = "1.0.4";
 const description = "";
 const keywords = [
 ];
