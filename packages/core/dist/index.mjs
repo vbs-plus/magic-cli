@@ -10,7 +10,7 @@ import dotenv from 'dotenv';
 import ora from 'ora';
 
 const name = "@vbs/magic-cli-core";
-const version = "1.0.4";
+const version = "1.0.6";
 const description = "";
 const keywords = [
 ];

@@ -103,6 +103,7 @@ git commit -m "chore: publish"
 rush change
 # 正式发布npm
 rush publish --apply
+rush build -o @vbs/magic-cli-core
 rush publish -p --include-all -n <替换成你的 npm TOKEN>
 ```
 

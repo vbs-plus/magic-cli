@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@vbs/magic-cli-templates",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@vbs/magic-cli-templates"
+}

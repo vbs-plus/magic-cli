@@ -2,6 +2,30 @@
   "name": "@vbs/magic-cli-core",
   "entries": [
     {
+      "version": "1.0.6",
+      "tag": "@vbs/magic-cli-core_v1.0.6",
+      "date": "Tue, 30 Aug 2022 12:33:57 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "update"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.0.5",
+      "tag": "@vbs/magic-cli-core_v1.0.5",
+      "date": "Tue, 30 Aug 2022 12:16:45 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "update"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.0.3",
       "tag": "@vbs/magic-cli-core_v1.0.3",
       "date": "Tue, 30 Aug 2022 10:40:26 GMT",
