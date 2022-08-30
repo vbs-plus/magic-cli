@@ -1,15 +1,15 @@
 import path from 'path'
 import fse from 'fs-extra'
-import { toLine, useLogger, useSpinner } from '@vbs/magic-cli-utils'
+import { toLine, useLogger } from '@vbs/magic-cli-utils'
 import type { TemplateListItem } from '@vbs/magic-cli-templates'
 import { getTemplateListByType } from '@vbs/magic-cli-templates'
 import semver from 'semver'
 import inquirer from 'inquirer'
+import ora from 'ora'
 import type { ProjectInfo } from './type'
 import { installTemplate } from './template'
 import type { InitArgs } from '.'
 
-const { logWithSpinner, successSpinner, failSpinner } = useSpinner()
 const { debug, info, chalk } = useLogger()
 const RANDOM_COLORS = [
   '#F94892',
@@ -204,20 +204,23 @@ export const getProjectInfo = async (
 }
 
 export const checkTemplateExistAndReturn = async () => {
+  const spinner = ora({
+    text: '🔍  正在检索系统模板，请稍后...',
+  })
   console.log()
-  logWithSpinner('🗃  正在检索系统模板是否存在，请稍后...')
+  spinner.start()
   console.log()
 
   try {
     const { documents } = await getTemplateListByType('all')
-    if (documents.length) { successSpinner('系统模板检索正常！'); return documents }
+    if (documents.length) { spinner.succeed('系统模板检索正常！'); return documents }
     else {
-      failSpinner('系统模板异常')
+      spinner.fail('系统模板异常')
       throw new Error('项目模板不存在')
     }
   }
   catch (error) {
-    failSpinner('系统模板异常')
+    spinner.fail('系统模板异常')
     process.exit(-1)
   }
 }

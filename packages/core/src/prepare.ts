@@ -7,11 +7,11 @@ import {
   MAGIC_HOME_ENV, getNpmLatestVersion,
   printMagicLogo,
   useLogger,
-  useSpinner,
 } from '@vbs/magic-cli-utils'
 import rootCheck from 'root-check'
 import fse from 'fs-extra'
 import dotenv from 'dotenv'
+import ora from 'ora'
 import pkg from '../package.json'
 
 const { error, warn, debug } = useLogger()
@@ -61,11 +61,13 @@ export function checkNodeVersion() {
 }
 
 export async function prepare() {
-  const { logWithSpinner, successSpinner, failSpinner } = useSpinner()
-
   printMagicLogo(pkg.version)
-  logWithSpinner('👉 检查构建环境...')
-  console.log()
+  const spinner = ora({
+    text: '👉 检查构建环境...',
+    spinner: 'dots',
+  })
+
+  spinner.start()
 
   try {
     // TODO： 构建环境异常测试
@@ -74,10 +76,10 @@ export async function prepare() {
     checkEnv()
     await checkPackageUpdate()
     checkNodeVersion()
-    successSpinner('构建环境正常！')
+    spinner.succeed('构建环境正常！')
   }
   catch (error) {
-    failSpinner('检查构建环境异常')
+    spinner.fail('检查构建环境异常')
     console.log(error)
     process.exit(-1)
   }

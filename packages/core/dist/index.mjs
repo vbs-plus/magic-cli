@@ -1,4 +1,4 @@
-import { PACKAGE_SETTINGS, useLogger, DEFAULT_STORE_PATH, DEFAULT_STORE_SUFIX, spawn, DEFAULT_PACKAGE_VERSION, DEFAULT_HOME_PATH, MAGIC_HOME_ENV, getNpmLatestVersion, LOWEST_NODE_VERSION, useSpinner, printMagicLogo } from '@vbs/magic-cli-utils';
+import { PACKAGE_SETTINGS, useLogger, DEFAULT_STORE_PATH, DEFAULT_STORE_SUFIX, spawn, DEFAULT_PACKAGE_VERSION, DEFAULT_HOME_PATH, MAGIC_HOME_ENV, getNpmLatestVersion, LOWEST_NODE_VERSION, printMagicLogo } from '@vbs/magic-cli-utils';
 import { Command } from 'commander';
 import path from 'path';
 import { Package } from '@vbs/magic-cli-models';
@@ -7,9 +7,10 @@ import semver from 'semver';
 import rootCheck from 'root-check';
 import fse from 'fs-extra';
 import dotenv from 'dotenv';
+import ora from 'ora';
 
 const name = "@vbs/magic-cli-core";
-const version = "1.0.3-beta";
+const version = "1.0.3-beta.1";
 const description = "";
 const keywords = [
 ];
@@ -58,7 +59,8 @@ const dependencies = {
 	semver: "^7.3.7",
 	tslib: "^2.4.0",
 	typescript: "^4.5.2",
-	unbuild: "^0.8.8"
+	unbuild: "^0.8.8",
+	ora: "^6.1.2"
 };
 const pkg = {
 	name: name,
@@ -236,19 +238,21 @@ function checkNodeVersion() {
     throw new Error(error(`\u5F53\u524D Node \u7248\u672C\u8FC7\u4F4E\uFF0C\u63A8\u8350\u5B89\u88C5 v${LOWEST_NODE_VERSION} \u4EE5\u4E0A Node \u7248\u672C`, { needConsole: false }));
 }
 async function prepare() {
-  const { logWithSpinner, successSpinner, failSpinner } = useSpinner();
   printMagicLogo(pkg.version);
-  logWithSpinner("\u{1F449} \u68C0\u67E5\u6784\u5EFA\u73AF\u5883...");
-  console.log();
+  const spinner = ora({
+    text: "\u{1F449} \u68C0\u67E5\u6784\u5EFA\u73AF\u5883...",
+    spinner: "dots"
+  });
+  spinner.start();
   try {
     rootCheck();
     checkUserHome(homePath);
     checkEnv();
     await checkPackageUpdate();
     checkNodeVersion();
-    successSpinner("\u6784\u5EFA\u73AF\u5883\u6B63\u5E38\uFF01");
+    spinner.succeed("\u6784\u5EFA\u73AF\u5883\u6B63\u5E38\uFF01");
   } catch (error2) {
-    failSpinner("\u68C0\u67E5\u6784\u5EFA\u73AF\u5883\u5F02\u5E38");
+    spinner.fail("\u68C0\u67E5\u6784\u5EFA\u73AF\u5883\u5F02\u5E38");
     console.log(error2);
     process.exit(-1);
   }

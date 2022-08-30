@@ -1,15 +1,24 @@
 import path from 'path'
 import os from 'os'
 import fse from 'fs-extra'
-import { DEFAULT_HOME_PATH, DEFAULT_STORE_SUFIX, DEFAULT_TEMPLATE_TARGET_PATH, useLogger, useSpinner } from '@vbs/magic-cli-utils'
+import { DEFAULT_HOME_PATH, DEFAULT_STORE_SUFIX, DEFAULT_TEMPLATE_TARGET_PATH, useLogger } from '@vbs/magic-cli-utils'
 import { Package } from '@vbs/magic-cli-models'
 import type { TemplateListItem } from '@vbs/magic-cli-templates'
+import glob from 'glob'
+import ejs from 'ejs'
+import { execaCommand } from 'execa'
+import ora from 'ora'
 import type { ProjectInfo } from './type'
 
 const homeDir = os.homedir()
 let templatePackage: Package
-const { debug } = useLogger()
-const { spinner } = useSpinner()
+const { debug, error, info } = useLogger()
+const installSpinner = ora('🚀 正在安装模板...')
+const updateSpinner = ora('🚀 正在更新模板...')
+const renderSpinner = ora('📄 开始渲染模板代码...')
+const commandSpinner = ora({
+  text: '🔫 正在执行依赖安装命令... \r',
+})
 
 export async function installTemplate(
   templates: TemplateListItem[],
@@ -36,8 +45,8 @@ export async function installTemplate(
 
   // 更新机制
   if (!(await templatePackage.exists())) {
-    const installSpinner = spinner.start('🚀 正在安装模板...')
     try {
+      installSpinner.start()
       await templatePackage.init()
     }
     catch (e: any) {
@@ -50,8 +59,8 @@ export async function installTemplate(
     }
   }
   else {
-    const updateSpinner = spinner.start('🚀 正在更新模板...')
     try {
+      updateSpinner.start()
       await templatePackage.update()
     }
     catch (e: any) {
@@ -67,23 +76,80 @@ export async function installTemplate(
   await renderTemplate(template, projectInfo)
 }
 
-export function renderTemplate(template: TemplateListItem, projectInfo: Partial<ProjectInfo>) {
-  const { version } = template
+export async function renderTemplate(template: TemplateListItem, projectInfo: Partial<ProjectInfo>) {
+  const ignoreBase = ['**/node_modules/**', '**/pnpm-lock.yaml', '**/yarn.lock', '**/package-lock.json']
+  const { version, installCommand = 'npm install', startCommand = 'npm run dev', ignore: ignores = [] } = template
   const { projectName } = projectInfo
-  const renderSpinner = spinner.start('📄 开始渲染模板代码...')
   const targetPath = path.resolve(process.cwd(), projectName!)
   const templatePath = path.resolve(templatePackage.getCacheFilePath(version), DEFAULT_TEMPLATE_TARGET_PATH)
-
+  const ignore = [...ignoreBase, ...ignores]
   try {
+    renderSpinner.start()
     fse.ensureDirSync(targetPath)
     fse.ensureDirSync(templatePath)
     fse.copySync(templatePath, targetPath)
+    ejsRenderTemplate({ ignore, targetPath }, projectInfo)
   }
   catch (e: any) {
     renderSpinner.fail('渲染模板代码失败！')
     throw new Error(e.message)
   }
   finally {
-    renderSpinner.succeed('🎉 模板渲染成功！')
+    renderSpinner.succeed('🎉 模板渲染成功!')
   }
+
+  try {
+    commandSpinner.start()
+    fse.writeFileSync(path.resolve(targetPath, '.npmrc'), 'strict-peer-dependencies = false')
+    await execaCommand(installCommand, { stdio: 'inherit', encoding: 'utf-8', cwd: targetPath })
+  }
+  catch (error: any) {
+    console.log()
+    commandSpinner.fail('模板安装依赖失败！')
+    process.exit(-1)
+  }
+  finally {
+    commandSpinner.succeed('依赖安装完成')
+  }
+
+  try {
+    console.log()
+    info('✨✨ 大功告成！')
+    await execaCommand(startCommand, { stdio: 'inherit', encoding: 'utf-8', cwd: targetPath })
+  }
+  catch (error: any) {
+    debug(`ERROR ${JSON.stringify(error)}`)
+    error('应用启动失败！')
+    process.exit(-1)
+  }
+}
+
+export function ejsRenderTemplate(options: { ignore: string[]; targetPath: string }, projectInfo: Partial<ProjectInfo>) {
+  const { ignore, targetPath } = options
+  return new Promise((resolve, reject) => {
+    glob('**', {
+      cwd: targetPath,
+      ignore: ignore || '',
+      nodir: true,
+    }, (err, matches) => {
+      if (err)
+        reject(err)
+      Promise.all(matches.map((file) => {
+        const filePath = path.resolve(targetPath, file)
+        // eslint-disable-next-line promise/param-names
+        return new Promise((resolvet, rejectt) => {
+          ejs.renderFile(filePath, projectInfo, {}, (err, result) => {
+            if (err) {
+              error(`ejsRender ${err.toString()}`)
+              rejectt(err)
+            }
+            else {
+              fse.writeFileSync(filePath, result)
+              resolvet(result)
+            }
+          })
+        })
+      })).then(() => resolve(null)).catch((err: any) => reject(err))
+    })
+  })
 }

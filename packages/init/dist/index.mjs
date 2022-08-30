@@ -1,16 +1,25 @@
-import { useLogger, useSpinner, DEFAULT_HOME_PATH, DEFAULT_TEMPLATE_TARGET_PATH, DEFAULT_STORE_SUFIX, toLine } from '@vbs/magic-cli-utils';
+import { useLogger, DEFAULT_HOME_PATH, DEFAULT_TEMPLATE_TARGET_PATH, DEFAULT_STORE_SUFIX, toLine } from '@vbs/magic-cli-utils';
 import path from 'path';
 import fse from 'fs-extra';
 import { getTemplateListByType } from '@vbs/magic-cli-templates';
 import semver from 'semver';
 import inquirer from 'inquirer';
+import ora from 'ora';
 import os from 'os';
 import { Package } from '@vbs/magic-cli-models';
+import glob from 'glob';
+import ejs from 'ejs';
+import { execaCommand } from 'execa';
 
 const homeDir = os.homedir();
 let templatePackage;
-const { debug: debug$2 } = useLogger();
-const { spinner } = useSpinner();
+const { debug: debug$2, error: error$1, info: info$1 } = useLogger();
+const installSpinner = ora("\u{1F680} \u6B63\u5728\u5B89\u88C5\u6A21\u677F...");
+const updateSpinner = ora("\u{1F680} \u6B63\u5728\u66F4\u65B0\u6A21\u677F...");
+const renderSpinner = ora("\u{1F4C4} \u5F00\u59CB\u6E32\u67D3\u6A21\u677F\u4EE3\u7801...");
+const commandSpinner = ora({
+  text: "\u{1F52B} \u6B63\u5728\u6267\u884C\u4F9D\u8D56\u5B89\u88C5\u547D\u4EE4... \r"
+});
 async function installTemplate(templates, projectInfo) {
   const { npmName } = projectInfo;
   const template = templates.find((item) => item.npmName === npmName);
@@ -29,8 +38,8 @@ async function installTemplate(templates, projectInfo) {
     PACKAGE_VERSION: template?.version || "1.0.0"
   });
   if (!await templatePackage.exists()) {
-    const installSpinner = spinner.start("\u{1F680} \u6B63\u5728\u5B89\u88C5\u6A21\u677F...");
     try {
+      installSpinner.start();
       await templatePackage.init();
     } catch (e) {
       installSpinner.fail("\u5B89\u88C5\u6A21\u677F\u5931\u8D25\uFF01");
@@ -40,8 +49,8 @@ async function installTemplate(templates, projectInfo) {
         installSpinner.succeed("\u{1F389} \u6A21\u677F\u5B89\u88C5\u6210\u529F");
     }
   } else {
-    const updateSpinner = spinner.start("\u{1F680} \u6B63\u5728\u66F4\u65B0\u6A21\u677F...");
     try {
+      updateSpinner.start();
       await templatePackage.update();
     } catch (e) {
       updateSpinner.fail("\u66F4\u65B0\u6A21\u677F\u5931\u8D25\uFF01");
@@ -53,25 +62,74 @@ async function installTemplate(templates, projectInfo) {
   }
   await renderTemplate(template, projectInfo);
 }
-function renderTemplate(template, projectInfo) {
-  const { version } = template;
+async function renderTemplate(template, projectInfo) {
+  const ignoreBase = ["**/node_modules/**", "**/pnpm-lock.yaml", "**/yarn.lock", "**/package-lock.json"];
+  const { version, installCommand = "npm install", startCommand = "npm run dev", ignore: ignores = [] } = template;
   const { projectName } = projectInfo;
-  const renderSpinner = spinner.start("\u{1F4C4} \u5F00\u59CB\u6E32\u67D3\u6A21\u677F\u4EE3\u7801...");
   const targetPath = path.resolve(process.cwd(), projectName);
   const templatePath = path.resolve(templatePackage.getCacheFilePath(version), DEFAULT_TEMPLATE_TARGET_PATH);
+  const ignore = [...ignoreBase, ...ignores];
   try {
+    renderSpinner.start();
     fse.ensureDirSync(targetPath);
     fse.ensureDirSync(templatePath);
     fse.copySync(templatePath, targetPath);
+    ejsRenderTemplate({ ignore, targetPath }, projectInfo);
   } catch (e) {
     renderSpinner.fail("\u6E32\u67D3\u6A21\u677F\u4EE3\u7801\u5931\u8D25\uFF01");
     throw new Error(e.message);
   } finally {
-    renderSpinner.succeed("\u{1F389} \u6A21\u677F\u6E32\u67D3\u6210\u529F\uFF01");
+    renderSpinner.succeed("\u{1F389} \u6A21\u677F\u6E32\u67D3\u6210\u529F!");
+  }
+  try {
+    commandSpinner.start();
+    fse.writeFileSync(path.resolve(targetPath, ".npmrc"), "strict-peer-dependencies = false");
+    await execaCommand(installCommand, { stdio: "inherit", encoding: "utf-8", cwd: targetPath });
+  } catch (error2) {
+    console.log();
+    commandSpinner.fail("\u6A21\u677F\u5B89\u88C5\u4F9D\u8D56\u5931\u8D25\uFF01");
+    process.exit(-1);
+  } finally {
+    commandSpinner.succeed("\u4F9D\u8D56\u5B89\u88C5\u5B8C\u6210");
+  }
+  try {
+    console.log();
+    info$1("\u2728\u2728 \u5927\u529F\u544A\u6210\uFF01");
+    await execaCommand(startCommand, { stdio: "inherit", encoding: "utf-8", cwd: targetPath });
+  } catch (error2) {
+    debug$2(`ERROR ${JSON.stringify(error2)}`);
+    error2("\u5E94\u7528\u542F\u52A8\u5931\u8D25\uFF01");
+    process.exit(-1);
   }
 }
+function ejsRenderTemplate(options, projectInfo) {
+  const { ignore, targetPath } = options;
+  return new Promise((resolve, reject) => {
+    glob("**", {
+      cwd: targetPath,
+      ignore: ignore || "",
+      nodir: true
+    }, (err, matches) => {
+      if (err)
+        reject(err);
+      Promise.all(matches.map((file) => {
+        const filePath = path.resolve(targetPath, file);
+        return new Promise((resolvet, rejectt) => {
+          ejs.renderFile(filePath, projectInfo, {}, (err2, result) => {
+            if (err2) {
+              error$1(`ejsRender ${err2.toString()}`);
+              rejectt(err2);
+            } else {
+              fse.writeFileSync(filePath, result);
+              resolvet(result);
+            }
+          });
+        });
+      })).then(() => resolve(null)).catch((err2) => reject(err2));
+    });
+  });
+}
 
-const { logWithSpinner, successSpinner, failSpinner } = useSpinner();
 const { debug: debug$1, info, chalk } = useLogger();
 const RANDOM_COLORS = [
   "#F94892",
@@ -231,20 +289,23 @@ const getProjectInfo = async (args, templates) => {
   return projectInfo;
 };
 const checkTemplateExistAndReturn = async () => {
+  const spinner = ora({
+    text: "\u{1F50D}  \u6B63\u5728\u68C0\u7D22\u7CFB\u7EDF\u6A21\u677F\uFF0C\u8BF7\u7A0D\u540E..."
+  });
   console.log();
-  logWithSpinner("\u{1F5C3}  \u6B63\u5728\u68C0\u7D22\u7CFB\u7EDF\u6A21\u677F\u662F\u5426\u5B58\u5728\uFF0C\u8BF7\u7A0D\u540E...");
+  spinner.start();
   console.log();
   try {
     const { documents } = await getTemplateListByType("all");
     if (documents.length) {
-      successSpinner("\u7CFB\u7EDF\u6A21\u677F\u68C0\u7D22\u6B63\u5E38\uFF01");
+      spinner.succeed("\u7CFB\u7EDF\u6A21\u677F\u68C0\u7D22\u6B63\u5E38\uFF01");
       return documents;
     } else {
-      failSpinner("\u7CFB\u7EDF\u6A21\u677F\u5F02\u5E38");
+      spinner.fail("\u7CFB\u7EDF\u6A21\u677F\u5F02\u5E38");
       throw new Error("\u9879\u76EE\u6A21\u677F\u4E0D\u5B58\u5728");
     }
   } catch (error) {
-    failSpinner("\u7CFB\u7EDF\u6A21\u677F\u5F02\u5E38");
+    spinner.fail("\u7CFB\u7EDF\u6A21\u677F\u5F02\u5E38");
     process.exit(-1);
   }
 };

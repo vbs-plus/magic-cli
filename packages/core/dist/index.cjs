@@ -11,6 +11,7 @@ const semver = require('semver');
 const rootCheck = require('root-check');
 const fse = require('fs-extra');
 const dotenv = require('dotenv');
+const ora = require('ora');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e["default"] : e; }
 
@@ -20,9 +21,10 @@ const semver__default = /*#__PURE__*/_interopDefaultLegacy(semver);
 const rootCheck__default = /*#__PURE__*/_interopDefaultLegacy(rootCheck);
 const fse__default = /*#__PURE__*/_interopDefaultLegacy(fse);
 const dotenv__default = /*#__PURE__*/_interopDefaultLegacy(dotenv);
+const ora__default = /*#__PURE__*/_interopDefaultLegacy(ora);
 
 const name = "@vbs/magic-cli-core";
-const version = "1.0.3-beta";
+const version = "1.0.3-beta.1";
 const description = "";
 const keywords = [
 ];
@@ -71,7 +73,8 @@ const dependencies = {
 	semver: "^7.3.7",
 	tslib: "^2.4.0",
 	typescript: "^4.5.2",
-	unbuild: "^0.8.8"
+	unbuild: "^0.8.8",
+	ora: "^6.1.2"
 };
 const pkg = {
 	name: name,
@@ -249,19 +252,21 @@ function checkNodeVersion() {
     throw new Error(error(`\u5F53\u524D Node \u7248\u672C\u8FC7\u4F4E\uFF0C\u63A8\u8350\u5B89\u88C5 v${magicCliUtils.LOWEST_NODE_VERSION} \u4EE5\u4E0A Node \u7248\u672C`, { needConsole: false }));
 }
 async function prepare() {
-  const { logWithSpinner, successSpinner, failSpinner } = magicCliUtils.useSpinner();
   magicCliUtils.printMagicLogo(pkg.version);
-  logWithSpinner("\u{1F449} \u68C0\u67E5\u6784\u5EFA\u73AF\u5883...");
-  console.log();
+  const spinner = ora__default({
+    text: "\u{1F449} \u68C0\u67E5\u6784\u5EFA\u73AF\u5883...",
+    spinner: "dots"
+  });
+  spinner.start();
   try {
     rootCheck__default();
     checkUserHome(homePath);
     checkEnv();
     await checkPackageUpdate();
     checkNodeVersion();
-    successSpinner("\u6784\u5EFA\u73AF\u5883\u6B63\u5E38\uFF01");
+    spinner.succeed("\u6784\u5EFA\u73AF\u5883\u6B63\u5E38\uFF01");
   } catch (error2) {
-    failSpinner("\u68C0\u67E5\u6784\u5EFA\u73AF\u5883\u5F02\u5E38");
+    spinner.fail("\u68C0\u67E5\u6784\u5EFA\u73AF\u5883\u5F02\u5E38");
     console.log(error2);
     process.exit(-1);
   }
