@@ -102,7 +102,8 @@ git add .
 git commit -m "chore: publish"
 rush change
 # 正式发布npm
-npm run bump && rush publish -p --include-all -n <替换成你的 npm TOKEN>
+rush publish --apply
+rush publish -p --include-all -n <替换成你的 npm TOKEN>
 ```
 
 ## 配置声明
