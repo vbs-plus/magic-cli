@@ -10,7 +10,7 @@ import dotenv from 'dotenv';
 import ora from 'ora';
 
 const name = "@vbs/magic-cli-core";
-const version = "1.0.3-beta.1";
+const version = "1.0.3-beta.2";
 const description = "";
 const keywords = [
 ];
@@ -55,12 +55,12 @@ const dependencies = {
 	dotenv: "^16.0.1",
 	"fast-glob": "^3.2.11",
 	"fs-extra": "^10.1.0",
+	ora: "^6.1.2",
 	"root-check": "^2.0.0",
 	semver: "^7.3.7",
 	tslib: "^2.4.0",
 	typescript: "^4.5.2",
-	unbuild: "^0.8.8",
-	ora: "^6.1.2"
+	unbuild: "^0.8.8"
 };
 const pkg = {
 	name: name,
