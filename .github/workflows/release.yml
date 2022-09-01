@@ -1,20 +1,12 @@
-name: Trigger redeploy on Netlify
+name: Release
+
 on:
   push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+    tags:
+      - 'v*'
+
 jobs:
-  build:
-    name: Make POST request
-    runs-on: ubuntu-latest
-    steps:
-      - name: Curl request
-        shell: bash
-        env:
-          UNIQUE_STRING: ${{ secrets.NETLIFY_BUILD_HOOK_UNIQUE_STRING }}
-        run: curl -X POST -d {} https://api.netlify.com/build_hooks/$UNIQUE_STRING
-  lint:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -31,8 +23,17 @@ jobs:
         with:
           version: 7.4.0
 
+      - run: npx changelogithub
+        env:
+          GITHUB_TOKEN: ${{secrets.GH_TOKEN}}
+
       - name: Install
         run: pnpm install --no-frozen-lockfile
 
-      - name: Lint
-        run: pnpm lint
+      - name: Build
+        run: pnpm run build
+
+      - name: Publish to NPM
+        run: pnpm -r publish --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

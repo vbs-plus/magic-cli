@@ -1,19 +1,12 @@
-import path from 'path';
-import fs from 'fs';
-import { useLogger, getNpmLatestVersion } from '@vbs/magic-cli-utils';
-import fse from 'fs-extra';
-import { findUp } from 'find-up';
-import npminstall from 'npminstall';
-
-var NPM_REGISTRY_ORIGIN = /* @__PURE__ */ ((NPM_REGISTRY_ORIGIN2) => {
-  NPM_REGISTRY_ORIGIN2["NPM"] = "https://registry.npmjs.org";
-  NPM_REGISTRY_ORIGIN2["TAOBAO"] = "https://registry.npmjs.org";
-  NPM_REGISTRY_ORIGIN2["ZHONGAN"] = "https://npm.zhonganonline.com";
-  return NPM_REGISTRY_ORIGIN2;
-})(NPM_REGISTRY_ORIGIN || {});
-
-const { debug } = useLogger();
-class Package {
+// src/package.ts
+import path from "path";
+import fs from "fs";
+import { getNpmLatestVersion, useLogger } from "@vbs/magic-cli-utils";
+import fse from "fs-extra";
+import { findUp } from "find-up";
+import npminstall from "npminstall";
+var { debug } = useLogger();
+var Package = class {
   constructor(options) {
     if (!options)
       throw new Error("package options cannot be empty");
@@ -51,7 +44,7 @@ class Package {
     return npminstall({
       root: this.TP_PATH,
       storeDir: this.STORE_PATH,
-      registry: NPM_REGISTRY_ORIGIN.NPM,
+      registry: "https://registry.npmjs.org" /* NPM */,
       pkgs: [
         {
           name: this.PACKAGE_NAME,
@@ -70,7 +63,7 @@ class Package {
       await npminstall({
         root: this.TP_PATH,
         storeDir: this.STORE_PATH,
-        registry: NPM_REGISTRY_ORIGIN.NPM,
+        registry: "https://registry.npmjs.org" /* NPM */,
         pkgs: [
           {
             name: this.PACKAGE_NAME,
@@ -97,6 +90,7 @@ class Package {
     else
       return await this._getPackageMainEntry(this.TP_PATH);
   }
-}
-
-export { Package };
+};
+export {
+  Package
+};

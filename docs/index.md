@@ -28,8 +28,8 @@ features:
     details: A great monrepo cli case, A good tool for creating templates
   - title: 🎉 Typescript Vitest Supported
     details: Support TypeScript & type checked & type inference. Use Vitest to test packages feature.
-  - title: 💡 Unbuild
-    details: Use unbuild to build file system,it is so fast!
+  - title: 💡 Tsup
+    details: Use Tsup to build file system,it is so fast!
   - title: 🍬 Mongo Data API
     details: Built in SDK encapsulating Mongo data API
   - title: 💪 High performance and scalability

@@ -1,23 +1,32 @@
-import { useLogger, DEFAULT_HOME_PATH, DEFAULT_TEMPLATE_TARGET_PATH, DEFAULT_STORE_SUFIX, toLine } from '@vbs/magic-cli-utils';
-import path from 'path';
-import fse from 'fs-extra';
-import { getTemplateListByType } from '@vbs/magic-cli-templates';
-import semver from 'semver';
-import inquirer from 'inquirer';
-import ora from 'ora';
-import os from 'os';
-import { Package } from '@vbs/magic-cli-models';
-import glob from 'glob';
-import ejs from 'ejs';
-import { execaCommand } from 'execa';
+// src/index.ts
+import { useLogger as useLogger3 } from "@vbs/magic-cli-utils";
 
-const homeDir = os.homedir();
-let templatePackage;
-const { debug: debug$2, error: error$1, info: info$1 } = useLogger();
-const installSpinner = ora("\u{1F680} \u6B63\u5728\u5B89\u88C5\u6A21\u677F...");
-const updateSpinner = ora("\u{1F680} \u6B63\u5728\u66F4\u65B0\u6A21\u677F...");
-const renderSpinner = ora("\u{1F4C4} \u5F00\u59CB\u6E32\u67D3\u6A21\u677F\u4EE3\u7801...");
-const commandSpinner = ora({
+// src/prepare.ts
+import path2 from "path";
+import fse2 from "fs-extra";
+import { toLine, useLogger as useLogger2 } from "@vbs/magic-cli-utils";
+import { getTemplateListByType } from "@vbs/magic-cli-templates";
+import semver from "semver";
+import inquirer from "inquirer";
+import ora2 from "ora";
+
+// src/template.ts
+import path from "path";
+import os from "os";
+import fse from "fs-extra";
+import { DEFAULT_HOME_PATH, DEFAULT_STORE_SUFIX, DEFAULT_TEMPLATE_TARGET_PATH, useLogger } from "@vbs/magic-cli-utils";
+import { Package } from "@vbs/magic-cli-models";
+import glob from "glob";
+import ejs from "ejs";
+import { execaCommand } from "execa";
+import ora from "ora";
+var homeDir = os.homedir();
+var templatePackage;
+var { debug, error, info } = useLogger();
+var installSpinner = ora("\u{1F680} \u6B63\u5728\u5B89\u88C5\u6A21\u677F...");
+var updateSpinner = ora("\u{1F680} \u6B63\u5728\u66F4\u65B0\u6A21\u677F...");
+var renderSpinner = ora("\u{1F4C4} \u5F00\u59CB\u6E32\u67D3\u6A21\u677F\u4EE3\u7801...");
+var commandSpinner = ora({
   text: "\u{1F52B} \u6B63\u5728\u6267\u884C\u4F9D\u8D56\u5B89\u88C5\u547D\u4EE4... \r"
 });
 async function installTemplate(templates, projectInfo) {
@@ -29,13 +38,13 @@ async function installTemplate(templates, projectInfo) {
     DEFAULT_TEMPLATE_TARGET_PATH
   );
   const STORE_PATH = path.resolve(TP_PATH, DEFAULT_STORE_SUFIX);
-  debug$2(`TP_PATH: ${TP_PATH}`);
-  debug$2(`STORE_PATH: ${STORE_PATH}`);
+  debug(`TP_PATH: ${TP_PATH}`);
+  debug(`STORE_PATH: ${STORE_PATH}`);
   templatePackage = new Package({
     TP_PATH,
     STORE_PATH,
-    PACKAGE_NAME: template?.npmName || "",
-    PACKAGE_VERSION: template?.version || "1.0.0"
+    PACKAGE_NAME: (template == null ? void 0 : template.npmName) || "",
+    PACKAGE_VERSION: (template == null ? void 0 : template.version) || "1.0.0"
   });
   if (!await templatePackage.exists()) {
     try {
@@ -85,7 +94,7 @@ async function renderTemplate(template, projectInfo) {
     commandSpinner.start();
     fse.writeFileSync(path.resolve(targetPath, ".npmrc"), "strict-peer-dependencies = false");
     await execaCommand(installCommand, { stdio: "inherit", encoding: "utf-8", cwd: targetPath });
-  } catch (error2) {
+  } catch (error3) {
     console.log();
     commandSpinner.fail("\u6A21\u677F\u5B89\u88C5\u4F9D\u8D56\u5931\u8D25\uFF01");
     process.exit(-1);
@@ -94,11 +103,11 @@ async function renderTemplate(template, projectInfo) {
   }
   try {
     console.log();
-    info$1("\u2728\u2728 \u5927\u529F\u544A\u6210\uFF01");
+    info("\u2728\u2728 \u5927\u529F\u544A\u6210\uFF01");
     await execaCommand(startCommand, { stdio: "inherit", encoding: "utf-8", cwd: targetPath });
-  } catch (error2) {
-    debug$2(`ERROR ${JSON.stringify(error2)}`);
-    error2("\u5E94\u7528\u542F\u52A8\u5931\u8D25\uFF01");
+  } catch (error3) {
+    debug(`ERROR ${JSON.stringify(error3)}`);
+    error3("\u5E94\u7528\u542F\u52A8\u5931\u8D25\uFF01");
     process.exit(-1);
   }
 }
@@ -117,7 +126,7 @@ function ejsRenderTemplate(options, projectInfo) {
         return new Promise((resolvet, rejectt) => {
           ejs.renderFile(filePath, projectInfo, {}, (err2, result) => {
             if (err2) {
-              error$1(`ejsRender ${err2.toString()}`);
+              error(`ejsRender ${err2.toString()}`);
               rejectt(err2);
             } else {
               fse.writeFileSync(filePath, result);
@@ -130,8 +139,9 @@ function ejsRenderTemplate(options, projectInfo) {
   });
 }
 
-const { debug: debug$1, info, chalk } = useLogger();
-const RANDOM_COLORS = [
+// src/prepare.ts
+var { debug: debug2, info: info2, chalk } = useLogger2();
+var RANDOM_COLORS = [
   "#F94892",
   "#FF7F3F",
   "#FBDF07",
@@ -141,7 +151,7 @@ const RANDOM_COLORS = [
   "#B1E1FF",
   "#293462"
 ];
-const getInheritParams = () => {
+var getInheritParams = () => {
   const args = JSON.parse(process.argv.slice(2)[0]);
   const inheritArgs = /* @__PURE__ */ Object.create(null);
   inheritArgs.projectName = args[0];
@@ -150,19 +160,19 @@ const getInheritParams = () => {
   return inheritArgs;
 };
 function formatTargetDir(targetDir) {
-  return targetDir?.trim().replace(/\/+$/g, "");
+  return targetDir == null ? void 0 : targetDir.trim().replace(/\/+$/g, "");
 }
 function isValidPackageName(projectName) {
   return /^(?:@[a-z0-9-*~][a-z0-9-*._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/.test(
     projectName
   );
 }
-const checkPackageExists = async (dirPath, force) => {
+var checkPackageExists = async (dirPath, force) => {
   const pwd = process.cwd();
-  const targetDir = path.join(pwd, dirPath);
-  if (fse.existsSync(targetDir)) {
+  const targetDir = path2.join(pwd, dirPath);
+  if (fse2.existsSync(targetDir)) {
     if (force) {
-      await fse.remove(targetDir);
+      await fse2.remove(targetDir);
     } else {
       const { action } = await inquirer.prompt([
         {
@@ -174,15 +184,15 @@ const checkPackageExists = async (dirPath, force) => {
       if (!action)
         return false;
       else
-        await fse.remove(targetDir);
+        await fse2.remove(targetDir);
       return true;
     }
   } else {
-    fse.mkdirSync(targetDir);
+    fse2.mkdirSync(targetDir);
     return true;
   }
 };
-const getProjectInfo = async (args, templates) => {
+var getProjectInfo = async (args, templates) => {
   let targetDir = formatTargetDir(args.projectName);
   const defaultName = "magic-project";
   const defaultVersion = "1.0.0";
@@ -227,10 +237,10 @@ const getProjectInfo = async (args, templates) => {
       projectPrompts.push(projectNamePrompt);
     const values = await inquirer.prompt(projectPrompts);
     targetDir = formatTargetDir(values.projectName) || targetDir;
-    debug$1(` TargetDir :${targetDir}`);
+    debug2(` TargetDir :${targetDir}`);
     const ret = await checkPackageExists(targetDir, args.force);
     if (!ret)
-      info("\u2716 \u79FB\u9664\u6587\u4EF6\u64CD\u4F5C\u88AB\u53D6\u6D88\uFF0C\u7A0B\u5E8F\u6B63\u5E38\u9000\u51FA");
+      info2("\u2716 \u79FB\u9664\u6587\u4EF6\u64CD\u4F5C\u88AB\u53D6\u6D88\uFF0C\u7A0B\u5E8F\u6B63\u5E38\u9000\u51FA");
     const { projectVersion } = await inquirer.prompt({
       type: "input",
       name: "projectVersion",
@@ -253,7 +263,7 @@ const getProjectInfo = async (args, templates) => {
         return value;
       }
     });
-    debug$1(`projectVersion: ${projectVersion}`);
+    debug2(`projectVersion: ${projectVersion}`);
     const templateChoices = templates.filter((item) => item.type === type).map((item) => {
       return {
         name: chalk.hex(
@@ -268,7 +278,7 @@ const getProjectInfo = async (args, templates) => {
       message: `\u8BF7\u9009\u62E9${title}\u6A21\u677F`,
       choices: templateChoices
     });
-    debug$1(`npmName : ${npmName}`);
+    debug2(`npmName : ${npmName}`);
     const { projectDescription } = await inquirer.prompt({
       type: "input",
       name: "projectDescription",
@@ -288,8 +298,8 @@ const getProjectInfo = async (args, templates) => {
   }
   return projectInfo;
 };
-const checkTemplateExistAndReturn = async () => {
-  const spinner = ora({
+var checkTemplateExistAndReturn = async () => {
+  const spinner = ora2({
     text: "\u{1F50D}  \u6B63\u5728\u68C0\u7D22\u7CFB\u7EDF\u6A21\u677F\uFF0C\u8BF7\u7A0D\u540E..."
   });
   console.log();
@@ -304,7 +314,7 @@ const checkTemplateExistAndReturn = async () => {
       spinner.fail("\u7CFB\u7EDF\u6A21\u677F\u5F02\u5E38");
       throw new Error("\u9879\u76EE\u6A21\u677F\u4E0D\u5B58\u5728");
     }
-  } catch (error) {
+  } catch (error3) {
     spinner.fail("\u7CFB\u7EDF\u6A21\u677F\u5F02\u5E38");
     process.exit(-1);
   }
@@ -313,23 +323,25 @@ async function prepare(args) {
   try {
     const templates = await checkTemplateExistAndReturn();
     const projectInfo = await getProjectInfo(args, templates);
-    debug$1(`projectInfo : ${JSON.stringify(projectInfo)}`);
+    debug2(`projectInfo : ${JSON.stringify(projectInfo)}`);
     await installTemplate(templates, projectInfo);
-  } catch (error) {
-    console.log(error);
+  } catch (error3) {
+    console.log(error3);
   }
 }
 
-const { error, debug } = useLogger();
-const init = async () => {
+// src/index.ts
+var { error: error2, debug: debug3 } = useLogger3();
+var init = async () => {
   try {
     const args = getInheritParams();
-    debug(` init args: ${JSON.stringify(args)}`);
+    debug3(` init args: ${JSON.stringify(args)}`);
     await prepare(args);
   } catch (e) {
-    throw new Error(error(e.message, { needConsole: false }));
+    throw new Error(error2(e.message, { needConsole: false }));
   }
 };
 init();
-
-export { init };
+export {
+  init
+};
