@@ -1,6 +1,6 @@
 {
   "name": "@vbs/magic-cli-core",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "",
   "keywords": [],
   "license": "ISC",
@@ -26,9 +26,8 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "unbuild -w",
-    "build": "unbuild",
-    "stub": "unbuild --stub",
+    "build": "tsup",
+    "stub": "tsup --watch",
     "link": "pnpm link -g",
     "test": "vitest"
   },
@@ -48,7 +47,6 @@
     "root-check": "^2.0.0",
     "semver": "^7.3.7",
     "tslib": "^2.4.0",
-    "typescript": "^4.5.2",
-    "unbuild": "^0.8.8"
+    "typescript": "^4.5.2"
   }
 }

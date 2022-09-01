@@ -1,6 +1,7 @@
 {
   "name": "@vbs/magic-cli",
-  "version": "1.0.5",
+  "version": "1.0.7",
+  "private": true,
   "description": "",
   "keywords": [],
   "license": "ISC",
@@ -8,13 +9,16 @@
   "main": "index.js",
   "scripts": {
     "bootstrap": "zi && rush update",
-    "start": "cd packages/core && pnpm link -g",
+    "build": "rush build",
+    "dev": "zr stub",
+    "start": "zr build && cd packages/core && pnpm link -g",
+    "stub": "pnpm -r --parallel -F !@vbs/magic-cli-core run stub",
     "docs": "pnpm -C docs run dev",
     "docs:build": "pnpm run -C docs build",
-    "lint": " eslint packages --fix",
+    "lint": "eslint packages --fix",
     "test": "vitest",
     "prepare": "husky install",
-    "release": "bumpp package.json"
+    "release": "bumpp package.json packages/**/package.json"
   },
   "dependencies": {
     "@antfu/eslint-config": "^0.22.0",
@@ -24,6 +28,7 @@
     "eslint": "^8.23.0",
     "husky": "^7.0.4",
     "lint-staged": "^10.5.4",
+    "tsup": "^6.2.3",
     "vitepress": "1.0.0-alpha.12",
     "vitest": "^0.10.5",
     "za-zi": "^0.0.7"

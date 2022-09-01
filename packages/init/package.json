@@ -1,6 +1,6 @@
 {
   "name": "@vbs/magic-cli-init",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "",
   "keywords": [],
   "license": "ISC",
@@ -20,9 +20,9 @@
     "bin"
   ],
   "scripts": {
-    "dev": "unbuild -w",
-    "build": "unbuild",
-    "test": "vitest"
+    "build": "tsup",
+    "test": "vitest",
+    "stub": "tsup --watch"
   },
   "publishConfig": {
     "access": "public"
@@ -47,7 +47,6 @@
     "prompts": "^2.4.2",
     "semver": "^7.3.7",
     "tslib": "^2.3.1",
-    "typescript": "^4.5.2",
-    "unbuild": "^0.8.8"
+    "typescript": "^4.5.2"
   }
 }
