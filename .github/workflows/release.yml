@@ -37,7 +37,7 @@ jobs:
         run: pnpm install -g @microsoft/rush@5.50.0
        
       - name: Rush Install
-        uses: rush update
+        run: rush update
       
       - name: Rush Build
         run: rush build
