@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 import clear from 'clear';
 import figlet from 'figlet';
+import gradient from 'gradient-string';
 import ora from 'ora';
 import request from 'axios';
 import semver from 'semver';
@@ -41,13 +42,16 @@ var PACKAGE_SETTINGS = /* @__PURE__ */ ((PACKAGE_SETTINGS2) => {
 
 function printMagicLogo(version) {
   clear();
-  console.log("*************************************************");
   console.log(
-    chalk.blue(
-      figlet.textSync("Magic Cli", { horizontalLayout: "full" })
+    gradient.teen(
+      figlet.textSync("MAGIC CLI", {
+        horizontalLayout: "default",
+        verticalLayout: "default",
+        font: "3D-ASCII",
+        whitespaceBreak: true
+      })
     )
   );
-  console.log("*************************************************");
   console.log(
     `\r
 Run ${echoInfoText(

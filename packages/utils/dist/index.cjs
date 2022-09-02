@@ -5,6 +5,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 const chalk = require('chalk');
 const clear = require('clear');
 const figlet = require('figlet');
+const gradient = require('gradient-string');
 const ora = require('ora');
 const request = require('axios');
 const semver = require('semver');
@@ -16,6 +17,7 @@ function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'defau
 const chalk__default = /*#__PURE__*/_interopDefaultLegacy(chalk);
 const clear__default = /*#__PURE__*/_interopDefaultLegacy(clear);
 const figlet__default = /*#__PURE__*/_interopDefaultLegacy(figlet);
+const gradient__default = /*#__PURE__*/_interopDefaultLegacy(gradient);
 const ora__default = /*#__PURE__*/_interopDefaultLegacy(ora);
 const request__default = /*#__PURE__*/_interopDefaultLegacy(request);
 const semver__default = /*#__PURE__*/_interopDefaultLegacy(semver);
@@ -56,13 +58,16 @@ var PACKAGE_SETTINGS = /* @__PURE__ */ ((PACKAGE_SETTINGS2) => {
 
 function printMagicLogo(version) {
   clear__default();
-  console.log("*************************************************");
   console.log(
-    chalk__default.blue(
-      figlet__default.textSync("Magic Cli", { horizontalLayout: "full" })
+    gradient__default.teen(
+      figlet__default.textSync("MAGIC CLI", {
+        horizontalLayout: "default",
+        verticalLayout: "default",
+        font: "3D-ASCII",
+        whitespaceBreak: true
+      })
     )
   );
-  console.log("*************************************************");
   console.log(
     `\r
 Run ${echoInfoText(

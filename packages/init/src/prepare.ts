@@ -205,7 +205,7 @@ export const getProjectInfo = async (
 
 export const checkTemplateExistAndReturn = async () => {
   const spinner = ora({
-    text: '🔍  正在检索系统模板，请稍后...',
+    text: '🔍  正在检索系统模板，请稍后...\n',
   })
   console.log()
   spinner.start()
@@ -213,14 +213,14 @@ export const checkTemplateExistAndReturn = async () => {
 
   try {
     const { documents } = await getTemplateListByType('all')
-    if (documents.length) { spinner.succeed('系统模板检索正常！'); return documents }
+    if (documents.length) { spinner.succeed('系统模板检索正常！\n'); return documents }
     else {
-      spinner.fail('系统模板异常')
-      throw new Error('项目模板不存在')
+      spinner.fail('系统模板异常\n')
+      throw new Error('项目模板不存在\n')
     }
   }
   catch (error) {
-    spinner.fail('系统模板异常')
+    spinner.fail('系统模板异常\n')
     process.exit(-1)
   }
 }

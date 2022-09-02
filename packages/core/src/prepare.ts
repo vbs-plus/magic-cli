@@ -46,11 +46,12 @@ export async function checkPackageUpdate() {
   const version = pkg.version
   const packageName = pkg.name
   const latestVersion = await getNpmLatestVersion(packageName)
-  // debug(" Latest Version(sync)" + latestVersion);
   if (latestVersion && semver.gt(latestVersion, version)) {
+    console.log()
     warn(
-      `最新版本已发布，请手动更新脚手架版本，当前版本为：${version}，最新版本为：${latestVersion} []~(￣▽￣)~* `,
+      `最新版本已发布，请手动更新脚手架版本，当前版本为：${version}，最新版本为：${latestVersion} []~(￣▽￣)~*，探索跟多关于 Magic，请访问: https://magic-cli.netlify.app/\n`,
     )
+    console.log()
   }
 }
 
@@ -62,13 +63,13 @@ export function checkNodeVersion() {
 
 export async function prepare() {
   printMagicLogo(pkg.version)
+
   const spinner = ora({
-    text: '👉 检查构建环境...',
-    spinner: 'dots',
+    text: '👉 检查构建环境...  \n',
+    spinner: 'material',
   })
 
   spinner.start()
-
   try {
     // TODO： 构建环境异常测试
     rootCheck()
@@ -76,10 +77,10 @@ export async function prepare() {
     checkEnv()
     await checkPackageUpdate()
     checkNodeVersion()
-    spinner.succeed('构建环境正常！')
+    spinner.succeed('构建环境正常！\n')
   }
   catch (error) {
-    spinner.fail('检查构建环境异常')
+    spinner.fail('检查构建环境异常! \n')
     console.log(error)
     process.exit(-1)
   }

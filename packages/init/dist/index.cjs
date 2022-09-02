@@ -29,11 +29,21 @@ const ejs__default = /*#__PURE__*/_interopDefaultLegacy(ejs);
 const homeDir = os__default.homedir();
 let templatePackage;
 const { debug: debug$2, error: error$1, info: info$1 } = magicCliUtils.useLogger();
-const installSpinner = ora__default("\u{1F680} \u6B63\u5728\u5B89\u88C5\u6A21\u677F...");
-const updateSpinner = ora__default("\u{1F680} \u6B63\u5728\u66F4\u65B0\u6A21\u677F...");
-const renderSpinner = ora__default("\u{1F4C4} \u5F00\u59CB\u6E32\u67D3\u6A21\u677F\u4EE3\u7801...");
+const installSpinner = ora__default({
+  text: "\u{1F680} \u6B63\u5728\u5B89\u88C5\u6A21\u677F... \r",
+  spinner: "material"
+});
+const updateSpinner = ora__default({
+  text: "\u{1F680} \u6B63\u5728\u66F4\u65B0\u6A21\u677F... \r",
+  spinner: "moon"
+});
+const renderSpinner = ora__default({
+  text: "\u{1F4C4} \u5F00\u59CB\u6E32\u67D3\u6A21\u677F\u4EE3\u7801... \r",
+  spinner: "material"
+});
 const commandSpinner = ora__default({
-  text: "\u{1F52B} \u6B63\u5728\u6267\u884C\u4F9D\u8D56\u5B89\u88C5\u547D\u4EE4... \r"
+  text: "\u{1F52B} \u6B63\u5728\u6267\u884C\u4F9D\u8D56\u5B89\u88C5\u547D\u4EE4... \r",
+  spinner: "material"
 });
 async function installTemplate(templates, projectInfo) {
   const { npmName } = projectInfo;
@@ -57,22 +67,22 @@ async function installTemplate(templates, projectInfo) {
       installSpinner.start();
       await templatePackage.init();
     } catch (e) {
-      installSpinner.fail("\u5B89\u88C5\u6A21\u677F\u5931\u8D25\uFF01");
+      installSpinner.fail("\u5B89\u88C5\u6A21\u677F\u5931\u8D25\uFF01\n");
       throw new Error(e.message);
     } finally {
       if (await templatePackage.exists())
-        installSpinner.succeed("\u{1F389} \u6A21\u677F\u5B89\u88C5\u6210\u529F");
+        installSpinner.succeed("\u{1F389} \u6A21\u677F\u5B89\u88C5\u6210\u529F \n");
     }
   } else {
     try {
       updateSpinner.start();
       await templatePackage.update();
     } catch (e) {
-      updateSpinner.fail("\u66F4\u65B0\u6A21\u677F\u5931\u8D25\uFF01");
+      updateSpinner.fail("\u66F4\u65B0\u6A21\u677F\u5931\u8D25\uFF01\n");
       throw new Error(e.message);
     } finally {
       if (await templatePackage.exists())
-        updateSpinner.succeed("\u{1F389} \u6A21\u677F\u66F4\u65B0\u6210\u529F");
+        updateSpinner.succeed("\u{1F389} \u6A21\u677F\u66F4\u65B0\u6210\u529F \n");
     }
   }
   await renderTemplate(template, projectInfo);
@@ -91,10 +101,10 @@ async function renderTemplate(template, projectInfo) {
     fse__default.copySync(templatePath, targetPath);
     ejsRenderTemplate({ ignore, targetPath }, projectInfo);
   } catch (e) {
-    renderSpinner.fail("\u6E32\u67D3\u6A21\u677F\u4EE3\u7801\u5931\u8D25\uFF01");
+    renderSpinner.fail("\u6E32\u67D3\u6A21\u677F\u4EE3\u7801\u5931\u8D25\uFF01\n");
     throw new Error(e.message);
   } finally {
-    renderSpinner.succeed("\u{1F389} \u6A21\u677F\u6E32\u67D3\u6210\u529F!");
+    renderSpinner.succeed("\u{1F389} \u6A21\u677F\u6E32\u67D3\u6210\u529F \n!");
   }
   try {
     commandSpinner.start();
@@ -102,10 +112,10 @@ async function renderTemplate(template, projectInfo) {
     await execa.execaCommand(installCommand, { stdio: "inherit", encoding: "utf-8", cwd: targetPath });
   } catch (error2) {
     console.log();
-    commandSpinner.fail("\u6A21\u677F\u5B89\u88C5\u4F9D\u8D56\u5931\u8D25\uFF01");
+    commandSpinner.fail("\u6A21\u677F\u5B89\u88C5\u4F9D\u8D56\u5931\u8D25\uFF01\n");
     process.exit(-1);
   } finally {
-    commandSpinner.succeed("\u4F9D\u8D56\u5B89\u88C5\u5B8C\u6210");
+    commandSpinner.succeed("\u4F9D\u8D56\u5B89\u88C5\u5B8C\u6210 \n");
   }
   try {
     console.log();
@@ -113,7 +123,7 @@ async function renderTemplate(template, projectInfo) {
     await execa.execaCommand(startCommand, { stdio: "inherit", encoding: "utf-8", cwd: targetPath });
   } catch (error2) {
     debug$2(`ERROR ${JSON.stringify(error2)}`);
-    error2("\u5E94\u7528\u542F\u52A8\u5931\u8D25\uFF01");
+    error2("\u5E94\u7528\u542F\u52A8\u5931\u8D25\uFF01\n");
     process.exit(-1);
   }
 }
@@ -305,7 +315,7 @@ const getProjectInfo = async (args, templates) => {
 };
 const checkTemplateExistAndReturn = async () => {
   const spinner = ora__default({
-    text: "\u{1F50D}  \u6B63\u5728\u68C0\u7D22\u7CFB\u7EDF\u6A21\u677F\uFF0C\u8BF7\u7A0D\u540E..."
+    text: "\u{1F50D}  \u6B63\u5728\u68C0\u7D22\u7CFB\u7EDF\u6A21\u677F\uFF0C\u8BF7\u7A0D\u540E...\n"
   });
   console.log();
   spinner.start();
@@ -313,14 +323,14 @@ const checkTemplateExistAndReturn = async () => {
   try {
     const { documents } = await magicCliTemplates.getTemplateListByType("all");
     if (documents.length) {
-      spinner.succeed("\u7CFB\u7EDF\u6A21\u677F\u68C0\u7D22\u6B63\u5E38\uFF01");
+      spinner.succeed("\u7CFB\u7EDF\u6A21\u677F\u68C0\u7D22\u6B63\u5E38\uFF01\n");
       return documents;
     } else {
-      spinner.fail("\u7CFB\u7EDF\u6A21\u677F\u5F02\u5E38");
-      throw new Error("\u9879\u76EE\u6A21\u677F\u4E0D\u5B58\u5728");
+      spinner.fail("\u7CFB\u7EDF\u6A21\u677F\u5F02\u5E38\n");
+      throw new Error("\u9879\u76EE\u6A21\u677F\u4E0D\u5B58\u5728\n");
     }
   } catch (error) {
-    spinner.fail("\u7CFB\u7EDF\u6A21\u677F\u5F02\u5E38");
+    spinner.fail("\u7CFB\u7EDF\u6A21\u677F\u5F02\u5E38\n");
     process.exit(-1);
   }
 };

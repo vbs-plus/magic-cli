@@ -13,11 +13,21 @@ import type { ProjectInfo } from './type'
 const homeDir = os.homedir()
 let templatePackage: Package
 const { debug, error, info } = useLogger()
-const installSpinner = ora('🚀 正在安装模板...')
-const updateSpinner = ora('🚀 正在更新模板...')
-const renderSpinner = ora('📄 开始渲染模板代码...')
+const installSpinner = ora({
+  text: '🚀 正在安装模板... \r',
+  spinner: 'material',
+})
+const updateSpinner = ora({
+  text: '🚀 正在更新模板... \r',
+  spinner: 'moon',
+})
+const renderSpinner = ora({
+  text: '📄 开始渲染模板代码... \r',
+  spinner: 'material',
+})
 const commandSpinner = ora({
   text: '🔫 正在执行依赖安装命令... \r',
+  spinner: 'material',
 })
 
 export async function installTemplate(
@@ -50,12 +60,12 @@ export async function installTemplate(
       await templatePackage.init()
     }
     catch (e: any) {
-      installSpinner.fail('安装模板失败！')
+      installSpinner.fail('安装模板失败！\n')
       throw new Error(e.message)
     }
     finally {
       if (await templatePackage.exists())
-        installSpinner.succeed('🎉 模板安装成功')
+        installSpinner.succeed('🎉 模板安装成功 \n')
     }
   }
   else {
@@ -64,12 +74,12 @@ export async function installTemplate(
       await templatePackage.update()
     }
     catch (e: any) {
-      updateSpinner.fail('更新模板失败！')
+      updateSpinner.fail('更新模板失败！\n')
       throw new Error(e.message)
     }
     finally {
       if (await templatePackage.exists())
-        updateSpinner.succeed('🎉 模板更新成功')
+        updateSpinner.succeed('🎉 模板更新成功 \n')
     }
   }
 
@@ -91,11 +101,11 @@ export async function renderTemplate(template: TemplateListItem, projectInfo: Pa
     ejsRenderTemplate({ ignore, targetPath }, projectInfo)
   }
   catch (e: any) {
-    renderSpinner.fail('渲染模板代码失败！')
+    renderSpinner.fail('渲染模板代码失败！\n')
     throw new Error(e.message)
   }
   finally {
-    renderSpinner.succeed('🎉 模板渲染成功!')
+    renderSpinner.succeed('🎉 模板渲染成功 \n!')
   }
 
   try {
@@ -105,11 +115,11 @@ export async function renderTemplate(template: TemplateListItem, projectInfo: Pa
   }
   catch (error: any) {
     console.log()
-    commandSpinner.fail('模板安装依赖失败！')
+    commandSpinner.fail('模板安装依赖失败！\n')
     process.exit(-1)
   }
   finally {
-    commandSpinner.succeed('依赖安装完成')
+    commandSpinner.succeed('依赖安装完成 \n')
   }
 
   try {
@@ -119,7 +129,7 @@ export async function renderTemplate(template: TemplateListItem, projectInfo: Pa
   }
   catch (error: any) {
     debug(`ERROR ${JSON.stringify(error)}`)
-    error('应用启动失败！')
+    error('应用启动失败！\n')
     process.exit(-1)
   }
 }

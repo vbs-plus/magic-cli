@@ -227,9 +227,12 @@ async function checkPackageUpdate() {
   const packageName = pkg.name;
   const latestVersion = await getNpmLatestVersion(packageName);
   if (latestVersion && semver.gt(latestVersion, version)) {
+    console.log();
     warn(
-      `\u6700\u65B0\u7248\u672C\u5DF2\u53D1\u5E03\uFF0C\u8BF7\u624B\u52A8\u66F4\u65B0\u811A\u624B\u67B6\u7248\u672C\uFF0C\u5F53\u524D\u7248\u672C\u4E3A\uFF1A${version}\uFF0C\u6700\u65B0\u7248\u672C\u4E3A\uFF1A${latestVersion} []~(\uFFE3\u25BD\uFFE3)~* `
+      `\u6700\u65B0\u7248\u672C\u5DF2\u53D1\u5E03\uFF0C\u8BF7\u624B\u52A8\u66F4\u65B0\u811A\u624B\u67B6\u7248\u672C\uFF0C\u5F53\u524D\u7248\u672C\u4E3A\uFF1A${version}\uFF0C\u6700\u65B0\u7248\u672C\u4E3A\uFF1A${latestVersion} []~(\uFFE3\u25BD\uFFE3)~*\uFF0C\u63A2\u7D22\u8DDF\u591A\u5173\u4E8E Magic\uFF0C\u8BF7\u8BBF\u95EE: https://magic-cli.netlify.app/
+`
     );
+    console.log();
   }
 }
 function checkNodeVersion() {
@@ -240,8 +243,8 @@ function checkNodeVersion() {
 async function prepare() {
   printMagicLogo(pkg.version);
   const spinner = ora({
-    text: "\u{1F449} \u68C0\u67E5\u6784\u5EFA\u73AF\u5883...",
-    spinner: "dots"
+    text: "\u{1F449} \u68C0\u67E5\u6784\u5EFA\u73AF\u5883...  \n",
+    spinner: "material"
   });
   spinner.start();
   try {
@@ -250,9 +253,9 @@ async function prepare() {
     checkEnv();
     await checkPackageUpdate();
     checkNodeVersion();
-    spinner.succeed("\u6784\u5EFA\u73AF\u5883\u6B63\u5E38\uFF01");
+    spinner.succeed("\u6784\u5EFA\u73AF\u5883\u6B63\u5E38\uFF01\n");
   } catch (error2) {
-    spinner.fail("\u68C0\u67E5\u6784\u5EFA\u73AF\u5883\u5F02\u5E38");
+    spinner.fail("\u68C0\u67E5\u6784\u5EFA\u73AF\u5883\u5F02\u5E38! \n");
     console.log(error2);
     process.exit(-1);
   }

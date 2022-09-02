@@ -8,7 +8,6 @@ import npminstall from 'npminstall';
 var NPM_REGISTRY_ORIGIN = /* @__PURE__ */ ((NPM_REGISTRY_ORIGIN2) => {
   NPM_REGISTRY_ORIGIN2["NPM"] = "https://registry.npmjs.org";
   NPM_REGISTRY_ORIGIN2["TAOBAO"] = "https://registry.npmjs.org";
-  NPM_REGISTRY_ORIGIN2["ZHONGAN"] = "https://npm.zhonganonline.com";
   return NPM_REGISTRY_ORIGIN2;
 })(NPM_REGISTRY_ORIGIN || {});
 

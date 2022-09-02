@@ -18,7 +18,7 @@ hero:
       link: /guide/
 
     - theme: alt
-      text: Playground
+      text: View on GitHub
       link: https://github.com/vbs-plus/magic-cli
 
 features:
@@ -29,7 +29,7 @@ features:
   - title: 🎉 Typescript Vitest Supported
     details: Support TypeScript & type checked & type inference. Use Vitest to test packages feature.
   - title: 💡 Unbuild
-    details: Use unbuild to build file system,it is so fast!
+    details: Use Unbuild to build file system,it is so fast!
   - title: 🍬 Mongo Data API
     details: Built in SDK encapsulating Mongo data API
   - title: 💪 High performance and scalability

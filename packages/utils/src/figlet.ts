@@ -1,18 +1,22 @@
 import chalk from 'chalk'
 import clear from 'clear'
 import figlet from 'figlet'
+import gradient from 'gradient-string'
 import { echoInfoText } from './chalk'
 
 export function printMagicLogo(version: string) {
   clear()
 
-  console.log('*************************************************')
   console.log(
-    chalk.blue(
-      figlet.textSync('Magic Cli', { horizontalLayout: 'full' }),
+    gradient.teen(
+      figlet.textSync('MAGIC CLI', {
+        horizontalLayout: 'default',
+        verticalLayout: 'default',
+        font: '3D-ASCII',
+        whitespaceBreak: true,
+      }),
     ),
   )
-  console.log('*************************************************')
   console.log(
      `\r\nRun ${echoInfoText(
        'magic <command> --help',

@@ -2,10 +2,20 @@
   "name": "@vbs/magic-cli-docs",
   "version": "1.0.0",
   "description": "Magic-cli docs",
-  "keywords": ["magic-cli", "docs"],
+  "keywords": [
+    "magic-cli",
+    "docs"
+  ],
   "scripts": {
     "dev": "vitepress dev --port 9999 --open",
     "build": "vitepress build",
     "serve": "vitepress serve"
+  },
+  "dependencies": {
+    "vue": "^3.2.37"
+  },
+  "devDependencies": {
+    "vite": "2.9.13",
+    "vitepress": "1.0.0-alpha.4"
   }
 }

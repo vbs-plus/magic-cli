@@ -2,6 +2,8 @@ name: Trigger redeploy on Netlify
 on:
   push:
     branches: [master]
+  pull_request:
+    branches: [master]
 jobs:
   build:
     name: Make POST request
@@ -12,3 +14,25 @@ jobs:
         env:
           UNIQUE_STRING: ${{ secrets.NETLIFY_BUILD_HOOK_UNIQUE_STRING }}
         run: curl -X POST -d {} https://api.netlify.com/build_hooks/$UNIQUE_STRING
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2.2.1
+        with:
+          version: 7.4.0
+
+      - name: Install
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
