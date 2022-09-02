@@ -66,9 +66,11 @@ export class Package {
 
     if (this.PACKAGE_VERSION === 'latest')
       this.PACKAGE_VERSION = await getNpmLatestVersion(this.PACKAGE_NAME)
+    console.log(this.PACKAGE_VERSION)
   }
 
   async init() {
+    await this.prepare()
     return npminstall({
       root: this.TP_PATH,
       storeDir: this.STORE_PATH, // 默认为 ''

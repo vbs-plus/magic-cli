@@ -139,6 +139,7 @@ importers:
       '@types/chalk': 2.2.0
       '@types/clear': ^0.1.2
       '@types/figlet': ^1.5.4
+      '@types/gradient-string': ^1.1.2
       '@types/node': ^18.6.4
       '@types/npmlog': ^4.1.4
       '@types/ora': ^3.2.0
@@ -149,6 +150,7 @@ importers:
       chalk: 4.1.1
       clear: ^0.1.0
       figlet: ^1.5.2
+      gradient-string: ^2.0.1
       npmlog: ^6.0.2
       ora: ^6.1.2
       semver: ^7.3.7
@@ -161,6 +163,7 @@ importers:
       '@types/chalk': 2.2.0
       '@types/clear': 0.1.2
       '@types/figlet': 1.5.4
+      '@types/gradient-string': 1.1.2
       '@types/node': 18.6.4
       '@types/npmlog': 4.1.4
       '@types/ora': 3.2.0
@@ -171,6 +174,7 @@ importers:
       chalk: 4.1.1
       clear: 0.1.0
       figlet: 1.5.2
+      gradient-string: 2.0.1
       npmlog: 6.0.2
       ora: 6.1.2
       semver: 7.3.7
@@ -671,6 +675,12 @@ packages:
       '@types/node': 18.6.4
     dev: false
 
+  /@types/gradient-string/1.1.2:
+    resolution: {integrity: sha512-zIet2KvHr2dkOCPI5ggQQ+WJVyfBSFaqK9sNelhgDjlE2K3Fu2muuPJwu5aKM3xoWuc3WXudVEMUwI1QWhykEQ==}
+    dependencies:
+      '@types/tinycolor2': 1.4.3
+    dev: false
+
   /@types/inquirer/8.2.3:
     resolution: {integrity: sha512-ZlBqD+8WIVNy3KIVkl+Qne6bGLW2erwN0GJXY9Ri/9EMbyupee3xw3H0Mmv5kJoLyNpfd/oHlwKxO0DUDH7yWA==}
     dependencies:
@@ -730,6 +740,10 @@ packages:
     resolution: {integrity: sha512-FvnCJljyxhPM3gkRgWmxmDZyAQSiBQQWLI0A0VFL0K7W1oRUrPJSqNO0NvTnLkBcotdlp3lKvaT0JrnyRDkzOg==}
     dependencies:
       '@types/node': 18.6.4
+    dev: false
+
+  /@types/tinycolor2/1.4.3:
+    resolution: {integrity: sha512-Kf1w9NE5HEgGxCRyIcRXR/ZYtDv0V8FVPtYHwLxl0O+maGX0erE77pQlD0gpP+/KByMZ87mOA79SjifhSB3PjQ==}
     dev: false
 
   /@types/webidl-conversions/6.1.1:
@@ -1041,6 +1055,14 @@ packages:
 
   /chalk/4.1.1:
     resolution: {integrity: sha512-diHzdDKxcU+bAsUboHLPEDQiw0qEe0qd7SYUn3HgcFlWgbDcfLGswOHYeGrHKzG9z6UYf01d9VFMfZxPM1xZSg==}
+    engines: {node: '>=10'}
+    dependencies:
+      ansi-styles: 4.3.0
+      supports-color: 7.2.0
+    dev: false
+
+  /chalk/4.1.2:
+    resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
     engines: {node: '>=10'}
     dependencies:
       ansi-styles: 4.3.0
@@ -1977,6 +1999,14 @@ packages:
 
   /graceful-fs/4.2.10:
     resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==}
+    dev: false
+
+  /gradient-string/2.0.1:
+    resolution: {integrity: sha512-+xDOYR2fMa4QHGysTgyQsl8g16mcAKqvvsKI014qYP2XVf1SWUPlD8KhdBJPUM8AVwDUB+ls0NFkqRzAB5URkA==}
+    engines: {node: '>=10'}
+    dependencies:
+      chalk: 4.1.2
+      tinygradient: 1.1.5
     dev: false
 
   /has-flag/3.0.0:
@@ -3551,6 +3581,17 @@ packages:
 
   /through/2.3.8:
     resolution: {integrity: sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==}
+    dev: false
+
+  /tinycolor2/1.4.2:
+    resolution: {integrity: sha512-vJhccZPs965sV/L2sU4oRQVAos0pQXwsvTLkWYdqJ+a8Q5kPFzJTuOFwy7UniPli44NKQGAglksjvOcpo95aZA==}
+    dev: false
+
+  /tinygradient/1.1.5:
+    resolution: {integrity: sha512-8nIfc2vgQ4TeLnk2lFj4tRLvvJwEfQuabdsmvDdQPT0xlk9TaNtpGd6nNRxXoK6vQhN6RSzj+Cnp5tTQmpxmbw==}
+    dependencies:
+      '@types/tinycolor2': 1.4.3
+      tinycolor2: 1.4.2
     dev: false
 
   /tinypool/0.1.3:

@@ -258,7 +258,7 @@ const getNpmSemverVersions = async (packageName, baseVersion) => {
 const getNpmLatestVersion = async (packageName) => {
   const versions = await getNpmVersions(packageName);
   if (versions)
-    return semverSort__default.desc(versions)[0];
+    return versions[versions.length - 1];
   return "";
 };
 

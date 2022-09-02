@@ -38,7 +38,7 @@ export const getNpmSemverVersions = async (packageName: string, baseVersion: str
 export const getNpmLatestVersion = async (packageName: string) => {
   const versions = await getNpmVersions(packageName)
   if (versions)
-    return semverSort.desc(versions)[0]
+    return versions[versions.length - 1]
   return ''
 }
 
