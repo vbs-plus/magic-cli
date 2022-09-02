@@ -35,7 +35,7 @@ jobs:
       
       - name: Rush 
         run: pnpm install @microsoft/rush -g
-      - run: rush update
+        run: rush update
         run: rush build
 
       - name: Publish to NPM
