@@ -34,10 +34,14 @@ jobs:
         run: pnpm install -g tsup
       
       - name: Rush 
-        run: pnpm install @microsoft/rush -g
-        run: rush update
+        run: pnpm install -g @microsoft/rush@5.50.0
+       
+      - name: Rush Install
+        uses: advancedcsg-open/actions-rush@v1.4.5
+      
+      - name: Rush Build
         run: rush build
-
+      
       - name: Publish to NPM
         run: pnpm -r publish --access public --no-git-checks
         env:
