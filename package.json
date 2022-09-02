@@ -31,7 +31,7 @@
     "tsup": "^6.2.3",
     "vitepress": "1.0.0-alpha.12",
     "vitest": "^0.10.5",
-    "za-zi": "^0.0.7"
+    "za-zi": "^0.0.8"
   },
   "lint-staged": {
     "*": "npm run lint"

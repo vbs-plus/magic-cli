@@ -8,7 +8,7 @@ import { useLogger as useLogger2 } from "@vbs/magic-cli-utils";
 // package.json
 var package_default = {
   name: "@vbs/magic-cli-core",
-  version: "1.0.6",
+  version: "1.0.8",
   description: "",
   keywords: [],
   license: "ISC",

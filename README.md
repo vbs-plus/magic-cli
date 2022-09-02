@@ -2,7 +2,7 @@
 
 A Monorepo Enterprise level CLI tools by Rush,Get more information from [documention](https://magic-cli.netlify.app/)
 
-## 起步
+## 安装
 
 ```shell
 npm install @vbs/magic-cli-core -g
@@ -11,21 +11,21 @@ magic -h
 magic init
 ```
 
-## 前置
+## 开发起步
 
 ```shell
+# install rush
 npm install -g @microsoft/rush
 
-# 安装依赖
-pnpm install
-rush update
+git clone https://github.com/vbs-plus/magic-cl
 
-# 链接bin
-rush build 
+npm run bootstrap
 npm run start
 
+# dev mode
+npm run dev
 # 查看bin效果
-magic
+magic -h
 ```
 
 ## 创建子项目
@@ -64,20 +64,19 @@ pnpm add tslib @rollup/plugin-node-resolve @rollup/plugin-commonjs @rollup/plugi
 
 ```shell
 # pnpm 方式
-pnpm add @pmrepo/utils --filter core // 在 core 里引用 utils
+pnpm add @vbs/magic-cli-utils --filter core // 在 core 里引用 utils
 
 # rush
-rush add -p @pmrepo/utils //-p 表示添加本地库，后面接库名称
+rush add -p @vbs/magic-cli-utils //-p 表示添加本地库，后面接库名称
 
 # rush 全局添加子项目
-rush add -p @pmrepo/utils -all
+rush add -p @vbs/magic-cli-utils -all
 ```
 
 ## 链接全局
 
 ```shell
-cd packages/core
-pnpm link -g
+npm run start
 ```
 
 ## 打包
@@ -87,24 +86,17 @@ pnpm link -g
 rush build
 
 # 分包打包
-rush build -o @pmrepo/core
+rush build -o @vbs/magic-cli-core
 
 # 依赖包打包
-rush build -i @pmrepo/utils
+rush build -i @vbs/magic-cli-utils
 ```
 
 
-## 发布
+## 发布(powered by Github Action)
 
 ```shell
-rush build
-git add .
-git commit -m "chore: publish"
-rush change
-# 正式发布npm
-rush publish --apply
-rush build -o @vbs/magic-cli-core
-rush publish -p --include-all -n <替换成你的 npm TOKEN>
+npm run release
 ```
 
 ## 配置声明
