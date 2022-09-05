@@ -31,7 +31,7 @@ const sidebar = {
   ],
   "/contribute": [
     {
-      text: "Components",
+      text: "Contributing",
       items: Components,
     },
   ],
@@ -68,5 +68,14 @@ export default defineConfig({
       message: 'MIT Licensed',
       copyright: 'Copyright © 2022-present @vbs & Magic CLI Contributors',
     },
+    localeLinks: {
+      text: 'English',
+      items: [
+        {
+          text: '简体中文',
+          link: '/guide/guide-zh.md'
+        }
+      ]
+    }
   },
 })

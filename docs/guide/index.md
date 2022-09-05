@@ -40,13 +40,16 @@ You can check you have the right version with this command:
 magic --version
 ```
 
-##  Step. 2: Learn Magic
+##  Step. 2: Checkout `Magic` works normally
 
 You can use the following command to show `Magic's` features 
 
 ```sh
 magic -h
 ```
+Then you will see the following results:
+
+![](https://raw.githubusercontent.com/imageList/imglist/master/img/20220905094449.png)
 
 ## Upgrading
 
