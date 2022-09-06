@@ -205,7 +205,7 @@ export const getProjectInfo = async (
 
 export const checkTemplateExistAndReturn = async () => {
   const spinner = ora({
-    text: '🔍  正在检索系统模板，请稍后...\n',
+    text: '🔍  正在检索系统模板，请稍后... \r\n\n',
   })
   console.log()
   spinner.start()
