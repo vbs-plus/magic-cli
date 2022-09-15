@@ -31,11 +31,10 @@ Input relevant information of the project according to the prompts of the CLI.
 ## Setp. 4: Hand over to CLI
 Wait for CLI installation dependency and operation start command.This step will go through the process of template installation and rendering, which may take some time
 
-![](https://raw.githubusercontent.com/imageList/imglist/master/img/20220905100705.png)
-
+![](https://raw.githubusercontent.com/imageList/imglist/master/20220907213719.png)
 ## Enjoy
 
 If you se the following result, it means that the project has been successfully created and run
 
-![](https://raw.githubusercontent.com/imageList/imglist/master/img/20220905100841.png)
+![](https://raw.githubusercontent.com/imageList/imglist/master/20220907213827.png)
 

@@ -14,20 +14,20 @@ const homeDir = os.homedir()
 let templatePackage: Package
 const { debug, error, info } = useLogger()
 const installSpinner = ora({
-  text: '🚀 正在安装模板... \r',
+  text: '🚀 正在安装模板... \r\n',
   spinner: 'material',
 })
 const updateSpinner = ora({
-  text: '🚀 正在更新模板... \r',
+  text: '🚀 正在更新模板... \r\n',
   spinner: 'moon',
 })
 const renderSpinner = ora({
-  text: '📄 开始渲染模板代码... \r',
+  text: '📄 开始渲染模板代码... \r\n',
   spinner: 'material',
 })
 const commandSpinner = ora({
-  text: '🔫 正在执行依赖安装命令... \r',
-  spinner: 'material',
+  text: '🔫 开始执行依赖安装命令...',
+  spinner: 'shark',
 })
 
 export async function installTemplate(
@@ -63,7 +63,7 @@ export async function installTemplate(
       throw new Error(e.message)
     } finally {
       if (await templatePackage.exists())
-        installSpinner.succeed('🎉 模板安装成功 \n')
+        installSpinner.succeed('🎉 模板安装成功! \n')
     }
   } else {
     try {
@@ -74,7 +74,7 @@ export async function installTemplate(
       throw new Error(e.message)
     } finally {
       if (await templatePackage.exists())
-        updateSpinner.succeed('🎉 模板更新成功 \n')
+        updateSpinner.succeed('🎉 模板更新成功! \n')
     }
   }
 
@@ -98,11 +98,11 @@ export async function renderTemplate(template: TemplateListItem, projectInfo: Pa
     renderSpinner.fail('渲染模板代码失败！\n')
     throw new Error(e.message)
   } finally {
-    renderSpinner.succeed('🎉 模板渲染成功 \n!')
+    renderSpinner.succeed('🎉 模板渲染成功! \n')
   }
 
   try {
-    commandSpinner.start()
+    info('🔫 正在执行依赖安装命令...')
     fse.writeFileSync(path.resolve(targetPath, '.npmrc'), 'strict-peer-dependencies = false')
     await execaCommand(installCommand, { stdio: 'inherit', encoding: 'utf-8', cwd: targetPath })
   } catch (error: any) {

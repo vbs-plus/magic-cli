@@ -105,11 +105,10 @@ Beta 版本仅支持选择项目类型
 ### Setp. 4: 交给 CLI
 等待 `CLI` 安装依赖项和操作启动命令。此步骤将完成模板安装和渲染过程，这可能需要一些时间。
 
-![](https://raw.githubusercontent.com/imageList/imglist/master/img/20220905100705.png)
-
+![](https://raw.githubusercontent.com/imageList/imglist/master/20220907213719.png)
 ### 大功告成
 
 如果出现以下结果，则表示项目已成功创建并运行。
 
-![](https://raw.githubusercontent.com/imageList/imglist/master/img/20220905100841.png)
+![](https://raw.githubusercontent.com/imageList/imglist/master/20220907213827.png)
 
