@@ -3,11 +3,11 @@ import os from 'os'
 import fse from 'fs-extra'
 import { DEFAULT_HOME_PATH, DEFAULT_STORE_SUFIX, DEFAULT_TEMPLATE_TARGET_PATH, useLogger } from '@vbs/magic-cli-utils'
 import { Package } from '@vbs/magic-cli-models'
-import type { TemplateListItem } from '@vbs/magic-cli-templates'
 import glob from 'glob'
 import ejs from 'ejs'
 import { execaCommand } from 'execa'
 import ora from 'ora'
+import type { TemplateListItem } from '@vbs/magic-cli-templates'
 import type { ProjectInfo } from './type'
 
 const homeDir = os.homedir()
@@ -58,26 +58,21 @@ export async function installTemplate(
     try {
       installSpinner.start()
       await templatePackage.init()
-    }
-    catch (e: any) {
+    } catch (e: any) {
       installSpinner.fail('安装模板失败！\n')
       throw new Error(e.message)
-    }
-    finally {
+    } finally {
       if (await templatePackage.exists())
         installSpinner.succeed('🎉 模板安装成功 \n')
     }
-  }
-  else {
+  } else {
     try {
       updateSpinner.start()
       await templatePackage.update()
-    }
-    catch (e: any) {
+    } catch (e: any) {
       updateSpinner.fail('更新模板失败！\n')
       throw new Error(e.message)
-    }
-    finally {
+    } finally {
       if (await templatePackage.exists())
         updateSpinner.succeed('🎉 模板更新成功 \n')
     }
@@ -99,12 +94,10 @@ export async function renderTemplate(template: TemplateListItem, projectInfo: Pa
     fse.ensureDirSync(templatePath)
     fse.copySync(templatePath, targetPath)
     ejsRenderTemplate({ ignore, targetPath }, projectInfo)
-  }
-  catch (e: any) {
+  } catch (e: any) {
     renderSpinner.fail('渲染模板代码失败！\n')
     throw new Error(e.message)
-  }
-  finally {
+  } finally {
     renderSpinner.succeed('🎉 模板渲染成功 \n!')
   }
 
@@ -112,13 +105,11 @@ export async function renderTemplate(template: TemplateListItem, projectInfo: Pa
     commandSpinner.start()
     fse.writeFileSync(path.resolve(targetPath, '.npmrc'), 'strict-peer-dependencies = false')
     await execaCommand(installCommand, { stdio: 'inherit', encoding: 'utf-8', cwd: targetPath })
-  }
-  catch (error: any) {
+  } catch (error: any) {
     console.log()
     commandSpinner.fail('模板安装依赖失败！\n')
     process.exit(-1)
-  }
-  finally {
+  } finally {
     commandSpinner.succeed('依赖安装完成 \n')
   }
 
@@ -126,15 +117,14 @@ export async function renderTemplate(template: TemplateListItem, projectInfo: Pa
     console.log()
     info('✨✨ 大功告成！')
     await execaCommand(startCommand, { stdio: 'inherit', encoding: 'utf-8', cwd: targetPath })
-  }
-  catch (error: any) {
+  } catch (error: any) {
     debug(`ERROR ${JSON.stringify(error)}`)
     error('应用启动失败！\n')
     process.exit(-1)
   }
 }
 
-export function ejsRenderTemplate(options: { ignore: string[]; targetPath: string }, projectInfo: Partial<ProjectInfo>) {
+export function ejsRenderTemplate(options: { ignore: string[], targetPath: string }, projectInfo: Partial<ProjectInfo>) {
   const { ignore, targetPath } = options
   return new Promise((resolve, reject) => {
     glob('**', {
@@ -152,8 +142,7 @@ export function ejsRenderTemplate(options: { ignore: string[]; targetPath: strin
             if (err) {
               error(`ejsRender ${err.toString()}`)
               rejectt(err)
-            }
-            else {
+            } else {
               fse.writeFileSync(filePath, result)
               resolvet(result)
             }

@@ -5,7 +5,7 @@ declare module 'npminstall' {
     // install root dir
     root?: string
     // optional packages need to install, default is package.json's dependencies and devDependencies
-    pkgs?: [{ name: string; version: string }]
+    pkgs?: [{ name: string, version: string }]
     // install to specific directory, default to root
     targetDir?: string
     // link bin to specific directory (for global install)

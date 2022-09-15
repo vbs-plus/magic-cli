@@ -40,8 +40,7 @@ export const InitCommander = () => {
     if (program.opts().debug) {
       process.env.DEBUG = 'debug'
       info('开启 DEBUG 模式')
-    }
-    else {
+    } else {
       process.env.DEBUG = ''
     }
   })

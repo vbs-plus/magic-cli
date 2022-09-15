@@ -78,8 +78,7 @@ export async function prepare() {
     await checkPackageUpdate()
     checkNodeVersion()
     spinner.succeed('构建环境正常！\n')
-  }
-  catch (error) {
+  } catch (error) {
     spinner.fail('检查构建环境异常! \n')
     console.log(error)
     process.exit(-1)

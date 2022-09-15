@@ -1,13 +1,13 @@
 import path from 'path'
 import fse from 'fs-extra'
 import { toLine, useLogger } from '@vbs/magic-cli-utils'
-import type { TemplateListItem } from '@vbs/magic-cli-templates'
 import { getTemplateListByType } from '@vbs/magic-cli-templates'
 import semver from 'semver'
 import inquirer from 'inquirer'
 import ora from 'ora'
-import type { ProjectInfo } from './type'
 import { installTemplate } from './template'
+import type { ProjectInfo } from './type'
+import type { TemplateListItem } from '@vbs/magic-cli-templates'
 import type { InitArgs } from '.'
 
 const { debug, info, chalk } = useLogger()
@@ -49,14 +49,13 @@ export function isValidPackageName(projectName: string) {
   )
 }
 
-export const checkPackageExists = async (dirPath: string, force: boolean) => {
+export const checkPackageExists = async(dirPath: string, force: boolean) => {
   const pwd = process.cwd()
   const targetDir = path.join(pwd, dirPath)
   if (fse.existsSync(targetDir)) {
     if (force) {
       await fse.remove(targetDir)
-    }
-    else {
+    } else {
       const { action } = await inquirer.prompt([
         {
           name: 'action',
@@ -70,14 +69,13 @@ export const checkPackageExists = async (dirPath: string, force: boolean) => {
         await fse.remove(targetDir)
       return true
     }
-  }
-  else {
+  } else {
     fse.mkdirSync(targetDir)
     return true
   }
 }
 
-export const getProjectInfo = async (
+export const getProjectInfo = async(
   args: InitArgs,
   templates: TemplateListItem[],
 ): Promise<Partial<ProjectInfo>> => {
@@ -196,14 +194,13 @@ export const getProjectInfo = async (
       projectVersion,
       projectDescription,
     }
-  }
-  catch (e: any) {
+  } catch (e: any) {
     console.log(e.message)
   }
   return projectInfo
 }
 
-export const checkTemplateExistAndReturn = async () => {
+export const checkTemplateExistAndReturn = async() => {
   const spinner = ora({
     text: '🔍  正在检索系统模板，请稍后...\n',
   })
@@ -213,13 +210,11 @@ export const checkTemplateExistAndReturn = async () => {
 
   try {
     const { documents } = await getTemplateListByType('all')
-    if (documents.length) { spinner.succeed('系统模板检索正常！\n'); return documents }
-    else {
+    if (documents.length) { spinner.succeed('系统模板检索正常！\n'); return documents } else {
       spinner.fail('系统模板异常\n')
       throw new Error('项目模板不存在\n')
     }
-  }
-  catch (error) {
+  } catch (error) {
     spinner.fail('系统模板异常\n')
     process.exit(-1)
   }
@@ -234,9 +229,7 @@ export async function prepare(args: InitArgs) {
     debug(`projectInfo : ${JSON.stringify(projectInfo)}`)
 
     await installTemplate(templates, projectInfo)
-  }
-  catch (error) {
+  } catch (error) {
     console.log(error)
   }
 }
-

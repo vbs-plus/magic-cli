@@ -31,7 +31,7 @@ export type ReturnType = 'project' | 'component' | 'all'
  * 根据 npmName 获取模板详情
  * @param npmName 发布的 NpmName
  */
-export const getTemplateByNpmName = async (npmName: string) => {
+export const getTemplateByNpmName = async(npmName: string) => {
   return request.findOne<TemplateListItem>({
     ...commnBodyParams,
     filter: { npmName },
@@ -42,7 +42,7 @@ export const getTemplateByNpmName = async (npmName: string) => {
  * 新增单个模板
  * @param params 模板详细参数
  */
-export const addSingleTemplate = async (params: TemplateListItem) => {
+export const addSingleTemplate = async(params: TemplateListItem) => {
   return request.insertOne({
     ...commnBodyParams,
     document: params,
@@ -53,7 +53,7 @@ export const addSingleTemplate = async (params: TemplateListItem) => {
  * 批量新增模板
  * @param params 批量模板参数
  */
-export const addMultiTemplate = async (params: TemplateListItem[]) => {
+export const addMultiTemplate = async(params: TemplateListItem[]) => {
   return request.insertMany({
     ...commnBodyParams,
     documents: params,
@@ -65,7 +65,7 @@ export const addMultiTemplate = async (params: TemplateListItem[]) => {
  * @param npmName 发布的 NpmName
  * @param params 需更新的参数
  */
-export const updateSingleTemplateByNpmName = async (npmName: string, params: Partial<TemplateListItem>) => {
+export const updateSingleTemplateByNpmName = async(npmName: string, params: Partial<TemplateListItem>) => {
   return request.updateOne({
     ...commnBodyParams,
     filter: { npmName },
@@ -77,7 +77,7 @@ export const updateSingleTemplateByNpmName = async (npmName: string, params: Par
  * 根据类型返回模板列表
  * @param type 需要返回的模板类型
  */
-export const getTemplateListByType = async (type: ReturnType) => {
+export const getTemplateListByType = async(type: ReturnType) => {
   return request.find<TemplateListItem>({
     ...commnBodyParams,
     filter: type === 'all' ? {} : { type: type as Omit<ReturnType, 'all'> },
@@ -88,7 +88,7 @@ export const getTemplateListByType = async (type: ReturnType) => {
  * 根据 NpmNames 删除模板
  * @param npmNames 发布的 NpmName数组
  */
-export const deleteTemplateByNpmName = async (npmNames: string[]) => {
+export const deleteTemplateByNpmName = async(npmNames: string[]) => {
   return request.deleteMany({
     ...commnBodyParams,
     filter: {
@@ -96,4 +96,3 @@ export const deleteTemplateByNpmName = async (npmNames: string[]) => {
     },
   })
 }
-

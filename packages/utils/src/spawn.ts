@@ -1,5 +1,5 @@
-import type { SpawnOptionsWithoutStdio } from 'child_process'
 import cp from 'child_process'
+import type { SpawnOptionsWithoutStdio } from 'child_process'
 
 export const spawn = (
   command: string,

@@ -9,13 +9,12 @@ export interface InitArgs {
 
 const { error, debug } = useLogger()
 
-export const init = async () => {
+export const init = async() => {
   try {
     const args = getInheritParams()
     debug(` init args: ${JSON.stringify(args)}`)
     await prepare(args)
-  }
-  catch (e: any) {
+  } catch (e: any) {
     throw new Error(error(e.message, { needConsole: false }))
   }
 }

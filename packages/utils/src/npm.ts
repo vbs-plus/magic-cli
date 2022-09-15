@@ -16,29 +16,28 @@ export interface NpmData {
 
 export const NPM_API_BASE_URL = 'https://registry.npmjs.org'
 
-export const getNpmPackageData = async (packageName: string) => {
+export const getNpmPackageData = async(packageName: string) => {
   if (!packageName)
     return null
   return (await request.get<NpmData>(`${NPM_API_BASE_URL}/${packageName}`))
     .data
 }
 
-export const getNpmVersions = async (packageName: string) => {
+export const getNpmVersions = async(packageName: string) => {
   const data = await getNpmPackageData(packageName)
   if (data)
     return Object.keys(data.versions)
   else return []
 }
 
-export const getNpmSemverVersions = async (packageName: string, baseVersion: string) => {
+export const getNpmSemverVersions = async(packageName: string, baseVersion: string) => {
   const versions = await getNpmVersions(packageName)
   return semverSort.desc(versions.filter(version => semver.gt(version, baseVersion)))
 }
 
-export const getNpmLatestVersion = async (packageName: string) => {
+export const getNpmLatestVersion = async(packageName: string) => {
   const versions = await getNpmVersions(packageName)
   if (versions)
     return versions[versions.length - 1]
   return ''
 }
-
