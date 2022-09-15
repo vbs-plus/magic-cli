@@ -1,6 +1,6 @@
 {
   "name": "@vbs/magic-cli",
-  "version": "1.0.9-beta.17",
+  "version": "1.0.10-beta.0",
   "private": true,
   "packageManager": "pnpm@7.5.0",
   "description": "",
@@ -20,9 +20,9 @@
     "release": "bumpp package.json packages/**/package.json"
   },
   "dependencies": {
-    "@antfu/eslint-config": "^0.22.0",
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
+    "@vbs/eslint-config": "^1.0.0",
     "bumpp": "^8.2.1",
     "eslint": "^8.23.0",
     "husky": "^7.0.4",
@@ -35,7 +35,7 @@
     "*": "npm run lint"
   },
   "eslintConfig": {
-    "extends": "@antfu"
+    "extends": "@vbs"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
