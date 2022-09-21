@@ -1,6 +1,6 @@
 {
   "name": "@vbs/magic-cli",
-  "version": "1.0.10-beta.0",
+  "version": "1.0.10-beta.1",
   "private": true,
   "packageManager": "pnpm@7.5.0",
   "description": "",
@@ -24,12 +24,13 @@
     "@commitlint/config-conventional": "^12.1.4",
     "@vbs/eslint-config": "^1.0.0",
     "bumpp": "^8.2.1",
+    "consola": "^2.15.3",
     "eslint": "^8.23.0",
     "husky": "^7.0.4",
     "lint-staged": "^10.5.4",
     "vitepress": "1.0.0-alpha.12",
     "vitest": "^0.10.5",
-    "za-zi": "^0.0.8"
+    "za-zi": "^0.0.10"
   },
   "lint-staged": {
     "*": "npm run lint"
