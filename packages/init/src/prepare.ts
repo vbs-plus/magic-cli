@@ -12,18 +12,19 @@ import type { InitArgs } from '.'
 
 const { debug, info, chalk } = useLogger()
 const RANDOM_COLORS = [
-  '#F94892',
-  '#FF7F3F',
-  '#FBDF07',
-  '#89CFFD',
+  '#FD841F',
+  '#E14D2A',
+  '#CD104D',
+  '#9C2C77',
   '#A66CFF',
   '#9C9EFE',
-  '#B1E1FF',
-  '#293462',
-  '#31E1F7',
-  '#D800A6',
-  '#FF7777',
-  '#16213E',
+  '#005555',
+  '#069A8E',
+  '#FF5677',
+  '#113CFC',
+  '#FFC107',
+  '#F05454',
+  '#16C79A',
 ]
 const templateSpinner = ora({
   text: '正在检索系统模板，请稍后...',
