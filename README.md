@@ -1,121 +1,109 @@
-## Magic
+<p align="center">
+<img src="./docs/public/logo.svg" style="width:100px;" />
+<h1 align="center">Magic CLI (WIP)</h1>
+<p align="center">A Monorepo Enterprise level CLI tools by Rush.</p>
+</p>
+<p align="center">
+<a href="https://www.npmjs.com/package/onu-ui"><img src="https://img.shields.io/npm/v/onu-ui?color=c95f8b&amp;label=" alt="NPM version"></a></p>
+<p align="center">
+<a href="https://magic-cli.netlify.app/">🧑‍💻 Document <sup>Beta</sup></a> |
+</p>
 
-A Monorepo Enterprise level CLI tools by Rush,Get more information from [documention](https://magic-cli.netlify.app/)
+## Getting Start
 
-## 安装
+This section will help you learn how to use [Magic-cli](https://github.com/vbs-plus/magic-cli). If you already have an existing project and would like to keep project inside the project, start from Step 2.
+##  Step. 1: Install Magic
 
-```shell
-npm install @vbs/magic-cli-core -g
+To install the new package, use one of the following commands.
 
+``` sh
+$ npm install -g @vbs/magic-cli-core
+# OR
+$ yarn global add @vbs/magic-cli-core
+# OR
+$ pnpm install --global @vbs/magic-cli-core
+```
+
+If you are using [zi](https://www.npmjs.com/package/za-zi),you can run the following command
+
+```sh
+$ zi -g @vbs/magic-cli-core
+```
+
+You can check you have the right version with this command:
+
+```sh
+magic --version
+```
+
+##  Step. 2: Checkout `Magic` works normally
+
+You can use the following command to show `Magic's` features 
+
+```sh
 magic -h
-magic init
 ```
+Then you will see the following results:
 
-## 开发起步
+![](https://raw.githubusercontent.com/imageList/imglist/master/img/20220905094449.png)
 
-```shell
-# install rush
-npm install -g @microsoft/rush
+## Upgrading
 
-git clone https://github.com/vbs-plus/magic-cl
+To upgrade the global Magic CLI package, you need to run:
 
-npm run bootstrap
-npm run start
-# 查看bin效果
-magic -h
-```
+```sh
+npm update -g  @vbs/magic-cli-core
 
-## 创建子项目
+# OR
+yarn global upgrade --latest  @vbs/magic-cli-core
 
-```shell
-pnpm init // 创建 package.json 文件
-tsc --init // 创建 tscconfig.json
-touch index.ts // 创建 index.ts 文件
-```
-
-```shell
-.
-├── package.json
-├── packages
-│   ├── core
-│   │   ├── index.ts
-│   │   ├── package.json
-│       └── tsconfig.json
-│   └── utils
-│       ├── index.ts
-│       ├── package.json
-│       └── tsconfig.json
-└── pnpm-workspace.yaml
-```
-
-## 安装依赖
-
-```shell
-pnpm add npmlog --filter utils  // --filter 表示要作用到哪个子项目
-# --filter 可以接多个项目名，--filter A --filter B
-
-pnpm add tslib @rollup/plugin-node-resolve @rollup/plugin-commonjs @rollup/plugin-typescript rollup-plugin-clear --filter utils
-```
-
-## 链接子项目
-
-```shell
-# pnpm 方式
-pnpm add @vbs/magic-cli-utils --filter core // 在 core 里引用 utils
-
-# rush
-rush add -p @vbs/magic-cli-utils //-p 表示添加本地库，后面接库名称
-
-# rush 全局添加子项目
-rush add -p @vbs/magic-cli-utils -all
-```
-
-## 链接全局
-
-```shell
-npm run start
-```
-
-## 打包
-
-```shell
-# 全局打包
-rush build
-
-# 分包打包
-rush build -o @vbs/magic-cli-core
-
-# 依赖包打包
-rush build -i @vbs/magic-cli-utils
+# OR
+pnpm update -g  @vbs/magic-cli-core
 ```
 
 
-## 发布(powered by Github Action)
+## Creating a Project
 
-```shell
-npm run release
+To create a new project, run:
+```sh
+magic init 
+#OR
+magic init hello-world
 ```
+## Step. 1: Checkout Env
 
-## 配置声明
+First, magic will check your device environment, and then retrieve the system template.
 
-```shell
-# 全局env文件存放path ex:/Users/zhongan/.magic-cli.env
-homeEnvPath
-# 默认全局安装目录，未指定 tp 生效 ex:/Users/zhongan/.magic-cli
-process.env.MAGIC_CLI_HOME_PATH
-# 辅助拼接全局缓存目录 ex: .magic-cli
-process.env.MAGIC_HOME_PATH
-# 指定命令(init)文件所在根目录,默认为空，走全局安装目录 ec: /users/target/xxx
-process.env.TARGET_PATH
-# 开启 Debug 模式，默认关闭，通过添加命令参数 -d 开启 ec: debug
-process.env.DEBUG
-```
+![](https://raw.githubusercontent.com/imageList/imglist/master/img/Kapture%202022-09-05%20at%2009.54.02.gif)
 
 
-## TOOD
+## Step. 2: Select initialization type
 
-1. 文档集成
-2. 子项目文档
-3. 发布规范化
-4. 单元测试
-5. 命令扩展
+Then select the project type, as shown in the following figure.
+![](https://raw.githubusercontent.com/imageList/imglist/master/img/20220905095943.png)
+
+## Step. 3: Enter project related information
+
+Input relevant information of the project according to the prompts of the CLI.
+![](https://raw.githubusercontent.com/imageList/imglist/master/img/20220905100112.png)
+
+
+## Setp. 4: Hand over to CLI
+Wait for CLI installation dependency and operation start command.This step will go through the process of template installation and rendering, which may take some time
+
+![](https://raw.githubusercontent.com/imageList/imglist/master/20220907213719.png)
+## Enjoy
+
+If you se the following result, it means that the project has been successfully created and run
+
+![](https://raw.githubusercontent.com/imageList/imglist/master/20220907213827.png)
+
+## Contributing
+
+Contributions are always welcome!
+
+See [CONTRIBUTING.md](https://github.com/vbs-plus/magic-cli/blob/main/CONTRIBUTING.MD) for ways to get started.
+
+## License
+
+[MIT](./LICENCE) License © 2022 [mohen](https://github.com/yzh990918)

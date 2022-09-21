@@ -6,6 +6,7 @@
     "magic-cli",
     "docs"
   ],
+  "private": true,
   "scripts": {
     "dev": "vitepress dev --port 9999 --open",
     "build": "vitepress build",
