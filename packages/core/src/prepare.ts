@@ -12,14 +12,15 @@ import rootCheck from 'root-check'
 import fse from 'fs-extra'
 import dotenv from 'dotenv'
 import ora from 'ora'
+import consola from 'consola'
 import pkg from '../package.json'
 
-const { error, warn, debug } = useLogger()
+const { error, debug } = useLogger()
 const homePath = os.homedir()
 
 export function checkUserHome(homePath: string) {
   if (!homePath || !fse.existsSync(homePath))
-    throw new Error(error('当前登录用户主目录不存在', { needConsole: false }))
+    consola.error(new Error('当前登录用户主目录不存在'))
 }
 
 export function initDefaultConfig() {
@@ -48,7 +49,7 @@ export async function checkPackageUpdate() {
   const latestVersion = await getNpmLatestVersion(packageName)
   if (latestVersion && semver.gt(latestVersion, version)) {
     console.log()
-    warn(
+    consola.warn(
       `最新版本已发布，请手动更新脚手架版本，当前版本为：${version}，最新版本为：${latestVersion} []~(￣▽￣)~*，探索跟多关于 Magic，请访问: https://magic-cli.netlify.app/\n`,
     )
     console.log()

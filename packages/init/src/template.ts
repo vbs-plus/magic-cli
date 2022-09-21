@@ -59,22 +59,22 @@ export async function installTemplate(
       installSpinner.start()
       await templatePackage.init()
     } catch (e: any) {
-      installSpinner.fail('安装模板失败！\n')
+      installSpinner.fail('安装模板失败！')
       throw new Error(e.message)
     } finally {
       if (await templatePackage.exists())
-        installSpinner.succeed('🎉 模板安装成功! \n')
+        installSpinner.succeed('🎉 模板安装成功! ')
     }
   } else {
     try {
       updateSpinner.start()
       await templatePackage.update()
     } catch (e: any) {
-      updateSpinner.fail('更新模板失败！\n')
+      updateSpinner.fail('更新模板失败！')
       throw new Error(e.message)
     } finally {
       if (await templatePackage.exists())
-        updateSpinner.succeed('🎉 模板更新成功! \n')
+        updateSpinner.succeed('🎉 模板更新成功!')
     }
   }
 

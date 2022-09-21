@@ -20,7 +20,15 @@ const RANDOM_COLORS = [
   '#9C9EFE',
   '#B1E1FF',
   '#293462',
+  '#31E1F7',
+  '#D800A6',
+  '#FF7777',
+  '#16213E',
 ]
+const templateSpinner = ora({
+  text: '正在检索系统模板，请稍后...',
+  spinner: 'material',
+})
 
 export const getInheritParams = () => {
   const args = JSON.parse(process.argv.slice(2)[0])
@@ -44,14 +52,13 @@ export function formatTargetDir(targetDir: string) {
 }
 
 export function isValidPackageName(projectName: string) {
-  return /^(?:@[a-z0-9-*~][a-z0-9-*._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/.test(
-    projectName,
-  )
+  return /^(?:@[a-z0-9-*~][a-z0-9-*._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/.test(projectName)
 }
 
 export const checkPackageExists = async(dirPath: string, force: boolean) => {
   const pwd = process.cwd()
   const targetDir = path.join(pwd, dirPath)
+  const fileSpinner = ora({ text: '移除目录中...', spinner: 'monkey' })
   if (fse.existsSync(targetDir)) {
     if (force) {
       await fse.remove(targetDir)
@@ -63,10 +70,11 @@ export const checkPackageExists = async(dirPath: string, force: boolean) => {
           message: '目录已存在是否需要进行移除？',
         },
       ])
-      if (!action)
-        return false
-      else
+      if (!action) { return false } else {
+        fileSpinner.start()
         await fse.remove(targetDir)
+        fileSpinner.succeed('移除成功')
+      }
       return true
     }
   } else {
@@ -75,10 +83,7 @@ export const checkPackageExists = async(dirPath: string, force: boolean) => {
   }
 }
 
-export const getProjectInfo = async(
-  args: InitArgs,
-  templates: TemplateListItem[],
-): Promise<Partial<ProjectInfo>> => {
+export const getProjectInfo = async(args: InitArgs, templates: TemplateListItem[]): Promise<Partial<ProjectInfo>> => {
   let targetDir = formatTargetDir(args.projectName!)
   const defaultName = 'magic-project'
   const defaultVersion = '1.0.0'
@@ -123,16 +128,14 @@ export const getProjectInfo = async(
 
     const projectPrompts: inquirer.QuestionCollection<any>[] = []
     // 非法 projectName 或不传开启提问
-    if (!args.projectName || !isValidPackageName(args.projectName))
-      projectPrompts.push(projectNamePrompt)
+    if (!args.projectName || !isValidPackageName(args.projectName)) projectPrompts.push(projectNamePrompt)
     const values = await inquirer.prompt(projectPrompts)
     targetDir = formatTargetDir(values.projectName) || targetDir
     // TODO:文档记录 三种case： 1. 传入合法projectName 2. 不合法projectName 3. 不传
     debug(` TargetDir :${targetDir}`)
 
     const ret = await checkPackageExists(targetDir, args.force!)
-    if (!ret)
-      info('✖ 移除文件操作被取消，程序正常退出')
+    if (!ret) info('✖ 移除文件操作被取消，程序正常退出')
 
     const { projectVersion } = await inquirer.prompt({
       type: 'input',
@@ -152,8 +155,7 @@ export const getProjectInfo = async(
         })
       },
       filter: (value: string) => {
-        if (semver.valid(value))
-          return semver.valid(value)
+        if (semver.valid(value)) return semver.valid(value)
 
         return value
       },
@@ -164,9 +166,7 @@ export const getProjectInfo = async(
       .filter(item => item.type === type)
       .map((item) => {
         return {
-          name: chalk.hex(
-            RANDOM_COLORS[Math.floor(Math.random() * RANDOM_COLORS.length)],
-          )(item.name),
+          name: chalk.hex(RANDOM_COLORS[Math.floor(Math.random() * RANDOM_COLORS.length)])(item.name),
           value: item.npmName,
         }
       })
@@ -201,21 +201,18 @@ export const getProjectInfo = async(
 }
 
 export const checkTemplateExistAndReturn = async() => {
-  const spinner = ora({
-    text: '🔍  正在检索系统模板，请稍后... \r\n\n',
-  })
-  console.log()
-  spinner.start()
-  console.log()
-
+  templateSpinner.start()
   try {
     const { documents } = await getTemplateListByType('all')
-    if (documents.length) { spinner.succeed('系统模板检索正常！\n'); return documents } else {
-      spinner.fail('系统模板异常\n')
-      throw new Error('项目模板不存在\n')
+    if (documents.length) {
+      templateSpinner.succeed('系统模板检索正常')
+      return documents
+    } else {
+      templateSpinner.fail('系统模板异常')
+      throw new Error('项目模板不存在')
     }
   } catch (error) {
-    spinner.fail('系统模板异常\n')
+    templateSpinner.fail('系统模板异常')
     process.exit(-1)
   }
 }

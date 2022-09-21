@@ -6,21 +6,20 @@ import { echoInfoText } from './chalk'
 
 export function printMagicLogo(version: string) {
   clear()
-
   console.log(
-    gradient.teen(
-      figlet.textSync('MAGIC CLI', {
+    `\n${(`${gradient.vice(
+      figlet.textSync('Magic Cli', {
         horizontalLayout: 'default',
         verticalLayout: 'default',
-        font: '3D-ASCII',
         whitespaceBreak: true,
+        width: 200,
       }),
-    ),
+    )} ${chalk.cyanBright(`[version: v${version}]`)}
+  `)}`,
   )
   console.log(
      `\r\nRun ${echoInfoText(
        'magic <command> --help',
      )} for detailed usage of given command\r\n`,
   )
-  console.log(`当前脚手架版本为: ${chalk.rgb(89, 206, 143).inverse(` ${version} `)} \r\n`)
 }

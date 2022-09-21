@@ -1,17 +1,16 @@
-import { useLogger } from '@vbs/magic-cli-utils'
+import consola from 'consola'
 import { InitCommander } from './commander'
 import { prepare } from './prepare'
 
 const core = async() => {
-  const { error } = useLogger()
   try {
     await prepare()
     InitCommander()
   } catch (e: any) {
     if (e instanceof Error && process.env.DEBUG)
-      console.log(e)
+      consola.error(e)
     else
-      error(e.msg)
+      consola.error(e)
   }
 }
 
