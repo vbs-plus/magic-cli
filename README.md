@@ -4,7 +4,7 @@
 <p align="center">A Monorepo Enterprise level CLI tools by Rush.</p>
 </p>
 <p align="center">
-<a href="https://www.npmjs.com/package/onu-ui"><img src="https://img.shields.io/npm/v/onu-ui?color=c95f8b&amp;label=" alt="NPM version"></a></p>
+<a href="https://www.npmjs.com/package/@vbs/magic-cli-core"><img src="https://img.shields.io/npm/v/@vbs/magic-cli-core?color=c95f8b&amp;label=" alt="NPM version"></a></p>
 <p align="center">
 <a href="https://magic-cli.netlify.app/">🧑‍💻 Document <sup>Beta</sup></a> |
 </p>
