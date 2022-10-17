@@ -7,6 +7,7 @@ import glob from 'glob'
 import ejs from 'ejs'
 import { execaCommand } from 'execa'
 import ora from 'ora'
+import { fileContent } from './gitignore'
 import type { TemplateListItem } from '@vbs/magic-cli-templates'
 import type { ProjectInfo } from './type'
 
@@ -104,9 +105,10 @@ export async function renderTemplate(template: TemplateListItem, projectInfo: Pa
   try {
     info('🔫 正在执行依赖安装命令...')
     fse.writeFileSync(path.resolve(targetPath, '.npmrc'), 'strict-peer-dependencies = false')
+    fse.writeFileSync(path.resolve(targetPath, '.gitignore'), fileContent)
     await execaCommand(installCommand, { stdio: 'inherit', encoding: 'utf-8', cwd: targetPath })
   } catch (error: any) {
-    console.log()
+    console.log(error)
     commandSpinner.fail('模板安装依赖失败！\n')
     process.exit(-1)
   } finally {
