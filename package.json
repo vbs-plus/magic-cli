@@ -1,6 +1,6 @@
 {
   "name": "@vbs/magic-cli",
-  "version": "1.0.10-beta.6",
+  "version": "1.0.10-beta.7",
   "private": true,
   "packageManager": "pnpm@7.5.0",
   "description": "",
