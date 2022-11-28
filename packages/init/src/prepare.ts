@@ -188,8 +188,8 @@ export const getProjectInfo = async(args: InitArgs, templates: TemplateListItem[
     })
 
     projectInfo = {
-      name: values.projectName || targetDir,
-      projectName: toLine(values.projectName) || toLine(targetDir),
+      name: values.projectName || targetDir || args.projectName,
+      projectName: toLine(values.projectName || targetDir || args.projectName),
       type,
       npmName,
       projectVersion,

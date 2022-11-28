@@ -141,21 +141,17 @@ importers:
       '@types/figlet': ^1.5.4
       '@types/gradient-string': ^1.1.2
       '@types/node': ^18.6.4
-      '@types/npmlog': ^4.1.4
       '@types/ora': ^3.2.0
       '@types/semver': ^7.3.12
       '@types/semver-sort': ^0.0.1
-      '@types/strip-ansi': ^5.2.1
       axios: ^0.27.2
       chalk: 4.1.1
       clear: ^0.1.0
       figlet: ^1.5.2
       gradient-string: ^2.0.1
-      npmlog: ^6.0.2
       ora: ^6.1.2
       semver: ^7.3.7
       semver-sort: ^1.0.0
-      strip-ansi: ^7.0.1
       tslib: ^2.3.1
       typescript: ^4.5.2
       unbuild: ^0.8.8
@@ -165,21 +161,17 @@ importers:
       '@types/figlet': 1.5.5
       '@types/gradient-string': 1.1.2
       '@types/node': 18.7.18
-      '@types/npmlog': 4.1.4
       '@types/ora': 3.2.0
       '@types/semver': 7.3.12
       '@types/semver-sort': 0.0.1
-      '@types/strip-ansi': 5.2.1
       axios: 0.27.2
       chalk: 4.1.1
       clear: 0.1.0
       figlet: 1.5.2
       gradient-string: 2.0.2
-      npmlog: 6.0.2
       ora: 6.1.2
       semver: 7.3.7
       semver-sort: 1.0.0
-      strip-ansi: 7.0.1
       tslib: 2.4.0
       typescript: 4.8.3
       unbuild: 0.8.11
@@ -704,10 +696,6 @@ packages:
   /@types/node/18.7.18:
     resolution: {integrity: sha512-m+6nTEOadJZuTPkKR/SYK3A2d7FZrgElol9UP1Kae90VVU4a6mxnPuLiIW1m4Cq4gZ/nWb9GrdVXJCoCazDAbg==}
 
-  /@types/npmlog/4.1.4:
-    resolution: {integrity: sha512-WKG4gTr8przEZBiJ5r3s8ZIAoMXNbOgQ+j/d5O4X3x6kZJRLNvyUJuUK/KoG3+8BaOHPhp2m7WC6JKKeovDSzQ==}
-    dev: false
-
   /@types/ora/3.2.0:
     resolution: {integrity: sha512-jll99xUKpiFbIFZSQcxm4numfsLaOWBzWNaRk3PvTSE7BPqTzzOCFmS0mQ7m8qkTfmYhuYbehTGsxkvRLPC++w==}
     deprecated: This is a stub types definition. ora provides its own type definitions, so you do not need this installed.
@@ -737,13 +725,6 @@ packages:
 
   /@types/semver/7.3.12:
     resolution: {integrity: sha512-WwA1MW0++RfXmCr12xeYOOC5baSC9mSb0ZqCquFzKhcoF4TvHu5MKOuXsncgZcpVFhB1pXd5hZmM0ryAoCp12A==}
-    dev: false
-
-  /@types/strip-ansi/5.2.1:
-    resolution: {integrity: sha512-1l5iM0LBkVU8JXxnIoBqNvg+yyOXxPeN6DNoD+7A9AN1B8FhYPSeIXgyNqwIqg1uzipTgVC2hmuDzB0u9qw/PA==}
-    deprecated: This is a stub types definition. strip-ansi provides its own type definitions, so you do not need this installed.
-    dependencies:
-      strip-ansi: 7.0.1
     dev: false
 
   /@types/through/0.0.30:
