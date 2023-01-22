@@ -96,7 +96,7 @@ Wait for CLI installation dependency and operation start command.This step will 
 
 ## Enjoy
 
-If you see the following result, it means that the project has been successfully created and run.
+If you see the following results, it means that the project has been successfully created and run.
 
 ![](https://raw.githubusercontent.com/imageList/imglist/master/20220907213827.png)
 
