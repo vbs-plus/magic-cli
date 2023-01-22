@@ -25,7 +25,7 @@ $ yarn global add @vbs/magic-cli-core
 $ pnpm install --global @vbs/magic-cli-core
 ```
 
-If you are using [zi](https://www.npmjs.com/package/za-zi),you can run the following command
+If you are using [zi](https://www.npmjs.com/package/za-zi), you can run the following command.
 
 ```sh
 $ zi -g @vbs/magic-cli-core
@@ -39,7 +39,7 @@ magic --version
 
 ###  Step 2: Checkout `Magic` works normally
 
-You can use the following command to show `Magic's` features 
+You can use the following command to show `Magic's` features.
 
 ```sh
 magic -h
@@ -90,13 +90,13 @@ Input relevant information of the project according to the prompts of the CLI.
 
 
 ### Step 4: Hand over to CLI
-Wait for CLI installation dependency and operation start command.This step will go through the process of template installation and rendering, which may take some time
+Wait for CLI installation dependency and operation start command.This step will go through the process of template installation and rendering, which may take some time.
 
 ![](https://raw.githubusercontent.com/imageList/imglist/master/20220907213719.png)
 
 ## Enjoy
 
-If you se the following result, it means that the project has been successfully created and run
+If you see the following result, it means that the project has been successfully created and run.
 
 ![](https://raw.githubusercontent.com/imageList/imglist/master/20220907213827.png)
 
