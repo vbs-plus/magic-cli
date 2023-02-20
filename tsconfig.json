@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "esnext",
+    "lib": ["esnext"],
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "resolveJsonModule": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@vbs/magic-cli-core": ["./packages/core/src/index.ts"],
+      "@vbs/magic-cli-init": ["./packages/init/src/index.ts"],
+      "@vbs/magic-cli-models": ["./packages/models/src/index.ts"],
+      "@vbs/magic-cli-templates": ["./packages/templates/node/index.ts"],
+      "@vbs/magic-cli-utils": ["./packages/utils/src/index.ts"],
+    }
+  },
+  "exclude": [
+    "**/dist/**",
+    "**/node_modules/**",
+  ]
+}
