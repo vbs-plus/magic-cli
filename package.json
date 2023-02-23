@@ -2,7 +2,7 @@
   "name": "@vbs/magic-cli",
   "version": "1.0.14",
   "private": true,
-  "packageManager": "pnpm@7.11.0",
+  "packageManager": "pnpm@7.27.1",
   "description": "",
   "keywords": [],
   "license": "ISC",
