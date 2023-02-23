@@ -66,7 +66,6 @@ export async function prepare() {
 
   spinner.start()
   try {
-    // TODO： 构建环境异常测试
     rootCheck()
     checkUserHome(homePath)
     checkEnv()

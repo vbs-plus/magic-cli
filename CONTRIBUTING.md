@@ -72,6 +72,12 @@ rush add -p @vbs/magic-cli-utils -all
 npm run start
 ```
 
+## 开发环境调试
+
+```shell
+npm run dev
+```
+
 ## 打包
 
 ```shell

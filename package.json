@@ -12,6 +12,7 @@
     "bootstrap": "zi && rush update",
     "build": "rush build",
     "start": "zr build && cd packages/core && pnpm link -g",
+    "dev": "pnpm -r --parallel --filter=./packages/* run stub",
     "docs": "pnpm -C docs run dev",
     "docs:build": "pnpm run -C docs build",
     "lint": "eslint packages --fix",
@@ -26,11 +27,11 @@
     "@vbs/eslint-config": "^1.0.0",
     "bumpp": "^8.2.1",
     "consola": "^2.15.3",
-    "eslint": "^8.23.0",
+    "eslint": "^8.34.0",
     "husky": "^7.0.4",
     "lint-staged": "^10.5.4",
     "vitepress": "1.0.0-alpha.12",
-    "vitest": "^0.10.5",
+    "vitest": "^0.28.5",
     "za-zi": "^0.0.10"
   },
   "lint-staged": {

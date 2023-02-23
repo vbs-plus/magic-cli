@@ -22,7 +22,8 @@
   "scripts": {
     "dev": "unbuild -w",
     "build": "unbuild",
-    "test": "vitest"
+    "test": "vitest",
+    "stub": "unbuild --stub"
   },
   "publishConfig": {
     "access": "public"
