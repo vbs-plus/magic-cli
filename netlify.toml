@@ -4,7 +4,7 @@
 
 [build]
   publish = "docs/.vitepress/dist"
-  command = "npx pnpm@7.27.1 i && pnpm -w run deploy"
+  command = "pnpm install && pnpm -w run docs:build"
 
 [functions]
   node_bundler = "esbuild"
