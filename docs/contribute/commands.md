@@ -8,14 +8,13 @@ If you are interested in this project and want to contribute to it. please read 
 
 Requirements:
  - [Node.js](https://nodejs.org/)
- - [@microsoft/rush](https://rushjs.io/)
 
 First, you should [fork](https://github.com/vbs-plus/magic-cli/fork) the project and create your requirements branch based on the `main` branch,Run the flowing code:
 
 ```sh
 git clone https://github.com/[Your UserName]/magic-cli
 
-npm run bootstrap
+npm run dev
 
 npm run start
 

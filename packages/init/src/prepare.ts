@@ -7,10 +7,10 @@ import ora from 'ora'
 import clear from 'clear'
 import { cancel, confirm, intro, isCancel, select, spinner, text } from '@clack/prompts'
 import gradient from 'gradient-string'
+import type { TemplateListItem } from '@vbs/magic-cli-templates'
 import pkg from '../package.json'
 import { installTemplate } from './template'
 import type { ProjectInfo } from './type'
-import type { TemplateListItem } from '@vbs/magic-cli-templates'
 import type { InitArgs } from '.'
 
 const { debug, chalk } = useLogger()
@@ -64,32 +64,35 @@ export function isValidPackageName(projectName: string) {
   return /^(?:@[a-z0-9-*~][a-z0-9-*._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/.test(projectName)
 }
 
-export const checkPackageExists = async(dirPath: string, force: boolean) => {
+export const checkPackageExists = async (dirPath: string, force: boolean) => {
   const pwd = process.cwd()
   const targetDir = path.join(pwd, dirPath)
   if (fse.existsSync(targetDir)) {
     if (force) {
       await fse.remove(targetDir)
-    } else {
+    }
+    else {
       const action = await confirm({
         message: 'Does the directory already exist and need to be removed?',
       })
       if (!action || isCancel(action)) {
         cancel('✖ The file removal operation is canceled and the program exits normally!')
         process.exit(0)
-      } else {
+      }
+      else {
         const s = spinner()
         s.start('Removing the directory...')
         await fse.remove(targetDir)
         s.stop('✅ The directory has been removed successfully!')
       }
     }
-  } else {
+  }
+  else {
     fse.mkdirSync(targetDir)
   }
 }
 
-export const getProjectInfo = async(args: InitArgs, templates: TemplateListItem[]): Promise<Partial<ProjectInfo>> => {
+export const getProjectInfo = async (args: InitArgs, templates: TemplateListItem[]): Promise<Partial<ProjectInfo>> => {
   let targetDir = formatTargetDir(args.projectName!)
   const defaultVersion = '1.0.0'
   let projectInfo: Partial<ProjectInfo> = {}
@@ -191,24 +194,27 @@ export const getProjectInfo = async(args: InitArgs, templates: TemplateListItem[
       projectVersion,
       projectDescription,
     }
-  } catch (e: any) {
+  }
+  catch (e: any) {
     console.log(e.message)
   }
   return projectInfo
 }
 
-export const checkTemplateExistAndReturn = async() => {
+export const checkTemplateExistAndReturn = async () => {
   templateSpinner.start()
   try {
     const { documents } = await getTemplateListByType('all')
     if (documents.length) {
       templateSpinner.succeed('System template retrieval is normal!')
       return documents
-    } else {
+    }
+    else {
       templateSpinner.fail('System template exception!')
       throw new Error('The project template does not exist!')
     }
-  } catch (error) {
+  }
+  catch (error) {
     templateSpinner.fail('System template exception!')
     process.exit(-1)
   }
@@ -223,7 +229,8 @@ export async function prepare(args: InitArgs) {
     debug(`projectInfo : ${JSON.stringify(projectInfo)}`)
 
     await installTemplate(templates, projectInfo)
-  } catch (error) {
+  }
+  catch (error) {
     console.log(error)
   }
 }

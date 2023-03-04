@@ -1,7 +1,7 @@
 <p align="center">
 <img src="./docs/public/logo.svg" style="width:100px;" />
 <h1 align="center">Magic CLI (WIP)</h1>
-<p align="center">A Monorepo Enterprise level CLI tools by Rush.</p>
+<p align="center">A Monorepo Enterprise level CLI tools.</p>
 </p>
 <p align="center">
 <a href="https://www.npmjs.com/package/@vbs/magic-cli-core"><img src="https://img.shields.io/npm/v/@vbs/magic-cli-core?color=c95f8b&amp;label=" alt="NPM version"></a></p>

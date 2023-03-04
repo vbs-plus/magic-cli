@@ -39,10 +39,10 @@ const sidebar = {
 
 export default defineConfig({
   title: 'Magic CLI',
-  description: 'Monorepo Enterprise level CLI tools by Rush',
+  description: 'Monorepo Enterprise level CLI tools',
   head: [
     ['meta', { property: 'og:title', content: 'Onu-UI' }],
-    ['meta', { property: 'og:description', content: 'Monorepo Enterprise level CLI tools by Rush' }],
+    ['meta', { property: 'og:description', content: 'Monorepo Enterprise level CLI tools' }],
     ['meta', { property: 'og:url', content: 'https://github.com/vbs-plus/magic-cli' }],
     ['link', { rel: 'icon', href: '/logo.svg', type: 'image/svg+xml' }],
     [

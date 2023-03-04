@@ -51,11 +51,13 @@ export class Package {
     if (this.STORE_PATH) {
       try {
         await this.prepare()
-      } catch (error) {
+      }
+      catch (error) {
         console.log(error)
       }
       return await fse.pathExists(this.getCacheFilePath(this.PACKAGE_VERSION))
-    } else { return await fse.pathExists(this.TP_PATH) }
+    }
+    else { return await fse.pathExists(this.TP_PATH) }
   }
 
   async prepare() {

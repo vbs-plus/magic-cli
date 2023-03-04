@@ -2,53 +2,43 @@
   "name": "@vbs/magic-cli-core",
   "version": "1.0.15",
   "description": "",
-  "keywords": [],
-  "license": "ISC",
   "author": "",
+  "license": "MIT",
+  "keywords": [],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    }
+  },
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
-    }
+  "bin": {
+    "magic": "bin/magic.mjs"
   },
   "files": [
     "dist",
     "bin"
   ],
-  "bin": {
-    "magic": "bin/magic.mjs"
-  },
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "dev": "unbuild -w",
     "build": "unbuild",
     "stub": "unbuild --stub",
-    "link": "pnpm link -g",
-    "test": "vitest"
+    "link": "pnpm link -g"
   },
   "dependencies": {
     "@types/dotenv": "^8.2.0",
-    "@types/fs-extra": "^9.0.13",
-    "@types/node": "^18.6.4",
     "@types/root-check": "^1.0.0",
     "@types/semver": "^7.3.12",
-    "@vbs/magic-cli-models": "workspace:*",
-    "@vbs/magic-cli-utils": "workspace:*",
     "commander": "^9.4.0",
     "dotenv": "^16.0.1",
-    "fast-glob": "^3.2.11",
-    "fs-extra": "^10.1.0",
     "ora": "^6.1.2",
     "root-check": "^2.0.0",
     "semver": "^7.3.7",
-    "tslib": "^2.4.0",
-    "typescript": "^4.5.2",
-    "unbuild": "^0.8.8"
+    "tslib": "^2.4.0"
   }
 }

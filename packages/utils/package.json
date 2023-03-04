@@ -2,27 +2,25 @@
   "name": "@vbs/magic-cli-utils",
   "version": "1.0.15",
   "description": "",
-  "keywords": [],
-  "license": "ISC",
   "author": "",
+  "license": "MIT",
+  "keywords": [],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    }
+  },
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
-    }
-  },
   "files": [
     "dist",
     "bin"
   ],
   "scripts": {
-    "dev": "unbuild -w",
     "build": "unbuild",
-    "test": "vitest",
     "stub": "unbuild --stub"
   },
   "publishConfig": {

@@ -15,11 +15,11 @@
       "@vbs/magic-cli-init": ["./packages/init/src/index.ts"],
       "@vbs/magic-cli-models": ["./packages/models/src/index.ts"],
       "@vbs/magic-cli-templates": ["./packages/templates/src/index.ts"],
-      "@vbs/magic-cli-utils": ["./packages/utils/src/index.ts"],
+      "@vbs/magic-cli-utils": ["./packages/utils/src/index.ts"]
     }
   },
   "exclude": [
     "**/dist/**",
-    "**/node_modules/**",
+    "**/node_modules/**"
   ]
 }

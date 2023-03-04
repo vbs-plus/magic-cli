@@ -18,7 +18,7 @@ export const useLogger = () => {
       chalk.rgb(89, 206, 143).inverse(symbol),
       '',
       chalk.green(
-        typeof target === 'object' || typeof target === 'boolean'
+        (typeof target === 'object' || typeof target === 'boolean')
           ? JSON.stringify(target)
           : target,
       ),
@@ -30,11 +30,11 @@ export const useLogger = () => {
       console.log(
         echoInfoBgText(LOGGER_MSG_ENUM.DEBUG),
         '',
-        chalk.green(typeof target === 'object' || typeof target === 'boolean' ? JSON.stringify(target) : target),
+        chalk.green((typeof target === 'object' || typeof target === 'boolean') ? JSON.stringify(target) : target),
       )
     }
     return `${echoInfoBgText(LOGGER_MSG_ENUM.DEBUG)} ${
-      typeof target === 'object' || typeof target === 'boolean'
+      (typeof target === 'object' || typeof target === 'boolean')
         ? JSON.stringify(target)
         : target
     }`
@@ -48,13 +48,13 @@ export const useLogger = () => {
       console.log(
         chalk.bgBlue(LOGGER_MSG_ENUM.INFO),
         '',
-        chalk.blue(typeof target === 'object' || typeof target === 'boolean'
+        chalk.blue((typeof target === 'object' || typeof target === 'boolean')
           ? JSON.stringify(target)
           : target),
       )
     }
 
-    return `${chalk.bgBlue(LOGGER_MSG_ENUM.INFO)} ${typeof target === 'object' || typeof target === 'boolean'
+    return `${chalk.bgBlue(LOGGER_MSG_ENUM.INFO)} ${(typeof target === 'object' || typeof target === 'boolean')
         ? JSON.stringify(target)
         : target}`
   }
@@ -64,12 +64,12 @@ export const useLogger = () => {
       console.log(
         chalk.bgGreen.black(LOGGER_MSG_ENUM.DONE),
         '',
-        chalk.green(typeof target === 'object' || typeof target === 'boolean'
+        chalk.green((typeof target === 'object' || typeof target === 'boolean')
           ? JSON.stringify(target)
           : target),
       )
     }
-    return `${chalk.bgGreen.black(LOGGER_MSG_ENUM.DONE)} ${typeof target === 'object' || typeof target === 'boolean'
+    return `${chalk.bgGreen.black(LOGGER_MSG_ENUM.DONE)} ${(typeof target === 'object' || typeof target === 'boolean')
         ? JSON.stringify(target)
         : target}`
   }
@@ -83,7 +83,7 @@ export const useLogger = () => {
         chalk.bgYellow.black(LOGGER_MSG_ENUM.WARN),
         '',
         chalk.yellow(
-          typeof target === 'object' || typeof target === 'boolean'
+          (typeof target === 'object' || typeof target === 'boolean')
             ? JSON.stringify(target)
             : target,
         ),
@@ -91,7 +91,7 @@ export const useLogger = () => {
     }
 
     return `${chalk.bgYellow.black(LOGGER_MSG_ENUM.WARN)} ${chalk.yellow(
-      typeof target === 'object' || typeof target === 'boolean'
+      (typeof target === 'object' || typeof target === 'boolean')
         ? JSON.stringify(target)
         : target,
     )}`
@@ -107,7 +107,7 @@ export const useLogger = () => {
         chalk.bgRed(LOGGER_MSG_ENUM.ERROR),
         '',
         chalk.red(
-          typeof target === 'object' || typeof target === 'boolean'
+          (typeof target === 'object' || typeof target === 'boolean')
             ? JSON.stringify(target)
             : target,
         ),
@@ -115,7 +115,7 @@ export const useLogger = () => {
     }
 
     return `${chalk.bgRed(LOGGER_MSG_ENUM.ERROR)} ${chalk.red(
-        typeof target === 'object' || typeof target === 'boolean'
+        (typeof target === 'object' || typeof target === 'boolean')
           ? JSON.stringify(target)
           : target,
       )}`

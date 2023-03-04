@@ -1,5 +1,5 @@
 {
-  "extends": "@vbs",
+  "extends": "@antfu",
   "rules": {
     "no-console": "off",
     "no-prototype-builtins":"off",

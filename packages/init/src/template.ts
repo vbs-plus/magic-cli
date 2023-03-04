@@ -7,9 +7,9 @@ import glob from 'glob'
 import ejs from 'ejs'
 import { execaCommand } from 'execa'
 import ora from 'ora'
+import type { TemplateListItem } from '@vbs/magic-cli-templates'
 import { fileContent } from './gitignore'
 import { npmrcContent } from './npmrc'
-import type { TemplateListItem } from '@vbs/magic-cli-templates'
 import type { ProjectInfo } from './type'
 
 const homeDir = os.homedir()
@@ -60,21 +60,26 @@ export async function installTemplate(
     try {
       installSpinner.start()
       await templatePackage.init()
-    } catch (e: any) {
+    }
+    catch (e: any) {
       installSpinner.fail('Failed to install template!')
       throw new Error(e.message)
-    } finally {
+    }
+    finally {
       if (await templatePackage.exists())
         installSpinner.succeed('🎉 The template was installed successfully! ')
     }
-  } else {
+  }
+  else {
     try {
       updateSpinner.start()
       await templatePackage.update()
-    } catch (e: any) {
+    }
+    catch (e: any) {
       updateSpinner.fail('Failed to update template!')
       throw new Error(e.message)
-    } finally {
+    }
+    finally {
       if (await templatePackage.exists())
         updateSpinner.succeed('🎉 Template updated successfully!')
     }
@@ -96,10 +101,12 @@ export async function renderTemplate(template: TemplateListItem, projectInfo: Pa
     fse.ensureDirSync(templatePath)
     fse.copySync(templatePath, targetPath)
     ejsRenderTemplate({ ignore, targetPath }, projectInfo)
-  } catch (e: any) {
+  }
+  catch (e: any) {
     renderSpinner.fail('Rendering template code failed!\n')
     throw new Error(e.message)
-  } finally {
+  }
+  finally {
     renderSpinner.succeed('🎉 Template rendered successfully! \n')
   }
 
@@ -108,11 +115,13 @@ export async function renderTemplate(template: TemplateListItem, projectInfo: Pa
     fse.writeFileSync(path.resolve(targetPath, '.npmrc'), npmrcContent)
     fse.writeFileSync(path.resolve(targetPath, '.gitignore'), fileContent)
     await execaCommand(installCommand, { stdio: 'inherit', encoding: 'utf-8', cwd: targetPath })
-  } catch (error: any) {
+  }
+  catch (error: any) {
     console.log(error)
     commandSpinner.fail('Template installation dependency failed!\n')
     process.exit(-1)
-  } finally {
+  }
+  finally {
     commandSpinner.succeed('Dependency installation completes \n')
   }
 
@@ -120,14 +129,15 @@ export async function renderTemplate(template: TemplateListItem, projectInfo: Pa
     console.log()
     info('✨✨ The job installation completes!')
     await execaCommand(startCommand, { stdio: 'inherit', encoding: 'utf-8', cwd: targetPath })
-  } catch (error: any) {
+  }
+  catch (error: any) {
     debug(`ERROR ${JSON.stringify(error)}`)
     error('App launch failed!\n')
     process.exit(-1)
   }
 }
 
-export function ejsRenderTemplate(options: { ignore: string[], targetPath: string }, projectInfo: Partial<ProjectInfo>) {
+export function ejsRenderTemplate(options: { ignore: string[]; targetPath: string }, projectInfo: Partial<ProjectInfo>) {
   const { ignore, targetPath } = options
   return new Promise((resolve, reject) => {
     glob('**', {
@@ -145,7 +155,8 @@ export function ejsRenderTemplate(options: { ignore: string[], targetPath: strin
             if (err) {
               error(`ejsRender ${err.toString()}`)
               rejectt(err)
-            } else {
+            }
+            else {
               fse.writeFileSync(filePath, result)
               resolvet(result)
             }

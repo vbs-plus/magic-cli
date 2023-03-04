@@ -40,7 +40,8 @@ export function useSpinner() {
         symbol: lastMsg.symbol,
         text: lastMsg.text,
       })
-    } else {
+    }
+    else {
       spinner.stop()
     }
     lastMsg = null
@@ -68,7 +69,7 @@ export function useSpinner() {
     spinner.fail(text)
   }
 
-  const useLoading = async(fn: any, message: string, ...args: any[]) => {
+  const useLoading = async (fn: any, message: string, ...args: any[]) => {
     const oraInstance = ora(message)
 
     oraInstance.start()
@@ -78,7 +79,8 @@ export function useSpinner() {
 
       oraInstance.succeed()
       return res
-    } catch (error: any) {
+    }
+    catch (error: any) {
       console.log(error)
       console.log(echoErrorBgText(' Please check your network first！ '))
       oraInstance.fail('Request failed, refetch ...')

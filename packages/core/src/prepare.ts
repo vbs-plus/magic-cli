@@ -72,7 +72,8 @@ export async function prepare() {
     await checkPackageUpdate()
     checkNodeVersion()
     spinner.succeed('The build environment is normal!\n')
-  } catch (error) {
+  }
+  catch (error) {
     spinner.fail('Check for build environment exceptions! \n')
     console.log(error)
     process.exit(-1)

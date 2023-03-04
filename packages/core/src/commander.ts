@@ -41,7 +41,8 @@ export const InitCommander = () => {
         const HOME_PATH = process.env.MAGIC_CLI_HOME_PATH || ''
         fse.removeSync(HOME_PATH)
         consola.success('The app is restarted successfully! \n')
-      } catch (error) {
+      }
+      catch (error) {
         consola.error(error)
       }
     })
@@ -51,7 +52,8 @@ export const InitCommander = () => {
     if (program.opts().debug) {
       process.env.DEBUG = 'debug'
       info('Turn on DEBUG mode!')
-    } else {
+    }
+    else {
       process.env.DEBUG = ''
     }
   })
@@ -65,11 +67,13 @@ export const InitCommander = () => {
     const avaliableCommands = program.commands.map(item => item.name())
     consola.error(`未知命令${cmd[0]}`)
 
-    if (avaliableCommands.length) echo(' Available commands ', avaliableCommands.join(','))
+    if (avaliableCommands.length)
+      echo(' Available commands ', avaliableCommands.join(','))
   })
 
   program.parse(process.argv)
-  if (program.args && program.args.length < 1) program.outputHelp()
+  if (program.args && program.args.length < 1)
+    program.outputHelp()
 
   // catch unhandle promise rejection
   program.on('unhandleRejection', (reason: any) => {
