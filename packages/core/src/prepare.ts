@@ -14,7 +14,7 @@ const homePath = os.homedir()
 
 export function checkUserHome(homePath: string) {
   if (!homePath || !fse.existsSync(homePath))
-    consola.error(new Error('当前登录用户主目录不存在'))
+    consola.error(new Error('The home directory of the currently logged-on user does not exist!'))
 }
 
 export function initDefaultConfig() {
@@ -44,7 +44,7 @@ export async function checkPackageUpdate() {
   if (latestVersion && semver.gt(latestVersion, version)) {
     console.log()
     consola.warn(
-      `最新版本已发布，请手动更新脚手架版本，当前版本为：${version}，最新版本为：${latestVersion} []~(￣▽￣)~*，探索跟多关于 Magic，请访问: https://magic-cli.netlify.app/\n`,
+      `The latest version is released, please manually update the scaffolding version, the current version is: ${version}, the latest version is: ${latestVersion} []~( ̄▽ ̄)~*, to explore and learn more about Magic, please visit: https://magic-cli.netlify.app/\n`,
     )
     console.log()
   }
@@ -53,14 +53,14 @@ export async function checkPackageUpdate() {
 export function checkNodeVersion() {
   const currentVersion = process.version
   if (!semver.gte(currentVersion, LOWEST_NODE_VERSION))
-    throw new Error(error(`当前 Node 版本过低，推荐安装 v${LOWEST_NODE_VERSION} 以上 Node 版本`, { needConsole: false }))
+    throw new Error(error(`The current Node version is too low, it is recommended to install v${LOWEST_NODE_VERSION} or above Node version`, { needConsole: false }))
 }
 
 export async function prepare() {
   printMagicLogo(pkg.version)
 
   const spinner = ora({
-    text: '👉 检查构建环境...  \n',
+    text: '👉 Check the build environment...  \n',
     spinner: 'material',
   })
 
@@ -71,9 +71,9 @@ export async function prepare() {
     checkEnv()
     await checkPackageUpdate()
     checkNodeVersion()
-    spinner.succeed('构建环境正常！\n')
+    spinner.succeed('The build environment is normal!\n')
   } catch (error) {
-    spinner.fail('检查构建环境异常! \n')
+    spinner.fail('Check for build environment exceptions! \n')
     console.log(error)
     process.exit(-1)
   }

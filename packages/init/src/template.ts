@@ -16,19 +16,19 @@ const homeDir = os.homedir()
 let templatePackage: Package
 const { debug, error, info } = useLogger()
 const installSpinner = ora({
-  text: '🚀 正在安装模板... \r\n',
+  text: '🚀 Installing the template... \r\n',
   spinner: 'material',
 })
 const updateSpinner = ora({
-  text: '🚀 正在更新模板... \r\n',
+  text: '🚀 Updating template... \r\n',
   spinner: 'moon',
 })
 const renderSpinner = ora({
-  text: '📄 开始渲染模板代码... \r\n',
+  text: '📄 Start rendering the template code... \r\n',
   spinner: 'material',
 })
 const commandSpinner = ora({
-  text: '🔫 开始执行依赖安装命令...',
+  text: '🔫 Start executing dependent installation commands...',
   spinner: 'shark',
 })
 
@@ -61,22 +61,22 @@ export async function installTemplate(
       installSpinner.start()
       await templatePackage.init()
     } catch (e: any) {
-      installSpinner.fail('安装模板失败！')
+      installSpinner.fail('Failed to install template!')
       throw new Error(e.message)
     } finally {
       if (await templatePackage.exists())
-        installSpinner.succeed('🎉 模板安装成功! ')
+        installSpinner.succeed('🎉 The template was installed successfully! ')
     }
   } else {
     try {
       updateSpinner.start()
       await templatePackage.update()
     } catch (e: any) {
-      updateSpinner.fail('更新模板失败！')
+      updateSpinner.fail('Failed to update template!')
       throw new Error(e.message)
     } finally {
       if (await templatePackage.exists())
-        updateSpinner.succeed('🎉 模板更新成功!')
+        updateSpinner.succeed('🎉 Template updated successfully!')
     }
   }
 
@@ -97,32 +97,32 @@ export async function renderTemplate(template: TemplateListItem, projectInfo: Pa
     fse.copySync(templatePath, targetPath)
     ejsRenderTemplate({ ignore, targetPath }, projectInfo)
   } catch (e: any) {
-    renderSpinner.fail('渲染模板代码失败！\n')
+    renderSpinner.fail('Rendering template code failed!\n')
     throw new Error(e.message)
   } finally {
-    renderSpinner.succeed('🎉 模板渲染成功! \n')
+    renderSpinner.succeed('🎉 Template rendered successfully! \n')
   }
 
   try {
-    info('🔫 正在执行依赖安装命令...')
+    info('🔫 Executing dependent install command...')
     fse.writeFileSync(path.resolve(targetPath, '.npmrc'), npmrcContent)
     fse.writeFileSync(path.resolve(targetPath, '.gitignore'), fileContent)
     await execaCommand(installCommand, { stdio: 'inherit', encoding: 'utf-8', cwd: targetPath })
   } catch (error: any) {
     console.log(error)
-    commandSpinner.fail('模板安装依赖失败！\n')
+    commandSpinner.fail('Template installation dependency failed!\n')
     process.exit(-1)
   } finally {
-    commandSpinner.succeed('依赖安装完成 \n')
+    commandSpinner.succeed('Dependency installation completes \n')
   }
 
   try {
     console.log()
-    info('✨✨ 大功告成！')
+    info('✨✨ The job installation completes!')
     await execaCommand(startCommand, { stdio: 'inherit', encoding: 'utf-8', cwd: targetPath })
   } catch (error: any) {
     debug(`ERROR ${JSON.stringify(error)}`)
-    error('应用启动失败！\n')
+    error('App launch failed!\n')
     process.exit(-1)
   }
 }

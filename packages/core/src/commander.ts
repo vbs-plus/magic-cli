@@ -13,19 +13,19 @@ export const InitCommander = () => {
     .name(Object.keys(pkg.bin)[0])
     .usage('<command> [options]')
     .version(pkg.version)
-    .option('-d, --debug', '是否开启 Debug 模式', false)
-    .option('-tp, --targetPath <targetPath>', '指定目标安装目录', '')
+    .option('-d, --debug', 'Whether to turn on Debug mode', false)
+    .option('-tp, --targetPath <targetPath>', 'Specifies the command working directory', '')
 
   program
     .command('init [projectName]')
-    .option('-f, --force', '是否强制初始化项目', false)
+    .option('-f, --force', 'Whether to force initialization of the project', false)
     .action((projectName: string, { force }: { force: boolean }, cmd: Command) => {
       exec(projectName, force, cmd)
     })
 
   program
     .command('add [templateName]')
-    .option('-f, --force', '是否强制添加模板', false)
+    .option('-f, --force', 'Whether to force the addition of a template', false)
     .action((templateName: string, { force }: { force: boolean }, cmd: Command) => {
       info(templateName)
       info(force)
@@ -40,7 +40,7 @@ export const InitCommander = () => {
       try {
         const HOME_PATH = process.env.MAGIC_CLI_HOME_PATH || ''
         fse.removeSync(HOME_PATH)
-        consola.success('重启应用成功! \n')
+        consola.success('The app is restarted successfully! \n')
       } catch (error) {
         consola.error(error)
       }
@@ -50,7 +50,7 @@ export const InitCommander = () => {
   program.on('option:debug', () => {
     if (program.opts().debug) {
       process.env.DEBUG = 'debug'
-      info('开启 DEBUG 模式')
+      info('Turn on DEBUG mode!')
     } else {
       process.env.DEBUG = ''
     }
@@ -65,7 +65,7 @@ export const InitCommander = () => {
     const avaliableCommands = program.commands.map(item => item.name())
     consola.error(`未知命令${cmd[0]}`)
 
-    if (avaliableCommands.length) echo(' 可用命令 ', avaliableCommands.join(','))
+    if (avaliableCommands.length) echo(' Available commands ', avaliableCommands.join(','))
   })
 
   program.parse(process.argv)

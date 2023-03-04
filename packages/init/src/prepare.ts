@@ -3,14 +3,17 @@ import fse from 'fs-extra'
 import { toLine, useLogger } from '@vbs/magic-cli-utils'
 import { getTemplateListByType } from '@vbs/magic-cli-templates'
 import semver from 'semver'
-import inquirer from 'inquirer'
 import ora from 'ora'
+import clear from 'clear'
+import { cancel, confirm, intro, isCancel, select, spinner, text } from '@clack/prompts'
+import gradient from 'gradient-string'
+import pkg from '../package.json'
 import { installTemplate } from './template'
 import type { ProjectInfo } from './type'
 import type { TemplateListItem } from '@vbs/magic-cli-templates'
 import type { InitArgs } from '.'
 
-const { debug, info, chalk } = useLogger()
+const { debug, chalk } = useLogger()
 const RANDOM_COLORS = [
   '#FD841F',
   '#E14D2A',
@@ -27,9 +30,14 @@ const RANDOM_COLORS = [
   '#16C79A',
 ]
 const templateSpinner = ora({
-  text: '正在检索系统模板，请稍后...',
+  text: 'Retrieving system templates, please later...',
   spinner: 'material',
 })
+
+const logVersion = () => {
+  clear()
+  console.log(`\n  ${gradient.pastel(` Magic CLI ${`[version: ${pkg.version}]`}`)}\n`)
+}
 
 export const getInheritParams = () => {
   const args = JSON.parse(process.argv.slice(2)[0])
@@ -59,109 +67,87 @@ export function isValidPackageName(projectName: string) {
 export const checkPackageExists = async(dirPath: string, force: boolean) => {
   const pwd = process.cwd()
   const targetDir = path.join(pwd, dirPath)
-  const fileSpinner = ora({ text: '移除目录中...', spinner: 'monkey' })
   if (fse.existsSync(targetDir)) {
     if (force) {
       await fse.remove(targetDir)
     } else {
-      const { action } = await inquirer.prompt([
-        {
-          name: 'action',
-          type: 'confirm',
-          message: '目录已存在是否需要进行移除？',
-        },
-      ])
-      if (!action) { return false } else {
-        fileSpinner.start()
+      const action = await confirm({
+        message: 'Does the directory already exist and need to be removed?',
+      })
+      if (!action || isCancel(action)) {
+        cancel('✖ The file removal operation is canceled and the program exits normally!')
+        process.exit(0)
+      } else {
+        const s = spinner()
+        s.start('Removing the directory...')
         await fse.remove(targetDir)
-        fileSpinner.succeed('移除成功')
+        s.stop('✅ The directory has been removed successfully!')
       }
-      return true
     }
   } else {
     fse.mkdirSync(targetDir)
-    return true
   }
 }
 
 export const getProjectInfo = async(args: InitArgs, templates: TemplateListItem[]): Promise<Partial<ProjectInfo>> => {
   let targetDir = formatTargetDir(args.projectName!)
-  const defaultName = 'magic-project'
   const defaultVersion = '1.0.0'
   let projectInfo: Partial<ProjectInfo> = {}
 
   try {
-    const { type } = await inquirer.prompt({
-      type: 'list',
-      name: 'type',
-      default: 'project',
-      message: '请选择初始化类型：',
-      choices: [
-        {
-          name: '项目 🗂️',
-          value: 'project',
-        },
-        {
-          name: '组件 🧰',
-          value: 'component',
-        },
+    logVersion()
+    intro(chalk.bgCyan(chalk.bold.black(' Welcome to Magic CLI!')))
+
+    const type = await select({
+      message: 'Please select the initialization type:',
+      options: [
+        { label: 'Project', value: 'project' },
+        { label: 'Component', value: 'component' },
       ],
+      initialValue: 'project',
     })
-    const title = type === 'component' ? '组件' : '项目'
-    const projectNamePrompt: inquirer.QuestionCollection<any> = {
-      type: 'input',
-      name: 'projectName',
-      default: defaultName,
-      message: `请输入${title}名称：`,
-      validate: (value: string) => {
-        return new Promise((resolve, reject) => {
-          setTimeout(() => {
-            if (!isValidPackageName(value)) {
-              // eslint-disable-next-line prefer-promise-reject-errors
-              reject('🚫 Invalid project name')
-              return
-            }
-            resolve(true)
-          }, 0)
-        })
-      },
+
+    const title = type === 'component' ? 'Component' : 'Project'
+
+    // 非法 projectName 或不传开启提问
+    const needProjectPromot = !args.projectName || !isValidPackageName(args.projectName)
+
+    const projectName = needProjectPromot
+      ? await text({
+        message: `What is your ${title} name intended to be?`,
+        placeholder: `Awesome-${title}`.toLowerCase(),
+        validate: (value: string) => {
+          if (!isValidPackageName(value))
+            return `🚫 Invalid ${title} name`
+        },
+      })
+      : ''
+
+    if (isCancel(type) || isCancel(projectName)) {
+      cancel('✖ The program exits normally!')
+      process.exit(0)
     }
 
-    const projectPrompts: inquirer.QuestionCollection<any>[] = []
-    // 非法 projectName 或不传开启提问
-    if (!args.projectName || !isValidPackageName(args.projectName)) projectPrompts.push(projectNamePrompt)
-    const values = await inquirer.prompt(projectPrompts)
-    targetDir = formatTargetDir(values.projectName) || targetDir
-    // TODO:文档记录 三种case： 1. 传入合法projectName 2. 不合法projectName 3. 不传
+    targetDir = formatTargetDir(projectName as string) || targetDir
+    // TODO: Documentation Three types of cases: 1. Pass in a legitimate projectName 2. Illegal projectName 3. Not passed
     debug(` TargetDir :${targetDir}`)
 
-    const ret = await checkPackageExists(targetDir, args.force!)
-    if (!ret) info('✖ 移除文件操作被取消，程序正常退出')
+    await checkPackageExists(targetDir, args.force!)
 
-    const { projectVersion } = await inquirer.prompt({
-      type: 'input',
-      name: 'projectVersion',
-      message: `请输入${title}版本号(此版本号仅作为模板渲染使用，默认下载系统最新版本模板)`,
-      default: defaultVersion,
+    const projectVersion = await text({
+      message: `Please enter the ${title} version number`,
+      placeholder: `${defaultVersion} (Please refer to the semver specification for naming)`,
       validate: (value: string) => {
-        return new Promise((resolve, reject) => {
-          setTimeout(() => {
-            if (!semver.valid(value)) {
-              // eslint-disable-next-line prefer-promise-reject-errors
-              reject('🚫 Invalid project Version')
-              return
-            }
-            resolve(true)
-          }, 0)
-        })
-      },
-      filter: (value: string) => {
-        if (semver.valid(value)) return semver.valid(value)
+        if (!semver.valid(value))
 
-        return value
+          return `🚫 Invalid ${title} Version`
       },
     })
-    debug(`projectVersion: ${projectVersion}`)
+
+    if (isCancel(projectVersion)) {
+      cancel('✖ Please enter the version correctly, The program exits normally!')
+      process.exit(0)
+    }
 
     const templateChoices = templates
       .filter(item => item.type === type)
@@ -172,24 +158,34 @@ export const getProjectInfo = async(args: InitArgs, templates: TemplateListItem[
         }
       })
 
-    const { npmName } = await inquirer.prompt({
-      type: 'list',
-      name: 'npmName',
-      message: `请选择${title}模板`,
-      choices: templateChoices,
+    const npmName = await select({
+      message: `Please select the ${title} template`,
+      options: templateChoices.map((item) => {
+        return {
+          label: item.name,
+          value: item.value,
+        }
+      }),
+    }) as string
+
+    if (isCancel(npmName)) {
+      cancel('✖ Please select the template correctly, The program exits normally!')
+      process.exit(0)
+    }
+
+    const projectDescription = await text({
+      message: `Please enter a description of ${title}`,
+      placeholder: `A magic ${title}`,
     })
 
-    debug(`npmName : ${npmName}`)
-    const { projectDescription } = await inquirer.prompt({
-      type: 'input',
-      name: 'projectDescription',
-      message: `请输入${title}描述`,
-      default: 'A Magic project',
-    })
+    if (isCancel(projectDescription)) {
+      cancel('Please enter the projectDescription correctly, The program exits normally!')
+      process.exit(0)
+    }
 
     projectInfo = {
-      name: values.projectName || targetDir || args.projectName,
-      projectName: toLine(values.projectName || targetDir || args.projectName),
+      name: projectName || targetDir || args.projectName,
+      projectName: toLine(projectName || targetDir || args.projectName!),
       type,
       npmName,
       projectVersion,
@@ -206,14 +202,14 @@ export const checkTemplateExistAndReturn = async() => {
   try {
     const { documents } = await getTemplateListByType('all')
     if (documents.length) {
-      templateSpinner.succeed('系统模板检索正常')
+      templateSpinner.succeed('System template retrieval is normal!')
       return documents
     } else {
-      templateSpinner.fail('系统模板异常')
-      throw new Error('项目模板不存在')
+      templateSpinner.fail('System template exception!')
+      throw new Error('The project template does not exist!')
     }
   } catch (error) {
-    templateSpinner.fail('系统模板异常')
+    templateSpinner.fail('System template exception!')
     process.exit(-1)
   }
 }

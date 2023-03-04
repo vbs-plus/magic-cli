@@ -3,6 +3,7 @@
   "rules": {
     "no-console": "off",
     "no-prototype-builtins":"off",
-    "no-return-await":"off"
+    "no-return-await":"off",
+    "promise/no-promise-in-callback": "off"
   }
 }

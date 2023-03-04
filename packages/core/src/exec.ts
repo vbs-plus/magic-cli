@@ -47,17 +47,17 @@ export const exec = async(...args: any[]) => {
 
     // 判断缓存目录是否已存在
     if (await pkg.exists()) {
-      debug('执行更新')
+      debug('Perform the update')
       await pkg.update()
     } else {
-      debug('执行初始化')
+      debug('Perform initialization')
       await pkg.init()
     }
   }
 
   const execFilePath = await pkg.getRootFilePath()
   if (!execFilePath)
-    throw new Error(error('当前指定文件夹路径有误', { needConsole: false }))
+    throw new Error(error('The folder path specified is incorrect!', { needConsole: false }))
 
   debug(`execFilePath:${execFilePath}`)
   debug(`TP_PATH:${TP_PATH}`)
@@ -86,12 +86,12 @@ export const exec = async(...args: any[]) => {
     )
 
     child.on('error', (e: Error) => {
-      error(`多进程代码执行异常: ${e.message}`)
+      error(`Multi-process code execution exception: ${e.message}`)
       process.exit(1)
     })
 
     child.on('exit', (e: number) => {
-      debug(`${curCommand} 命令执行成功`)
+      debug(`${curCommand} The command was executed successfully`)
       process.exit(e)
     })
   } catch (e: any) {

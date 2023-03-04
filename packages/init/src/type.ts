@@ -1,7 +1,7 @@
 export interface ProjectInfo {
   name: string
   projectName: string
-  type: 'project' | 'component'
+  type: string
   npmName: string
   projectVersion: string
   projectDescription: string

@@ -9,6 +9,10 @@
 <a href="https://magic-cli.netlify.app/">🧑‍💻 Document <sup>Beta</sup></a>
 </p>
 
+## New version of Magic preview, Stay tuned!
+
+![](https://jsd.cdn.zzko.cn/gh/yzh990918/static@master/Kapture-2023-03-04-at-14.q6m1ppb4psg.gif)
+
 ## Getting Start
 
 This section will help you learn how to use [Magic-cli](https://github.com/vbs-plus/magic-cli). If you already have an existing project and would like to keep project inside the project, start from Step 2.
