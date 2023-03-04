@@ -4,3 +4,4 @@ docs/*
 netlify.toml
 .github/*
 LICENCE
+screen/*

@@ -6,12 +6,12 @@
 <p align="center">
 <a href="https://www.npmjs.com/package/@vbs/magic-cli-core"><img src="https://img.shields.io/npm/v/@vbs/magic-cli-core?color=c95f8b&amp;label=" alt="NPM version"></a></p>
 <p align="center">
-<a href="https://magic-cli.netlify.app/">🧑‍💻 Document <sup>Beta</sup></a>
+<a href="https://magic-cli.netlify.app/">🧑‍💻 Document </a>
 </p>
 
 ## New version of Magic preview, Stay tuned!
 
-![](https://jsd.cdn.zzko.cn/gh/yzh990918/static@master/Kapture-2023-03-04-at-14.q6m1ppb4psg.gif)
+![](./screen/demo.gif)
 
 ## Getting Start
 
@@ -48,9 +48,6 @@ You can use the following command to show `Magic's` features.
 ```sh
 magic -h
 ```
-Then you will see the following results:
-
-![](https://raw.githubusercontent.com/imageList/imglist/master/img/20220905094449.png)
 
 ## Upgrading
 
@@ -75,34 +72,6 @@ magic init
 #OR
 magic init hello-world
 ```
-### Step 1: Checkout Env
-
-First, magic will check your device environment, and then retrieve the system template.
-
-![](https://raw.githubusercontent.com/imageList/imglist/master/img/Kapture%202022-09-05%20at%2009.54.02.gif)
-
-
-### Step 2: Select initialization type
-
-Then select the project type, as shown in the following figure.
-![](https://raw.githubusercontent.com/imageList/imglist/master/img/20220905095943.png)
-
-### Step 3: Enter project related information
-
-Input relevant information of the project according to the prompts of the CLI.
-![](https://raw.githubusercontent.com/imageList/imglist/master/img/20220905100112.png)
-
-
-### Step 4: Hand over to CLI
-Wait for CLI installation dependency and operation start command.This step will go through the process of template installation and rendering, which may take some time.
-
-![](https://raw.githubusercontent.com/imageList/imglist/master/20220907213719.png)
-
-## Enjoy
-
-If you see the following results, it means that the project has been successfully created and run.
-
-![](https://raw.githubusercontent.com/imageList/imglist/master/20220907213827.png)
 
 ## Contributing
 
