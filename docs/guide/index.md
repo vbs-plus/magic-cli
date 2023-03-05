@@ -2,9 +2,17 @@
 
 This section will help you learn how to use [Magic-cli](https://github.com/vbs-plus/magic-cli). If you already have an existing project and would like to keep project inside the project, start from Step 2.
 
-::: warning
+::: tip
 [Magic CLI](https://github.com/vbs-plus/magic-cli) is in Maintenance Mode Now!
+
+In a recent update, we've refactored some of the functionality using [clack](https://github.com/natemoo-re/clack), and we're going to develop some additional commands in the future, so stay tuned
 :::
+
+Here are some screenshots：
+
+![](https://jsd.cdn.zzko.cn/gh/yzh990918/static@master/Kapture-2023-03-04-at-14.q6m1ppb4psg.gif)
+
+
 ##  Step. 1: Install Magic
 
 ::: tip Node Version Requirement
@@ -49,8 +57,7 @@ magic -h
 ```
 Then you will see the following results:
 
-![](https://raw.githubusercontent.com/imageList/imglist/master/img/20220905094449.png)
-
+![](https://cdn.staticaly.com/gh/yzh990918/static@master/20230305/image.1wagrnedzekg.webp)
 ## Upgrading
 
 To upgrade the global Magic CLI package, you need to run:

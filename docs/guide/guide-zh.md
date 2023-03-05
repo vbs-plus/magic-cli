@@ -4,9 +4,15 @@
 
 本章节将会介绍如何使用和安装 [Magic-cli](https://github.com/vbs-plus/magic-cli). 如果你已经安装并且学习过本文档，请直接从创建项目开始。
 
-::: warning
+::: tip
 [Magic CLI](https://github.com/vbs-plus/magic-cli) 版本还在维护阶段。
+
+在最近的更新中，我们使用[clack]（https://github.com/natemoo-re/clack）重构了一些功能，我们将在未来开发一些额外的命令，敬请关注。
 :::
+
+这是一些截图：
+
+![](https://jsd.cdn.zzko.cn/gh/yzh990918/static@master/Kapture-2023-03-04-at-14.q6m1ppb4psg.gif)
 
 ###  Step. 1: 安装 Magic
 
@@ -53,7 +59,7 @@ magic -h
 ```
 那么你会看到以下结果:
 
-![](https://raw.githubusercontent.com/imageList/imglist/master/img/20220905094449.png)
+![](https://cdn.staticaly.com/gh/yzh990918/static@master/20230305/image.1wagrnedzekg.webp)
 
 ### 更新
 
@@ -82,7 +88,7 @@ magic init hello-world
 
 首先，`Magic` 将检查您的设备环境，然后检索系统模板。
 
-![](https://raw.githubusercontent.com/imageList/imglist/master/img/Kapture%202022-09-05%20at%2009.54.02.gif)
+![image](https://cdn.staticaly.com/gh/yzh990918/static@master/20230305/image.1tacol19aibk.webp)
 
 
 ### Step. 2: 选择初始化类型
@@ -93,22 +99,22 @@ Beta 版本仅支持选择项目类型
 
 然后选择项目类型，如下图所示。
 
-![](https://raw.githubusercontent.com/imageList/imglist/master/img/20220905095943.png)
+![image](https://cdn.staticaly.com/gh/yzh990918/static@master/20230305/image.3kga2wev84g0.webp)
 
 ### Step. 3: 输入项目相关信息
 
 根据 `CLI` 的提示输入项目的相关信息。
 
-![](https://raw.githubusercontent.com/imageList/imglist/master/img/20220905100112.png)
+![image](https://cdn.staticaly.com/gh/yzh990918/static@master/20230305/image.2xm7cfwn76e0.webp)
 
 
 ### Setp. 4: 交给 CLI
 等待 `CLI` 安装依赖项和操作启动命令。此步骤将完成模板安装和渲染过程，这可能需要一些时间。
 
-![](https://raw.githubusercontent.com/imageList/imglist/master/20220907213719.png)
+![image](https://cdn.staticaly.com/gh/yzh990918/static@master/20230305/image.4nf70wsyqgi0.webp)
 ### 大功告成
 
 如果出现以下结果，则表示项目已成功创建并运行。
 
-![](https://raw.githubusercontent.com/imageList/imglist/master/20220907213827.png)
+![image](https://cdn.staticaly.com/gh/yzh990918/static@master/20230305/image.1i3xh68dmp6o.webp)
 

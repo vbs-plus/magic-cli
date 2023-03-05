@@ -75,7 +75,7 @@ export const exec = async(...args: any[]) => {
     })
     params[params.length - 1] = _suffixObject
 
-    // 开启多进程执行命令代码
+    // Enable multi-process execution of command code
     const child = spawn(
       'node',
       [execFilePath, `${JSON.stringify(params)}`],

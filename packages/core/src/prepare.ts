@@ -24,7 +24,7 @@ export function initDefaultConfig() {
 }
 
 export function checkEnv() {
-  // TODO: 补充文档，可配置全局magic_home_path,代表缓存操作的根目录
+  // TODO: Supplementary documentation, configurable global magic_home_path, represents the root directory of cache operations
   const homeEnvPath = path.resolve(homePath, MAGIC_HOME_ENV)
   if (fse.existsSync(homeEnvPath)) {
     dotenv.config({

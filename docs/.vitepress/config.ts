@@ -5,7 +5,7 @@ const Components = [
 ]
 const Guides = [
   { text: "Getting Started", link: "/guide/index.md" },
-  { text: "Basic", link: "/guide/useage.md" },
+  { text: "Create Project", link: "/guide/useage.md" },
 ];
 
 const nav = [
