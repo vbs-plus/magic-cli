@@ -31,14 +31,10 @@
     "link": "pnpm link -g"
   },
   "dependencies": {
-    "@types/dotenv": "^8.2.0",
-    "@types/root-check": "^1.0.0",
-    "@types/semver": "^7.3.12",
-    "commander": "^9.4.0",
-    "dotenv": "^16.0.1",
-    "ora": "^6.1.2",
-    "root-check": "^2.0.0",
-    "semver": "^7.3.7",
-    "tslib": "^2.4.0"
+    "commander": "^9.4.0"
+  },
+  "devDependencies": {
+    "@vbs/magic-cli-models": "workspace:*",
+    "@vbs/magic-cli-utils": "workspace:*"
   }
 }
