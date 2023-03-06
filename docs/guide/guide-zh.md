@@ -7,7 +7,7 @@
 ::: tip
 [Magic CLI](https://github.com/vbs-plus/magic-cli) 版本还在维护阶段。
 
-在最近的更新中，我们使用[clack]（https://github.com/natemoo-re/clack）重构了一些功能，我们将在未来开发一些额外的命令，敬请关注。
+在最近的更新中，我们使用 [clack](https://github.com/natemoo-re/clack) 重构了一些功能，我们将在未来开发一些额外的命令，敬请关注。
 :::
 
 这是一些截图：
