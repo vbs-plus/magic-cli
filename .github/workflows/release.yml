@@ -22,6 +22,21 @@ jobs:
         uses: pnpm/action-setup@v2.2.1
         with:
           version: 7.4.0
+      
+      - name: Write mongo-api secrets to .env file
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          DATASOURCE: ${{ secrets.DATASOURCE }}
+          DATABASE: ${{ secrets.DATABASE }}
+          COLLECTION: ${{ secrets.COLLECTION }}
+
+        run: |
+          echo "API_KEY=${API_KEY}" >> .env
+          echo "API_BASE_URL=${API_BASE_URL}" >> .env
+          echo "DATASOURCE=${DATASOURCE}" >> .env
+          echo "DATABASE=${DATABASE}" >> .env
+          echo "COLLECTION=${COLLECTION}" >> .env
 
       - run: npx changelogithub
         env:
